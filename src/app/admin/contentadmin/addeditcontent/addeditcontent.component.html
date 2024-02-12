@@ -1,0 +1,161 @@
+<div class="p-1">
+    <mat-card class="p-0">
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;{{ ContentId ? 'Edit' : 'Add' }} Content</h2>
+        </div>
+
+        <form [formGroup]="uploadForm" (ngSubmit)="Submit(uploadForm.value)" autocomplete="off">
+
+            <mat-card-content>
+
+                <div fxLayout="column" fxLayoutGap="10px" class="container">
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2">
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Title </mat-label>
+                                <input formControlName="title" matInput required>
+                                <mat-error *ngIf="uploadForm.controls.title.errors?.required">Please enter
+                                    Title</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.title.hasError('minlength')">Title at
+                                    least 3 characters long</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.title.hasError('maxlength')">Title at
+                                    most 100 char long</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="68.1%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Description </mat-label>
+                                <textarea formControlName="description" matInput required></textarea>
+                                <mat-error *ngIf="uploadForm.controls.description.errors?.required">Please enter
+                                    Description</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.description.hasError('minlength')">Description at
+                                    least 3 characters long</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.description.hasError('maxlength')">Description at
+                                    most 200 char long</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Content Part 1 (.mp4/.jpg/.jpeg/.png)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="video/*,image/*"
+                                    (change)="handleFileSelect($event)" #fileInput required />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFile&& !isFileUploaded&& !ContentId">Content Part 1 is
+                                    required.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="fileSizeError">File size must be less than
+                                    50 MB.</mat-error>
+                            </div>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Content Part 2(.mp4/.jpg/.jpeg/.png)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="video/*,image/*"
+                                    (change)="handleFileSelect2($event)" #fileInput required />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFile2&& !isFileUploaded2&& !ContentId">Content Part 2 is
+                                    required.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="fileSizeError2">File size must be less than
+                                    50 MB.</mat-error>
+                            </div>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Content Type </mat-label>
+                                <mat-select formControlName="contentTypeId" required>
+                                    <mat-option *ngFor="let contenttype of ContentTypeList"
+                                        [value]="contenttype.contentTypeId">
+                                        <span>{{contenttype.contentName}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.contentTypeId.errors?.required">Please select
+                                    Content </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Category</mat-label>
+                                <mat-select formControlName="categoryId" required
+                                    (selectionChange)="onChangeCountry($event)">
+                                    <mat-option *ngFor="let category of CategoryList" [value]="category.categoryId">
+                                        <span>{{category.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.categoryId.errors?.required">Please select
+                                    Category</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Sub-Category</mat-label>
+                                <mat-select formControlName="subCategoryId" required>
+                                    <mat-option *ngFor="let subcategory of SubCategoryList"
+                                        [value]="subcategory.subCategoryId">
+                                        <span>{{subcategory.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.subCategoryId.errors?.required">Please select
+                                    Sub-Category</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Language </mat-label>
+                                <mat-select formControlName="languageId" required>
+                                    <mat-option *ngFor="let languageId of languageList" [value]="languageId.languageId">
+                                        <span>{{languageId.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.languageId.errors?.required">Please select
+                                    Language</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- hiddenfield -->
+                        <input formControlName="ContentId" matInput hidden>
+
+                    </div>
+
+                </div>
+
+            </mat-card-content>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" class=" p-2 crdfooter">
+                <div fxLayout="" fxLayoutGap="10px" class="container">
+                    <div fxFlex="50%" class="text-left">
+                        <button [routerLink]="['/admin/contentadmin/listcontent']" mat-raised-button color="accent"
+                            type="button" class="crbtn"> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                            BACK</button>
+                        <button [disabled]="ContentId ? false : (!uploadForm.valid || !selectedFile|| !selectedFile2)"
+                            mat-raised-button color="primary" type="submit" class="crbtn"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> {{ ContentId ? 'UPDATE' : 'SUBMIT' }}</button>
+                    </div>
+                    <div fxFlex="50%" class="text-right">
+                        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </mat-card>
+</div>

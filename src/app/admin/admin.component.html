@@ -1,0 +1,54 @@
+<mat-toolbar color="primary" class="admin-toolbar mat-elevation-z2 gradient-blue">
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div class="logo-section" fxShow="false" fxShow.gt-xs>
+                <a fxLayout="row" fxLayoutAlign="start center" class="logo">
+                    <img src="assets/lg.png" style="height: 50px;    padding-left: 12%; " class="img1"
+                        alt="cinque terre"><sup style="font-size: 13px;margin-top: -16px;">&nbsp;</sup>
+                </a>
+            </div>
+
+            <button mat-icon-button (click)="toggleSidenav()" *ngIf="!isStartingPage">
+                <mat-icon>menu</mat-icon>
+            </button>
+            
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center">
+
+            <img class="w-full h-full rounded-full ng-star-inserted curplypc"
+                [src]="PlayerDetailsList.profileImageFilePath"><span
+                class="curplynm">{{PlayerDetailsList.playerName}}</span>
+            <app-fullscreen></app-fullscreen>
+            <app-messages fxShow="false" fxShow.gt-xs></app-messages>
+            <app-user-menu></app-user-menu>
+        </div>
+    </div>
+</mat-toolbar>
+<mat-drawer-container class="admin-container">
+    <mat-drawer #sidenav [opened]="settings.adminSidenavIsOpened"
+        [mode]="(settings.adminSidenavIsPinned) ? 'side' : 'over'" class="admin-sidenav mat-elevation-z6"
+        autoFocus="false">
+        <perfect-scrollbar>
+            <div class="flex flex-col items-center w-full p-4 ng-tns-c56-5">
+                <div class="relative w-24 h-24" style="margin: 1.5rem 0rem 0rem 0rem;text-align: center;">
+                    <img class="w-full h-full rounded-full ng-star-inserted" style="width: 75px;"
+                        src="assets/images/profile/admins.png">
+                </div>
+                <div class="flex flex-col items-center justify-center w-full mt-6"
+                    style="margin: 0rem 0rem 1.5rem 0rem;">
+                    <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium"
+                        style="color:white">{{sessionuserfullName}}</div>
+                    <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium"
+                        style="color:white">({{sessionuserrole}})</div>
+                </div>
+            </div>
+
+            <app-admin-menu [menuItems]="menuItems" [menuParentId]="0"> </app-admin-menu>
+
+        </perfect-scrollbar>
+    </mat-drawer>
+    <mat-drawer-content>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+
+</mat-drawer-container>

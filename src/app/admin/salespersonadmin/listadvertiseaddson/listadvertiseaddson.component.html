@@ -1,0 +1,65 @@
+<div class="p-1">
+    <mat-card class="p-0">
+
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; Advertise Ads On List</h2>
+            <table class="tblsearch">
+                <tr>
+                    <td class="tdsearch"> <span class="fa fa-search searchtext-icon"></span>
+                        <input matInput type="text" class="searchtext" placeholder="Search..." name="title"
+                            [(ngModel)]="title" (input)="Search()" (keyup)="Search()" (ngModelChange)="Search()">
+                    </td>
+                    <td class="tdbtn">
+                        <button mat-raised-button color="primary" class="crbtn" type="button"
+                            (click)="openDialog(null)">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; ADD</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="mat-table admin-table">
+
+            <div class="mat-header-row">
+                <div class="mat-header-cell">Content Title</div>
+                <div class="mat-header-cell ">Advertise Content Name</div>
+                <div class="mat-header-cell">Category / Sub-Category</div>
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="15">Position</div>
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="10">Action</div>
+            </div>
+
+            <div class="mat-row"
+                *ngFor="let content of ContentAddsOn| paginate: { itemsPerPage: count, currentPage: page }">
+                <div class="mat-cell">{{content.contentName}}
+                </div>
+                <div class="mat-cell " matTooltip="{{content.advertiseContentName}}">{{content.advertiseContentName|
+                    slice:0:35}}
+                    {{content.advertiseContentName.length > 40 ? '' : ' '}}</div>
+                <div class="mat-cell">{{content.categoryName }} / {{content.subcategoryName}}</div>
+                <div class="mat-cell text-center" fxFlex.gt-sm="15">{{content.position}}</div>
+                <div class="mat-cell text-center" fxFlex.gt-sm="10">
+                    <a (click)="openDialog(content.advContentMapId)" mat-mini-fab color="primary" matTooltip="Edit"><i
+                            class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <button (click)="deleteservice(content);" mat-mini-fab color="warn" matTooltip="Delete"
+                        class="mx-1"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </div>
+
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div fxLayout="row wrap">
+            <div fxFlex="100" class="p-1">
+                <mat-card class="p-0 text-center nobxshbrd">
+                    <pagination-controls class="product-pagination" autoHide="true" maxSize="5"
+                        (pageChange)="onPageChanged($event)"></pagination-controls>
+                </mat-card>
+            </div>
+        </div>
+
+    </mat-card>
+
+</div>

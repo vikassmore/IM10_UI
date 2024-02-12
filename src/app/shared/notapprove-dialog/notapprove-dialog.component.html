@@ -1,0 +1,14 @@
+<h1 class="mat-dialog-title">{{data?.title}}</h1>
+
+<div class="mat-dialog-content">
+    <p>{{data?.message}}</p>
+    <textarea name="comment" (keyup)="onTextareaKeyUp($event.target.value)" class="cmtrv" rows="4" required></textarea>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+        <button mat-raised-button color="primary" class="crbtn conf2" (click)="onConfirm()"  [disabled]="comment.length === 0"><i class="fa fa-check" aria-hidden="true"></i> Submit</button>
+
+        <button mat-raised-button color="primary" class="crbtn conf1" (click)="onDismiss()"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+    </div>  
+</div>

@@ -1,0 +1,101 @@
+<h2 class="mat-dialog-title">{{ uploadForm.value.advContentMapId ? 'Edit' : 'Add' }} Advertise Ads On</h2>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="uploadForm">
+
+        <div fxLayout="column" class="container">
+
+            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2">
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Content Title</mat-label>
+                        <mat-select formControlName="contentId" required (selectionChange)="onChangeContent($event)">
+                            <mat-option *ngFor="let content of ContentList" [value]="content.contentId">
+                                <span>{{content.title}}</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="uploadForm.controls.contentId.errors?.required">Please select
+                            Content Title</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Advertise Content Name </mat-label>
+                        <mat-select formControlName="advertiseContentId" required>
+                            <mat-option *ngFor="let content of AdvtContentList" [value]="content.advertiseContentId">
+                                <span>{{content.title}}</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="uploadForm.controls.contentId.errors?.required">Please select
+                            Advertise Content Name</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Category </mat-label>
+                        <mat-select formControlName="categoryId" required>
+                            <mat-option *ngFor="let category of CategoryList" [value]="category.categoryId">
+                                <span>{{category.name}}</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="uploadForm.controls.categoryId.errors?.required">Please select
+                            Category</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Sub-Category </mat-label>
+                        <mat-select formControlName="subCategoryId" required>
+                            <mat-option *ngFor="let subcategory of SubCategoryList" [value]="subcategory.subCategoryId">
+                                <span>{{subcategory.name}}</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="uploadForm.controls.subCategoryId.errors?.required">Please select
+                            Sub-Category</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Position </mat-label>
+                        <input (keypress)="keyPressOnlynum($event)" maxlength="4" formControlName="position" required
+                            pattern="[0-9 ]+" matInput required>
+                        <mat-error *ngIf=" uploadForm.controls.position.errors?.required">Please enter position
+                            number</mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <!-- hiddenfield -->
+                <input formControlName="advContentMapId" matInput hidden>
+
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+    <div fxFlex="50%" class="text-left">
+        <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn"> <i
+                class="fa fa-ban" aria-hidden="true"></i> CANCEL</button>
+        <button [disabled]="!uploadForm.valid" (click)="Submit(uploadForm.value)" mat-raised-button color="primary"
+            type="submit" class="crbtn"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+            {{uploadForm.value.advContentMapId ? 'UPDATE' : 'SUBMIT'
+            }}</button>
+    </div>
+    <div fxFlex="50%" class="text-right">
+        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+    </div>
+</mat-dialog-actions>

@@ -1,0 +1,12 @@
+<h1 class="mat-dialog-title">{{data?.title}}</h1>
+
+<div class="mat-dialog-content">
+    <p>{{data?.message}}</p>
+    <p class="txt-cen"><img src="assets/images/bg/save3.gif" style="width: 115px; border-radius: 10%;" class="img1" alt="Delete ?"></p>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100" style="text-align: center;">
+        <button mat-raised-button color="primary" class="crbtn conf2" (click)="onDismiss()"><i class="fa fa-tick" aria-hidden="true"></i> OK</button>
+    </div>  
+</div>

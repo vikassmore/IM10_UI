@@ -1,0 +1,73 @@
+<div class="p-1">
+    <mat-card class="p-0">
+
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; Content List</h2>
+            <table class="tblsearch">
+                <tr>
+                    <td class="tdsearch"> <span class="fa fa-search searchtext-icon"></span>
+                        <input matInput type="text" class="searchtext" placeholder="Search ..." name="title"
+                            [(ngModel)]="title" (input)="Search()" (keyup)="Search()" (ngModelChange)="Search()">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="mat-table admin-table">
+
+            <div class="mat-header-row">
+                <div class="mat-header-cell">Title</div>
+                <div class="mat-header-cell">Description</div>
+                <div class="mat-header-cell text-center">Content Part 1</div>
+                <div class="mat-header-cell text-center">Content Part 2</div>
+                <div class="mat-header-cell" fxFlex.gt-sm="18">Category / Sub-Category</div>
+                <div class="mat-header-cell text-center">Content Type</div>
+                <div class="mat-header-cell" fxFlex.gt-sm="12">Approved?</div>
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="10">Action</div>
+            </div>
+
+            <div *ngFor="let content of ContentList| paginate: { itemsPerPage: count, currentPage: page }"
+                class="mat-row">
+                <div class="mat-cell" >{{content.title}}
+                </div>
+             <div class="mat-cell " matTooltip="{{content.description}}">{{content.description.slice(0, content.title.length)}}
+             </div>
+                <div class="mat-cell text-center"><a href="{{content.thumbnail1}}" class="mat-cell" target="_blank"
+                        style="color: #a08820;">View</a></div>
+                        <div class="mat-cell text-center"><a href="{{content.thumbnail_2}}" class="mat-cell " target="_blank"
+                            style="color: #a08820;">View</a></div>
+                <div class="mat-cell" fxFlex.gt-sm="18">{{content.categoryName}}/{{content.subCategoryName}}</div>
+                <div class="mat-cell text-center">{{content.contentTypeName}}</div>
+                <div class="mat-cell text-center" fxFlex.gt-sm="12" fxLayout="row">
+                    {{ content.approved === true ? 'Approved' : content.approved === false ? 'Not Approved' : 'Pending'
+                    }} &nbsp;<i *ngIf="content.approved !== null && !content.approved" class="fa fa-info-circle cmtinfo"
+                        aria-hidden="true" matTooltip="{{content.comment}}"></i>
+                </div>
+                <div class="mat-cell text-center" fxFlex.gt-sm="10">
+                    <button mat-mini-fab matTooltip="Mark as Approved" (click)="ContentApprove(content);"
+                        class="mx-1 app-y" [disabled]="content.approved !== null && content.approved" [ngClass]="{'disabled': content.approved !== null && content.approved}"><i
+                            class="fa fa-check" aria-hidden="true"></i></button>
+                    <button mat-mini-fab matTooltip="Mark as Not Approved" (click)="ContentNotApprove(content);"
+                        class="mx-1 app-n" [disabled]="content.approved !== null && !content.approved" [ngClass]="{'disabled': content.approved !== null && !content.approved}"><i
+                            class="fa fa-close" aria-hidden="true"></i></button>
+                </div>
+
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div *ngIf="ContentList.length > 0" fxLayout="row wrap">
+            <div fxFlex="100" class="p-1">
+                <mat-card class="p-0 text-center nobxshbrd">
+                    <pagination-controls class="product-pagination" autoHide="true" maxSize="5"
+                        (pageChange)="onPageChanged($event)"></pagination-controls>
+                </mat-card>
+            </div>
+        </div>
+
+    </mat-card>
+
+</div>

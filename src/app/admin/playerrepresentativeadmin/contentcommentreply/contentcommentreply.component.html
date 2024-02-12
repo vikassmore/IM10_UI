@@ -1,0 +1,68 @@
+<h2 class="mat-dialog-title">Content Comment Reply</h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="uploadForm">
+        <div fxLayout="column" class="container">
+            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 ">
+                <div fxFlex.gt-sm="40%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>User Name </mat-label>
+                        <input formControlName="fullName" matInput disabled readonly>
+                    </mat-form-field>
+
+                </div>
+                <div fxFlex.gt-sm="60%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>User Comment </mat-label>
+                        <textarea formControlName="comment1" matInput disabled readonly></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
+                <div fxFlex.gt-sm="100%" fxFlex.lt-md="50%" fxLayoutAlign="left" fxFlexFill class="grid-item">
+                    <div appearance="outline" class="w-100 sgln1">
+                        <mat-label>Is Public ? <span class="mat-placeholder-required"></span></mat-label>
+                        <mat-slide-toggle formControlName="isPublic" color="primary" class="mttop20">
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+
+            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
+                <div fxFlex.gt-sm="40%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100" style="margin-top: 5vh;">
+                        <mat-label>Content Type Name </mat-label>
+                        <input formControlName="contentTypeName" matInput disabled readonly>
+                    </mat-form-field>
+                </div>
+                <div fxFlex.gt-sm="60%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>New Comment </mat-label>
+                        <textarea formControlName="comment2" matInput required></textarea>
+                        <mat-error *ngIf="uploadForm.controls.comment2.errors?.required">New Comment Is
+                            required</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <!-- hiddenfield -->
+                <input formControlName="commentId" matInput hidden>
+
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex="50%" class="text-left">
+        <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn"> <i
+                class="fa fa-ban" aria-hidden="true"></i> CANCEL</button>
+        <button [disabled]="!uploadForm.valid" (click)="Submit(uploadForm.value)" mat-raised-button color="primary"
+            type="submit" class="crbtn"><i class="fa fa-floppy-o" aria-hidden="true"></i> SUBMIT</button>
+    </div>
+    <div fxFlex="50%" class="text-right">
+        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+    </div>
+</mat-dialog-actions>

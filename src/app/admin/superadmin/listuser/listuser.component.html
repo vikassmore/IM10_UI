@@ -1,0 +1,59 @@
+<div class="p-1">
+    <mat-card class="p-0">
+
+        <div fxLayout="row wrap " fxLayoutAlign="space-between" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; User List</h2>
+            <table class="tblsearch">
+                <tr>
+                    <td class="tdsearch"> <span class="fa fa-search searchtext-icon"></span>
+                        <input matInput type="text" class="searchtext" placeholder="Search..." name="username"
+                            [(ngModel)]="username" (input)="Search()">
+                    </td>
+
+                    <td class="tdbtn">
+                        <button mat-raised-button color="primary" class="crbtn" type="button"
+                            [routerLink]="['../addedituser']"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                            ADD</button>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <mat-divider></mat-divider>
+        <div class="mat-table admin-table">
+
+            <div class="mat-header-row">
+                <div class="mat-header-cell">Name</div>
+                <div class="mat-header-cell">Email Id</div>
+                <div class="mat-header-cell">Mobile No.</div>
+                <div class="mat-header-cell">Role</div>
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="10">Action</div>
+            </div>
+
+            <div *ngFor="let user of UserList | paginate: { itemsPerPage: count, currentPage: page }" class="mat-row">
+                <div class="mat-cell">{{user.fullName}}</div>
+                <div class="mat-cell">{{user.emailId}}</div>
+                <div class="mat-cell">{{user.mobileNo}}</div>
+                <div class="mat-cell">{{user.name}}</div>
+                <div class="mat-cell text-center" fxFlex.gt-sm="10">
+                    <a [routerLink]="['../addedituser',user.userId]" mat-mini-fab color="primary" matTooltip="Edit"><i
+                            class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <button mat-mini-fab color="warn" matTooltip="Delete" class="mx-1"
+                        (click)="deleteservice(user); "><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </div>
+
+        </div>
+        <mat-divider></mat-divider>
+
+        <div *ngIf="UserList.length > 0" fxLayout="row wrap">
+            <div fxFlex="100" class="p-1">
+                <mat-card class="p-0 text-center nobxshbrd">
+                    <pagination-controls class="product-pagination" autoHide="true" maxSize="5"
+                        (pageChange)="onPageChanged($event)"></pagination-controls>
+                </mat-card>
+            </div>
+        </div>
+
+    </mat-card>
+</div>

@@ -1,0 +1,173 @@
+<div class="p-1">
+    <mat-card class="p-0">
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;{{ playerId ? 'Edit' : 'Add' }} Player Details</h2>
+        </div>
+
+        <form [formGroup]="uploadForm" (ngSubmit)="Submit(uploadForm.value)">
+
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="10px" class="container">
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2">
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>First Name </mat-label>
+                                <input (keypress)="keyPressOnlyChar($event)" formControlName="firstName" required
+                                    minlength="3" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.firstName.errors?.required">First Name is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.firstName.hasError('minlength')">First Name At
+                                    Least 3 Characters Long</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Last Name </mat-label>
+                                <input (keypress)="keyPressOnlyChar($event)" formControlName="lastName" required
+                                    minlength="3" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.lastName.errors?.required">Last Name is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.lastName.hasError('minlength')">Last Name At Least
+                                    3 Characters Long</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln0">
+                                <mat-label>Profile Photo Upload (.jpg/.jpeg/.png)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="image/*"
+                                    (change)="handleFileSelectProfile($event)" #fileInput1 required />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFileProfile&& !isFileUploadedProfile&& !playerId">Profile
+                                    Photo is required</mat-error>
+                            </div>
+                        </div>
+
+                        <div fxFlex.gt-sm="68.1%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Address</mat-label>
+                                <textarea formControlName="address" matInput required minlength="3"></textarea>
+                                <mat-error *ngIf="uploadForm.controls.address.errors?.required">Please enter
+                                    Address</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.address.hasError('minlength')">Address at
+                                    least 3 characters long</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Aadhar Card Upload (.jpg/.jpeg/.png/.pdf)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input (change)="handleFileSelectAadhar($event)" type="file" class="input1_height"
+                                    accept="image/*, .pdf" #fileInput2 required />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFileAadhar&& !isFileUploadedadhar&& !playerId">Aadhar
+                                    Card is required</mat-error>
+                            </div>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Pan Card Upload (.jpg/.jpeg/.png/.pdf)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input (change)="handleFileSelectPan($event)" type="file" class="input1_height"
+                                    accept="image/*, .pdf" #fileInput3 />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFilePan&& !isFileUploadedpan&& !playerId">Pan Card
+                                    is required</mat-error>
+                            </div>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Voting Card Upload (.jpg/.jpeg/.png/.pdf)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input (change)="handleFileSelectVoting($event)" type="file" class="input1_height"
+                                    accept="image/*, .pdf" #fileInput4 />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFileVoting&& !isFileUploadedvot&& !playerId">Voting
+                                    Card is required</mat-error>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 ">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln0">
+                                <mat-label>Driving Licence Upload (.jpg/.jpeg/.png/.pdf)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input (change)="handleFileSelectDriving($event)" type="file" class="input1_height"
+                                    accept="image/*, .pdf" #fileInput5 />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFileDriving&& !isFileUploadeddrive&& !playerId">Driving
+                                    Licence is required</mat-error>
+                            </div>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100 sgln3">
+                                <mat-label>Bank Account No.</mat-label>
+                                <input (keypress)="keyPressBankPan($event)" (input)="convertToUppercase($event.target)"
+                                    formControlName="bankAcountNo" required minlength="5" maxlength="17" matInput
+                                    required>
+                                <mat-error *ngIf=" uploadForm.controls.bankAcountNo.errors?.required">Bank Account No.
+                                    is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.bankAcountNo.hasError('minlength')">Enter Valid
+                                    Bank Account No.</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100 sgln3">
+                                <mat-label>Pan Card No.</mat-label>
+                                <input (keypress)="keyPressBankPan($event)" (input)="convertToUppercase($event.target)"
+                                    formControlName="pancardNo" required minlength="10" maxlength="10" matInput
+                                    required>
+                                <mat-error *ngIf=" uploadForm.controls.pancardNo.errors?.required">Pan Card No. is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.pancardNo.hasError('minlength')">Enter Valid Pan
+                                    Card No.</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- hiddenfield -->
+                    <input formControlName="playerId" matInput hidden>
+
+                </div>
+            </mat-card-content>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class=" p-2 crdfooter">
+                <div fxLayout="" fxLayoutGap="10px" class="container">
+                    <div fxFlex="50%" class="text-left">
+                        <button [routerLink]="['/admin/im10salesadmin/listplayerdetails']" mat-raised-button
+                            color="accent" type="button" class="crbtn"> <i class="fa fa-arrow-circle-left"
+                                aria-hidden="true"></i> BACK</button>
+                        <button
+                            [disabled]="playerId ? false : (!uploadForm.valid || !selectedFileProfile||!selectedFileAadhar ||!selectedFilePan ||!selectedFileVoting||!selectedFileDriving)"
+                            mat-raised-button color="primary" type="submit" class="crbtn"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> {{ playerId ? 'UPDATE' : 'SUBMIT' }}</button>
+                    </div>
+                    <div fxFlex="50%" class="text-right">
+                        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </mat-card>
+</div>

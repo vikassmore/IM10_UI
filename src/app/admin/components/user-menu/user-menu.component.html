@@ -1,0 +1,22 @@
+<button mat-icon-button [matMenuTriggerFor]="userMenu" #userMenuTrigger="matMenuTrigger" >
+    <mat-icon>account_circle</mat-icon>
+</button>
+
+<mat-menu #userMenu="matMenu" [overlapTrigger]="false" class="toolbar-dropdown-menu user-menu">
+    <span (mouseleave)="userMenuTrigger.closeMenu()">
+        <mat-toolbar color="primary">
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
+                <h5 style="font-size: 14px;">Settings</h5>
+            </div>  
+        </mat-toolbar>
+        <a mat-menu-item routerLink="/admin/setting/passwordchange"> 
+            <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+            &nbsp;&nbsp; <span>Change Password</span>         
+        </a>
+        <div class="divider"></div>
+        <a mat-menu-item routerLink="../login" (click)="logout()"> 
+            <i class="fa fa-power-off" aria-hidden="true"></i>
+            &nbsp;&nbsp;<span>Log out</span> 
+        </a>
+    </span>
+</mat-menu>

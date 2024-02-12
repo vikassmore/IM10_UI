@@ -1,0 +1,157 @@
+<div class="p-1">
+    <mat-card class="p-0">
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; {{ userId ? 'Edit' : 'Add' }} User</h2>
+        </div>
+
+        <form [formGroup]="uploadForm" (ngSubmit)="Submit(uploadForm.value)" autocomplete="off">
+
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="10px" class="container">
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2">
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>First Name </mat-label>
+                                <input (keypress)="keyPressOnlyChar($event)" formControlName="firstName" required
+                                    minlength="3" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.firstName.errors?.required">First Name Is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.firstName.hasError('minlength')">First Name At
+                                    Least 3 Characters Long</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Last Name </mat-label>
+                                <input (keypress)="keyPressOnlyChar($event)" formControlName="lastName" required
+                                    minlength="3" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.lastName.errors?.required">Last Name Is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.lastName.hasError('minlength')">Last Name At Least
+                                    3 Characters Long</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Email ID</mat-label>
+                                <input formControlName="emailId" required minlength="3" matInput required
+                                    (keypress)="blockSpaces($event)">
+                                <mat-error *ngIf=" uploadForm.controls.emailId.errors?.required">Email is
+                                    required</mat-error>
+                                <mat-error *ngIf=" uploadForm.controls.emailId.hasError('invalidEmail')">Invalid email
+                                    address
+                                </mat-error>
+                                <mat-error *ngIf="uploadForm.controls.emailId.hasError('pattern')">Please enter
+                                    valid
+                                    email</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Mobile No. </mat-label>
+                                <input (keypress)="keyPressOnlynum($event)" formControlName="mobileNo" required
+                                    minlength="3" pattern="[0-9 ]+" minlength="10" maxlength="10" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.mobileNo.errors?.required">Mobile No. Is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.mobileNo.errors?.pattern">Please Enter Only
+                                    Number</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.mobileNo.hasError('minlength')">Mobile number must
+                                    be 10 digit</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.mobileNo.hasError('maxlength')">Mobile number must
+                                    be 10 digit</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Date of Birth</mat-label>
+                                <input [matDatepicker]="picker" matInput formControlName="dob" required max="{{today}}">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker></mat-datepicker>
+                                <mat-error *ngIf=" uploadForm.controls.dob.errors?.required">Date Of Birth Is
+                                    Required</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Role ID </mat-label>
+                                <mat-select formControlName="roleId" required>
+                                    <ng-container *ngFor="let role of RoleList">
+                                        <mat-option *ngIf="role.roleId !== 1&& role.roleId !== 12"
+                                            [value]="role.roleId">
+                                            <span>{{role.name}}</span>
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.roleId.errors?.required">Please select
+                                    role</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Password </mat-label>
+                                <input (keypress)="blockSpaces($event)" matInput placeholder="password"
+                                    [type]="hide ? 'password' : 'text'" formControlName="password" required>
+                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' :
+                                    'visibility'}}</mat-icon>
+                                <mat-error *ngIf=" uploadForm.controls.password.errors?.required">Password Is
+                                    Required</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.password.hasError('minlength')">Password At Least
+                                    6 Characters Long</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- hiddenfield -->
+                        <input formControlName="userId" minlength="3" matInput hidden>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                        </div>
+
+                    </div>
+                </div>
+            </mat-card-content>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" class=" p-2 crdfooter">
+                <div fxLayout="" fxLayoutGap="10px" class="container">
+                    <div fxFlex="50%" class="text-left">
+                        <button [routerLink]="['/admin/superadmin/listuser']" mat-raised-button color="accent"
+                            type="button" class="crbtn"> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                            BACK</button>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!uploadForm.valid"
+                            class="crbtn"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ userId ? 'UPDATE' :
+                            'SUBMIT' }}</button>
+                    </div>
+                    <div fxFlex="50%" class="text-right">
+                        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </mat-card>
+</div>

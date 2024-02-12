@@ -1,0 +1,56 @@
+<div fxLayout="row wrap" #resizedDiv>
+    <div *ngFor="let player of PlayerList" fxFlex="100" fxFlex.gt-sm="20" fxFlex.sm="50" class="p-11 ">
+        <mat-card class="p-0 Divbg2s" [routerLink]="['/admin/im10marketingcampaigns/dashboard']"
+            (click)="logPlayerId(player.playerId)">
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="p-1 text-center">
+                            <img class="w-full h-full rounded-full ng-star-inserted imgs" width="200" height="85"
+                                [src]="player.profileImageFilePath">
+                        </div>
+                        <div class="p-0">
+                            <p class="text-center fliphs">{{player.fullName}}</p>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="p-1 text-center">
+                            <h2 class="fliph">{{player.fullName}}</h2>
+                            <table class="w100">
+                                <tr>
+                                    <td><b>Sport</b></td>
+                                    <td>:</td>
+                                    <td>Data 1</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Born</b></td>
+                                    <td>:</td>
+                                    <td>Data 2</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Rank</b></td>
+                                    <td>:</td>
+                                    <td>Data 3</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Debut</b></td>
+                                    <td>:</td>
+                                    <td>Data 4</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Titles</b></td>
+                                    <td>:</td>
+                                    <td>Data 5</td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </mat-card>
+    </div>
+</div>

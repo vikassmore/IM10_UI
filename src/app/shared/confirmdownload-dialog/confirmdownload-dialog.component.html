@@ -1,0 +1,28 @@
+<h1 class="mat-dialog-title">{{data?.title}}</h1>
+
+<div class="mat-dialog-content">
+    <p>{{data?.message}}</p>
+    <p class="txt-cen"><img src="assets/images/bg/download.gif" style=" width: 85px;" class="img1" alt="Delete ?"></p>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+        <button mat-raised-button color="primary" class="crbtn conf2" style="  background-color: #33c041;
+        color: white;
+        border: none;
+        padding: 0 10px;
+        border-radius: 4px;
+        float: left;
+        margin-top: 10px !important;
+        width: 65px;" (click)="onConfirm()"><i class="fa fa-check" aria-hidden="true"></i> Yes</button>
+
+        <button mat-raised-button color="primary" class="crbtn conf1" style="background-color: #ff5252;
+        color: white;
+        border: none;
+        padding: 0 10px;
+        border-radius: 4px;
+        float: right;
+        margin-top: 10px !important;
+        width: 65px;"  (click)="onDismiss()"><i class="fa fa-times" aria-hidden="true"></i> No</button>
+    </div>  
+</div>

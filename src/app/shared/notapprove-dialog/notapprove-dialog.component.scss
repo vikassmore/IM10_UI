@@ -1,0 +1,41 @@
+.app.blue .mat-flat-button.mat-warn, .app.blue .mat-raised-button.mat-warn, .app.blue .mat-fab.mat-warn, .app.blue .mat-mini-fab.mat-warn {
+    background-color: #ff5252;
+}
+.app.blue .mat-flat-button.mat-primary, .app.blue .mat-raised-button.mat-primary, .app.blue .mat-fab.mat-primary, .app.blue .mat-mini-fab.mat-primary {
+    background-color: #1976d2;
+}
+
+.crbtn{
+    line-height: 28px !important;
+}
+
+.conf1{
+    background-color: #ff5252;
+    color: white;
+    border: none;
+    padding: 0 10px;
+    border-radius: 4px;
+    float: right;
+    margin-top: 10px !important;
+    width: 80px;
+}
+
+.conf2{
+    background-color: #33c041;
+    color: white;
+    border: none;
+    padding: 0 10px;
+    border-radius: 4px;
+    float: left;
+    margin-top: 10px !important;
+    width: 80px;
+}
+
+.txt-cen{
+    text-align: center !important;
+}
+
+.cmtrv{
+    width: 95%;
+    padding: 5px;
+}

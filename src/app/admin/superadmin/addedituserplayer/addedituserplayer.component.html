@@ -1,0 +1,83 @@
+<h2 class="mat-dialog-title">{{ uploadForm.value.userPlayerId ? 'Edit' : 'Add' }} Player</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="uploadForm">
+
+        <div fxLayout="column" class="container">
+            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2">
+
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>User</mat-label>
+                        <mat-select formControlName="username" required (selectionChange)="onChangeUser($event)">
+
+                            <ng-container *ngIf="!uploadForm.value.userPlayerId">
+                                <mat-option *ngFor="let username of UserList"
+                                    [value]="{ userId: username.userId, roleId: username.roleId }">
+                                    <span>{{username.fullName}} ({{ username.name }})</span>
+                                </mat-option>
+                            </ng-container>
+
+                            <!-- for edit -->
+                            <ng-container *ngIf="uploadForm.value.userPlayerId">
+                                <mat-option *ngFor="let username of UserList" [value]="username.userId"
+                                    [disabled]="isReadOnly()">
+                                    <span>{{username.fullName}} ({{ username.name }})</span>
+                                </mat-option>
+                            </ng-container>
+
+                        </mat-select>
+
+                        <mat-error *ngIf="uploadForm.controls.username.errors?.required">Please select
+                            User</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Player Name</mat-label>
+
+                        <mat-select *ngIf="!uploadForm.value.userPlayerId" formControlName="playername" multiple
+                            required [value]="userPlayerId" (selectionChange)="onSelectionChange($event)">
+                            <mat-option *ngFor="let playername of PlayerList" [value]="playername.playerId">
+                                <span>{{playername.fullName}}</span>
+                            </mat-option>
+                        </mat-select>
+
+                        <!-- for edit -->
+                        <mat-select *ngIf="uploadForm.value.userPlayerId" formControlName="playername"
+                            [(ngModel)]="EditselectedPlayerIds" multiple required>
+                            <mat-option *ngFor="let player of MappedPlayerList" [value]="player.playerId"
+                                (change)="updateSelectedPlayerIds(player.playerId)">
+                                <span>{{player.fullName}}</span>
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error *ngIf="uploadForm.controls.playername.errors?.required">Please select
+                            Player Name</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- hiddenfield -->
+                <input formControlName="userPlayerId" matInput hidden>
+
+            </div>
+        </div>
+
+    </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex="50%" class="text-left">
+        <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn"> <i
+                class="fa fa-ban" aria-hidden="true"></i> CANCEL</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!uploadForm.valid || !isPlayerSelected"
+            (click)="Submit(uploadForm.value)" class="crbtn"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{
+            uploadForm.value.userPlayerId ? 'UPDATE' :
+            'SUBMIT'}}</button>
+    </div>
+    <div fxFlex="50%" class="text-right">
+        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+    </div>
+</mat-dialog-actions>

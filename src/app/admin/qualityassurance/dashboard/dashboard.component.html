@@ -1,0 +1,29 @@
+
+ <div  fxLayout="column" fxLayoutGap="10px" class="container p-1">
+    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxFlex="33%" class="block-2 ">
+        <div fxFlex.gt-sm="85%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+        </div>
+        <div fxFlex.gt-sm="15%" fxFlex.lt-md="50%" fxLayoutAlign="right" fxFlexFill class="grid-item text-right">
+             <button [routerLink]="['/admin/qualityassurance/startingpage']" mat-raised-button color="primary" type="button" ><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Change Player</button>
+        </div>
+    </div>
+</div>
+
+<div  fxLayout="row wrap " #resizedDiv>
+ 
+    <div  fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="50" class="p-11">
+        <mat-card class="p-0 Divbg2s" >
+            <div class="card1">
+                <div class="p-1 text-center">
+                    <img class="w-full h-full rounded-full ng-star-inserted imgs1" [src]="PlayerDetailsList.profileImageFilePath">
+                </div>
+                <div class="p-0">
+                    <p class="text-center fliph1">{{PlayerDetailsList.playerName}} <br> <span class="fliph11">
+                                                <!-- bind data for type of player like crickter or other -->
+                    </span></p>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+</div>

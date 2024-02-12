@@ -1,0 +1,113 @@
+<div class="p-1">
+    <mat-card class="p-0">
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; View Campaign Social Media</h2>
+        </div>
+
+        <form [formGroup]="uploadForm">
+
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="10px" class="container">
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 ">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Title </mat-label>
+                                <input formControlName="title" matInput required>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Content Title</mat-label>
+                                <mat-select formControlName="contentId" required>
+                                    <mat-option *ngFor="let content of ContentList" [value]="content.contentId">
+                                        <span>{{content.title}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Content Type</mat-label>
+                                <mat-select formControlName="contentTypeId" required>
+                                    <mat-option *ngFor="let content of ContenttypeList" [value]="content.contentTypeId">
+                                        <span>{{content.contentName}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+                        <div fxFlex.gt-sm="100%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Description</mat-label>
+                                <textarea formControlName="description" matInput required></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <hr class="hrd">
+
+                    <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 ">
+                        <table class="tblsearch1">
+                            <tr>
+                                <td class="tdsearch1"> <span class="fa fa-search searchtext-icon"></span>
+                                    <input matInput type="text" class="searchtext" placeholder="Search..."
+                                        name="username" (input)="Search()" (keyup)="Search()"
+                                        (ngModelChange)="Search()">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="mat-table admin-table">
+                        <div class="mat-header-row">
+                            <div class="mat-header-cell">Social Media Views</div>
+                            <div class="mat-header-cell">Screenshot</div>
+                        </div>
+                        <div *ngFor="let content of SocialMediaList | paginate: { itemsPerPage: count, currentPage: page }"
+                            class="mat-row">
+                            <div class="mat-cell" matTooltip="{{content.socialMediaViews}}" matTooltipPosition="below"
+                                matTooltipClass="custom-tooltip">{{content.socialMediaViews| slice:0:63}}
+                                {{content.socialMediaViews.length > 40 ? '' : ''}}</div>
+
+                            <div class="mat-cell"><a href="{{content.screenShotFilePath}}" class="mat-cell"
+                                    target="_blank" style="color: #a08820;">View</a></div>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <div *ngIf="SocialMediaList.length > 0" fxLayout="row wrap">
+                        <div fxFlex="100" class="p-1">
+                            <mat-card class="p-0 text-center nobxshbrd">
+                                <pagination-controls class="product-pagination" autoHide="true" maxSize="5"
+                                    (pageChange)="onPageChanged($event)"></pagination-controls>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                </div>
+            </mat-card-content>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" class=" p-2 crdfooter">
+                <div fxLayout="" fxLayoutGap="10px" class="container">
+                    <div fxFlex="50%" class="text-left">
+                        <button [routerLink]="['/admin/im10marketingcampaigns/listcampaing']" mat-raised-button
+                            color="accent" type="button" class="crbtn"> <i class="fa fa-arrow-circle-left"
+                                aria-hidden="true"></i>&nbsp;BACK</button>
+                    </div>
+                    <div fxFlex="50%" class="text-right">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </mat-card>
+</div>

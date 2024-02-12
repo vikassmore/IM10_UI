@@ -1,0 +1,89 @@
+<div class="p-1">
+    <mat-card class="p-0">
+
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; Listing List</h2>
+            <table class="tblsearch">
+                <tr>
+                    <td class="tdsearch"> <span class="fa fa-search searchtext-icon"></span>
+                        <input matInput type="text" class="searchtext" placeholder="Search..." name="title"
+                            [(ngModel)]="title" (input)="Search()" (keyup)="Search()" (ngModelChange)="Search()">
+                    </td>
+                    <td class="tdbtn">
+                        <button mat-raised-button color="primary" class="crbtn" type="button"
+                            [routerLink]="['../addeditlisting']">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; ADD</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="mat-table admin-table">
+
+            <div class="mat-header-row">
+                <div class="mat-header-cell">Company Name</div>
+                <div class="mat-header-cell">Contact Person</div>
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="10">Is Global?</div>
+                <div class="mat-header-cell" fxFlex.gt-sm="10">Start Date</div>
+                <div class="mat-header-cell" fxFlex.gt-sm="10">End Date</div>
+                <div class="mat-header-cell" fxFlex.gt-sm="10">Final Price <span
+                        style="font-family: Arial, sans-serif;">(₹)</span></div>
+                <div class="mat-header-cell">Category / Sub-Category</div>
+                <div class="mat-header-cell text-center">Position</div>
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="10">Action</div>
+            </div>
+
+            <div *ngFor="let listing of ListingList| paginate: { itemsPerPage: count, currentPage: page }"
+                class="mat-row">
+                <div class="mat-cell">{{listing.companyName}}
+                </div>
+                <div class="mat-cell " matTooltip="{{listing.contactPersonName}}">
+                    {{listing.contactPersonName.slice(0,listing.companyName.length)}}
+                </div>
+                <div class="mat-cell text-center" fxFlex.gt-sm="10"><ng-container
+                        *ngIf="listing.isGlobal; else noApproval">{{'Yes'}}</ng-container>
+                    <ng-template #noApproval>{{'No'}}</ng-template>
+                </div>
+                <div class="mat-cell" fxFlex.gt-sm="10" [style.visibility]="listing.startDate === '0001-01-01T00:00:00' ? 'hidden' : 'visible'">
+                    {{ listing.startDate | date: 'dd/MM/yyyy' }}
+                  </div>
+                  <div class="mat-cell" fxFlex.gt-sm="10" [style.visibility]="listing.endDate === '0001-01-01T00:00:00' ? 'hidden' : 'visible'">
+                    {{ listing.endDate | date: 'dd/MM/yyyy' }}
+                  </div>                  
+                  
+                <div class="mat-cell " fxFlex.gt-sm="10">{{listing.finalPrice}}</div>
+                <div class="mat-cell">
+                    <ng-container *ngIf="listing.categoryName && listing.subcategoryName">
+                        {{listing.categoryName}} / {{listing.subcategoryName}}
+                    </ng-container>
+                    <ng-container *ngIf="!listing.categoryName || !listing.subcategoryName">
+                        {{listing.categoryName}}{{listing.subcategoryName}}
+                    </ng-container>
+                </div>
+
+                <div class="mat-cell text-center">{{listing.position}}</div>
+                <div class="mat-cell text-center" fxFlex.gt-sm="10">
+                    <button [routerLink]="['../addeditlisting',listing.listingId]" mat-mini-fab color="primary"
+                        matTooltip="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                    <button [disabled]="listing.roleId==4" [ngClass]="{'disabled': listing.roleId==4}"
+                        (click)="deleteservice(listing);" mat-mini-fab color="warn" matTooltip="Delete" class="mx-1"><i
+                            class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div *ngIf="ListingList.length > 0" fxLayout="row wrap">
+            <div fxFlex="100" class="p-1">
+                <mat-card class="p-0 text-center nobxshbrd">
+                    <pagination-controls class="product-pagination" autoHide="true" maxSize="5"
+                        (pageChange)="onPageChanged($event)"></pagination-controls>
+                </mat-card>
+            </div>
+        </div>
+    </mat-card>
+
+</div>

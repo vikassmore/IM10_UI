@@ -1,0 +1,6 @@
+   ::ng-deep .mat-datepicker-content {
+     left: calc(40% ) !important;
+     /* top: calc(60%) !important; */
+     /* height: 305px; */
+   }
+   

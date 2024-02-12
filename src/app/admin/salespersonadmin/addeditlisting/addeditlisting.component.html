@@ -1,0 +1,342 @@
+<div class="p-1">
+    <mat-card class="p-0">
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;{{ listingId ? 'Edit' : 'Add' }} Listing</h2>
+        </div>
+        <form [formGroup]="uploadForm" (ngSubmit)="Submit(uploadForm.value)" autocomplete="off">
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="10px" class="container">
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Company Name</mat-label>
+                                <input formControlName="companyName" matInput required>
+                                <mat-error *ngIf="uploadForm.controls.companyName.errors?.required">Please enter
+                                    Company Name</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.companyName.hasError('minlength')">Please enter
+                                    valid Company Name</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.companyName.hasError('maxlength')">Please enter
+                                    valid Company Name</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Company Email</mat-label>
+                                <input (keypress)="blockSpaces($event)" formControlName="companyEmailId" required
+                                    minlength="3" matInput required
+                                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                                <mat-error *ngIf=" uploadForm.controls.companyEmailId.errors?.required">Please enter
+                                    Company Email</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.companyEmailId.hasError('pattern')">Please enter
+                                    valid Company Email</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Company Mobile</mat-label>
+                                <input (keypress)="keyPressOnlynum($event)" formControlName="companyMobile" required
+                                    minlength="3" pattern="[0-9 ]+" minlength="10" maxlength="10" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.companyMobile.errors?.required">Please enter
+                                    Company Mobile</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.companyMobile.hasError('minlength')"> Company
+                                    Mobile must
+                                    be 10 digit</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Company Landline</mat-label>
+                                <input (keypress)="keyPressOnlynum($event)" formControlName="companyPhone" required
+                                    minlength="3" pattern="[0-9 ]+" minlength="10" maxlength="11" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.companyPhone.errors?.required">Please enter
+                                    Company Landline</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.companyPhone.hasError('minlength')">Please enter
+                                    valid Company Landline</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Company Website</mat-label>
+                                <input (keypress)="blockSpaces($event)" matInput minlength="5"
+                                    formControlName="companyWebSite" required>
+                                <mat-error *ngIf=" uploadForm.controls.companyWebSite.errors?.required">Please enter
+                                    Company Website</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.companyWebSite.hasError('minlength')">Please enter
+                                    valid Company Website</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.companyWebSite.hasError('maxlength')">Please enter
+                                    valid Company Website</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Company Logo (.jpg/.jpeg/.png)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="image/*"
+                                    (change)="handleFileSelect($event)" #fileInput required />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFile&& !isFileUploaded&& !listingId">Please upload Company
+                                    Logo</mat-error>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+                        <div fxFlex.gt-sm="68.1%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Description </mat-label>
+                                <textarea formControlName="description" matInput required></textarea>
+                                <mat-error *ngIf="uploadForm.controls.description.errors?.required">Please enter
+                                    Description</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.description.hasError('minlength')">Description at
+                                    least 3 characters long</mat-error>                              
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Position</mat-label>
+                                <input (keypress)="keyPressOnlynum($event)" maxlength="4" formControlName="position"
+                                    required pattern="[0-9 ]+" matInput required>
+                                <mat-error *ngIf=" uploadForm.controls.position.errors?.required">Please enter position
+                                    number</mat-error>
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                        class="grid-item">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Contact Person Name</mat-label>
+                            <input formControlName="contactPersonName" minlength="3"
+                                (keypress)="keyPressOnlyCharContactpersonName($event)" matInput required>
+                            <mat-error *ngIf="uploadForm.controls.contactPersonName.errors?.required">Please enter
+                                Contact Person Name</mat-error>
+                            <mat-error *ngIf="uploadForm.controls.contactPersonName.hasError('minlength')">Please
+                                enter valid Contact Person Name</mat-error>
+                            <mat-error *ngIf="uploadForm.controls.contactPersonName.hasError('maxlength')">Please
+                                enter valid Contact Person Name</mat-error>
+                        </mat-form-field>
+                    </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Contact Person Mobile</mat-label>
+                                <input (keypress)="keyPressOnlynum($event)" formControlName="contactPersonMobile"
+                                    required minlength="3" pattern="[0-9 ]+" minlength="10" maxlength="10" matInput
+                                    required>
+                                <mat-error *ngIf=" uploadForm.controls.contactPersonMobile.errors?.required">Please
+                                    enter Contact Person Mobile</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.contactPersonMobile.hasError('minlength')">Contact
+                                    Person Mobile must
+                                    be 10 digit</mat-error>
+
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Contact Person Email</mat-label>
+                                <input (keypress)="blockSpaces($event)" formControlName="contactPersonEmailId" required
+                                    minlength="3" matInput pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                                <mat-error *ngIf=" uploadForm.controls.contactPersonEmailId.errors?.required">Please
+                                    enter Contact Person Email</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.contactPersonEmailId.hasError('pattern')">Please
+                                    enter
+                                    valid Contact Person Email</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Country</mat-label>
+                                <mat-select formControlName="nationId" required
+                                    (selectionChange)="onChangeCountry($event)">
+                                    <mat-option *ngFor="let nation of country" [value]="nation.countryId">
+                                        <span>{{nation.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.nationId.errors?.required">Please select
+                                    Country</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>State</mat-label>
+                                <mat-select formControlName="stateId" required
+                                    (selectionChange)="onChangeState($event)">
+                                    <mat-option *ngFor="let state of states" [value]="state.stateId">
+                                        <span>{{state.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.stateId.errors?.required">Please select
+                                    State</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>City</mat-label>
+                                <mat-select formControlName="cityId" required>
+                                    <mat-option *ngFor="let city of cities" [value]="city.cityId">
+                                        <span>{{city.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.cityId.errors?.required">Please select
+                                    City</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <br>
+                                <mat-label>Is Global ? <span class="mat-placeholder-required"></span></mat-label>
+                                <mat-slide-toggle formControlName="isGlobal" color="primary" class="mttop20"
+                                    [checked]="isGlobal" (change)="onCheckBoxChangeisGlobal($event)">
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Start Date</mat-label>
+                                <input formControlName="startDate" [matDatepicker]="startDatePicker" matInput required>
+                                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #startDatePicker></mat-datepicker>
+                                <mat-error *ngIf="uploadForm.controls.startDate.errors?.required">Please select Start
+                                    Date</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>End Date</mat-label>
+                                <input formControlName="endDate" [matDatepicker]="endDatePicker" matInput required
+                                    [min]="uploadForm.controls.startDate.value">
+                                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #endDatePicker></mat-datepicker>
+                                <mat-error *ngIf="uploadForm.controls.endDate.errors?.required">Please select End
+                                    Date</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Final Price <span
+                                        style="font-family: Arial, sans-serif;">(₹)</span></mat-label>
+                                <input (keypress)="keyPressOnlynum($event)" maxlength="8" formControlName="finalPrice"
+                                    matInput required>
+                                <mat-error *ngIf="uploadForm.controls.finalPrice.errors?.required">Please enter
+                                    Final Price</mat-error>
+
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Category</mat-label>
+                                <mat-select formControlName="categoryId" required
+                                    (selectionChange)="onChangeCat($event)">
+                                    <mat-option *ngFor="let category of CategoryList" [value]="category.categoryId">
+                                        <span>{{category.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.categoryId.errors?.required">Please select
+                                    Category</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Sub-Category</mat-label>
+                                <mat-select formControlName="subCategoryId" required>
+                                    <mat-option *ngFor="let subcategory of SubCategoryList"
+                                        [value]="subcategory.subCategoryId">
+                                        <span>{{subcategory.name}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.subCategoryId.errors?.required">Please select
+                                    Sub-Category</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
+                        class="block-2 mttop20">
+
+                      
+                        <!-- hiddenfield -->
+                        <input formControlName="listingId" matInput hidden>
+
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                        </div>
+                    </div>
+
+                </div>
+            </mat-card-content>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class=" p-2 crdfooter">
+                <div fxLayout="" fxLayoutGap="10px" class="container">
+                    <div fxFlex="50%" class="text-left">
+                        <button [routerLink]="['/admin/salespersonadmin/listlisting']" mat-raised-button color="accent"
+                            type="button" class="crbtn"> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                            BACK</button>
+                        <button [disabled]="listingId ? false : (!uploadForm.valid || !selectedFile)" mat-raised-button
+                            color="primary" type="submit" class="crbtn"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> {{ listingId ? 'UPDATE' : 'SUBMIT' }}</button>
+                    </div>
+                    <div fxFlex="50%" class="text-right">
+                        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+</div>

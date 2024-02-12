@@ -1,0 +1,75 @@
+<div class="p-1">
+    <mat-card class="p-0">
+        <div fxLayout="row wrap " fxLayoutAlign="space-between center" class="w-100 p-2 crdhead">
+            <h2><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;Add Social Media View</h2>
+        </div>
+
+        <form [formGroup]="uploadForm" (ngSubmit)="AddCampaignSocialMedia(uploadForm.value)">
+
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="10px" class="container">
+
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 ">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Social Media Views </mat-label>
+                                <input formControlName="socialMediaViews" matInput required>
+                                <mat-error *ngIf="uploadForm.controls.socialMediaViews.errors?.required">Please enter
+                                    Social Media Views</mat-error>
+                                <mat-error *ngIf="uploadForm.controls.socialMediaViews.hasError('maxlength')">Social
+                                    Media Views at
+                                    most 100 char long</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <div appearance="outline" class="w-100 sgln2">
+                                <mat-label>Screenshot Upload (.jpg/.jpeg/.png)<span
+                                        class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="image/*"
+                                    (change)="handleFileSelectProfile($event)" #fileInput1 required />
+                                <mat-error style="font-size: 11px;"
+                                    *ngIf="!selectedFileProfile&& !isFileUploadedProfile">Screenshot is
+                                    required.</mat-error>
+                            </div>
+                        </div>
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                            class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Campaign Title</mat-label>
+                                <mat-select formControlName="marketingcampaignId" required>
+                                    <mat-option *ngFor="let content of CampaignTitleList"
+                                        [value]="content.marketingCampaignId">
+                                        <span>{{content.title}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="uploadForm.controls.marketingcampaignId.errors?.required">Please
+                                    select
+                                    Campaign Title</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+            </mat-card-content>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" class=" p-2 crdfooter">
+                <div fxLayout="" fxLayoutGap="10px" class="container">
+                    <div fxFlex="50%" class="text-left">
+                        <button [routerLink]="['/admin/im10marketingcampaigns/listcampaing']" mat-raised-button
+                            color="accent" type="button" class="crbtn"> <i class="fa fa-arrow-circle-left"
+                                aria-hidden="true"></i>&nbsp;BACK</button>
+                        <button [disabled]="!uploadForm.valid|| !selectedFileProfile" mat-raised-button color="primary"
+                            type="submit" class="crbtn"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i>&nbsp;SUBMIT</button>
+                    </div>
+                    <div fxFlex="50%" class="text-right">
+                        <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </mat-card>
+</div>
