@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-di
   styleUrls: ['./contentcommentview.component.css']
 })
 export class ContentcommentviewComponent implements OnInit {
+  
   public CommentReplyList: any = [];
   public page: any;
   public count = 8;

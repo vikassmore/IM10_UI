@@ -77,6 +77,7 @@ export class ListcontentupdateComponent implements OnInit {
 
   /// getContentUpdateByPlayerId
   public GetAllContentUpdateList() {
+    debugger;
     var playerId = window.sessionStorage.getItem("playerId")
     this.appService.getContentUpdateByPlayerId("api/ContentUpdate/GetContentUpdateforQA/", playerId).subscribe(data => {
       this.ContentUpdateListDisplay = data;

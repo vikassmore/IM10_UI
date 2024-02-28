@@ -14,6 +14,7 @@ Object.defineProperty(win.document.body.style, 'transform', {
     };
   },
 });
+
 global['document'] = win.document; 
 
 import { ngExpressEngine } from '@nguniversal/express-engine';

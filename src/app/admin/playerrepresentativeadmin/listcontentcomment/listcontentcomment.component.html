@@ -14,47 +14,66 @@
         <mat-divider></mat-divider>
         <div class="mat-table admin-table">
             <div class="mat-header-row">
-                <div class="mat-header-cell">User Name</div>
+                <div class="mat-header-cell">Mobile No</div>
                 <div class="mat-header-cell">Device Id/Mac Id</div>
                 <div class="mat-header-cell">Like</div>
                 <div class="mat-header-cell">Comment</div>
-                <div class="mat-header-cell">Share</div>
+                <!-- <div class="mat-header-cell">Content</div> -->
                 <div class="mat-header-cell">Content Type</div>
                 <div class="mat-header-cell">Is Public</div>
-                <div class="mat-header-cell text-center" fxFlex.gt-sm="10">Action</div>
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="12">Action</div>
             </div>
             <div *ngFor="let comment of CommentList | paginate: { itemsPerPage: count, currentPage: page }"
                 class="mat-row">
-                <div class="mat-cell">{{comment.fullName}}
+                <div class="mat-cell">{{comment.mobileNo}}
                 </div>
-                <div class="mat-cell" matTooltip="{{comment.deviceId}}">{{comment.deviceId| slice:0:10}}
-                    {{comment.deviceId.length > 40 ? '...' : ' '}}</div>
+                <!-- <div class="mat-cell" matTooltip="{{comment.deviceId}}">{{comment.deviceId| slice:0:10}}
+                    {{comment.deviceId.length > 40 ? '...' : ' '}}</div> -->
+                    <div class="mat-cell" matTooltip="{{comment.deviceId }}">{{comment.deviceId  || "" | slice:0:10}}</div>
                 <div class="mat-cell"> <ng-container *ngIf="comment.liked; else noApproval">{{'Yes'}}</ng-container>
                     <ng-template #noApproval>{{'No'}}</ng-template>
                 </div>
                 <div class="mat-cell" matTooltip="{{comment.comment1}}">{{comment.comment1| slice:0:10}}
-                    {{comment.deviceId.length > 40 ? '...' : ' '}}</div>
-                <div class="mat-cell"> <ng-container *ngIf="comment.shared; else noApproval">{{'Yes'}}</ng-container>
+                    </div>
+                <!-- <div class="mat-cell"> <ng-container *ngIf="comment.shared; else noApproval">{{'Yes'}}</ng-container>
                     <ng-template #noApproval>{{'No'}}</ng-template>
-                </div>
+                </div> -->
+                <!-- <div class="mat-cell">
+                    <a href="{{comment.thumbnail1}}" class="mat-cell" target="_blank" style="color: #a08820;">View</a>
+                </div> -->
+                
                 <div class="mat-cell">{{comment.contentTypeName}}
                 </div>
                 <div class="mat-cell"> <ng-container *ngIf="comment.isPublic; else nonPublic">{{'Yes'}}</ng-container>
                     <ng-template #nonPublic>{{'No'}}</ng-template>
                 </div>
-                <div class="mat-header-cell text-center" fxFlex.gt-sm="10">
-                    <div class="text-center" fxFlex.gt-sm="33.33">
+                <div class="mat-header-cell text-center" fxFlex.gt-sm="12">  
+
+                    <div class="text-center" fxFlex.gt-sm="25" *ngIf="comment.contentTypeName === 'Article'">
+                        <a (click)="openDialogVideoImageThumbnail(comment.commentId, comment.thumbnail1, comment.contentTypeName)"  mat-mini-fab color="accent" matTooltip="article">
+                            <i class="fa fa-file-text" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="text-center" fxFlex.gt-sm="25" *ngIf="comment.contentTypeName === 'Video'">
+                        <a (click)="openDialogVideoImageThumbnail(comment.commentId, comment.thumbnail1, comment.contentTypeName)"  mat-mini-fab color="accent" matTooltip="video">
+                            <i class="fa fa-video-camera" aria-hidden="true"></i>
+                        </a>
+                    </div>    
+
+                    <div class="text-center" fxFlex.gt-sm="25">
                         <a (click)="openDialogView(comment.commentId)" mat-mini-fab color="accent" matTooltip="view">
                             <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="text-center" fxFlex.gt-sm="33.33"
+                    
+                    <div class="text-center" fxFlex.gt-sm="25"
                         [style.visibility]="comment.parentCommentId > 0 ? 'hidden' : 'visible'">
                         <a (click)="openDialog(comment.commentId)" mat-mini-fab color="primary" matTooltip="Reply">
                             <i class="fa fa-commenting-o" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="text-center" fxFlex.gt-sm="33.33">
+                    <div class="text-center" fxFlex.gt-sm="25">
                         <button (click)="deleteservice(comment);" mat-mini-fab color="warn" matTooltip="Delete"
                             class="mx-1"><i class="fa fa-trash" aria-hidden="true"></i>
                         </button>

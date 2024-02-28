@@ -12,7 +12,7 @@
         <div class="mat-row"
             *ngFor="let comment of CommentReplyList | paginate: { itemsPerPage: count, currentPage: page }">
             <div class="mat-cell" matTooltip="{{comment.comment1}}">{{comment.comment1| slice:0:10}}
-                {{comment.deviceId.length > 40 ? '...' : ' '}}</div>
+                </div>
             <div class="mat-cell">{{comment.contentTypeName}}</div>
             <div class="mat-cell"> <ng-container *ngIf="comment.isPublic; else nonPublic">{{'Yes'}}</ng-container>
                 <ng-template #nonPublic>{{'No'}}</ng-template>

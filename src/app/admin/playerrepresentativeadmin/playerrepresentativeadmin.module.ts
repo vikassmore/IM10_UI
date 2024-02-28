@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ContentcommentviewComponent } from './contentcommentview/contentcommentview.component';
 import { AuthGuard } from 'src/auth.guard';
+import { ContentcommentImageVideoViewComponent } from './contentcomment-image-video-view/contentcomment-image-video-view.component';
 
 export const routes = [ 
   { path: '', redirectTo: 'playerrepresentativeadmin', pathMatch: 'full'},
@@ -30,6 +31,7 @@ export const routes = [
     StartingpageComponent,
     DashboardComponent,
     ContentcommentviewComponent,
+    ContentcommentImageVideoViewComponent,
   ],
   imports: [
     CommonModule,

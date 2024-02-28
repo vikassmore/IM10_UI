@@ -1,0 +1,17 @@
+<div class="media-dialog-container">
+  <div *ngIf="isImage" class="media-container">
+    <img [src]="data.mediaUrl" alt="Image" class="media-content">
+  </div>
+
+  <div *ngIf="!isImage" class="media-container">
+    <video controls class="media-content">
+      <source [src]="data.mediaUrl" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <mat-dialog-actions class="actions">
+    <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn"> <i
+      class="fa fa-ban" aria-hidden="true"></i> CANCEL</button>
+  </mat-dialog-actions>
+</div>

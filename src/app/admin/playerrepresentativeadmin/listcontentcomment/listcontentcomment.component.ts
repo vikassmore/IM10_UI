@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { OkDialogComponent } from 'src/app/shared/ok-dialog/ok-dialog.component';
 import { ContentcommentviewComponent } from '../contentcommentview/contentcommentview.component';
+import { ContentcommentImageVideoViewComponent } from '../contentcomment-image-video-view/contentcomment-image-video-view.component';
 
 @Component({
   selector: 'app-listcontentcomment',
@@ -26,6 +27,27 @@ export class ListcontentcommentComponent implements OnInit {
   public commentId: any;
 
   constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, public router: Router, public appSettings: AppSettings) { }
+
+
+  public openDialogVideoImageThumbnail(commentId: any, thumbnailUrl: string, contentType: string): void {
+    if (thumbnailUrl) {
+        const dialogRef = this.dialog.open(ContentcommentImageVideoViewComponent, {
+          width: '800px',  // Adjust the width as needed       
+           
+            data: {
+                mediaType: contentType.toLowerCase(),
+                mediaUrl: thumbnailUrl
+            }
+        });
+    } 
+    else {
+        // Handle the case when there is no thumbnail (possibly open another dialog)
+        console.log("No thumbnail available");
+    }
+}
+
+
+
 
   openDialogView(commentId: any): void{
     const dialogRef = this.dialog.open(ContentcommentviewComponent, {
@@ -46,6 +68,8 @@ export class ListcontentcommentComponent implements OnInit {
     }
     );
   }
+  
+
 
   ngOnInit(): void {
     this.getCommentListByPlayetId();
@@ -101,7 +125,7 @@ export class ListcontentcommentComponent implements OnInit {
     else {
       this.CommentList = this.NewCommentList.filter(res => {
         const lowerCaseContentName = this.username.toLowerCase();
-        const titleIncludes = res.fullName.toLowerCase().includes(lowerCaseContentName);
+        const titleIncludes = res.mobileNo.toLowerCase().includes(lowerCaseContentName);
         const finalPriceIncludes = res.contentTypeName.toLowerCase().includes(lowerCaseContentName);
         const contentNameIncludes = res.comment1.toLowerCase().includes(lowerCaseContentName);
 
