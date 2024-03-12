@@ -1,4 +1,6 @@
 <div class="media-dialog-container">
+  <h2 class="title">{{ data.title }}</h2> 
+
   <div *ngIf="isImage" class="media-container">
     <img [src]="data.mediaUrl" alt="Image" class="media-content">
   </div>
@@ -11,7 +13,8 @@
   </div>
 
   <mat-dialog-actions class="actions">
-    <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn"> <i
-      class="fa fa-ban" aria-hidden="true"></i> CANCEL</button>
+    <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn">
+      <i class="fa fa-ban" aria-hidden="true"></i> CANCEL
+    </button>
   </mat-dialog-actions>
 </div>

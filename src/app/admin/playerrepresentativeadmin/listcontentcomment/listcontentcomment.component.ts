@@ -29,14 +29,16 @@ export class ListcontentcommentComponent implements OnInit {
   constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, public router: Router, public appSettings: AppSettings) { }
 
 
-  public openDialogVideoImageThumbnail(commentId: any, thumbnailUrl: string, contentType: string): void {
+  public openDialogVideoImageThumbnail(commentId: any, thumbnailUrl: string, contentType: string,title:string): void {
     if (thumbnailUrl) {
+      debugger;
         const dialogRef = this.dialog.open(ContentcommentImageVideoViewComponent, {
-          width: '800px',  // Adjust the width as needed       
-           
+          
+          width: '800px',  
             data: {
                 mediaType: contentType.toLowerCase(),
-                mediaUrl: thumbnailUrl
+                mediaUrl: thumbnailUrl,
+                title: title
             }
         });
     } 

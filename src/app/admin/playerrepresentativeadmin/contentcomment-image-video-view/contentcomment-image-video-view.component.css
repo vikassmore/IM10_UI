@@ -1,4 +1,10 @@
 /* Your existing CSS, and add the following changes */
+.title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.4em; /* Adjust the font size as needed */
+}
+
 .media-dialog-container {
   display: flex;
   flex-direction: column;

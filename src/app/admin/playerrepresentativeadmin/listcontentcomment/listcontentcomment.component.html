@@ -50,19 +50,19 @@
                 <div class="mat-header-cell text-center" fxFlex.gt-sm="12">  
 
                     <div class="text-center" fxFlex.gt-sm="25" *ngIf="comment.contentTypeName === 'Article'">
-                        <a (click)="openDialogVideoImageThumbnail(comment.commentId, comment.thumbnail1, comment.contentTypeName)"  mat-mini-fab color="accent" matTooltip="article">
+                        <a (click)="openDialogVideoImageThumbnail(comment.commentId, comment.thumbnail1, comment.contentTypeName,comment.title)"  mat-mini-fab color="accent" matTooltip="view Article">
                             <i class="fa fa-file-text" aria-hidden="true"></i>
                         </a>
                     </div>
                     
                     <div class="text-center" fxFlex.gt-sm="25" *ngIf="comment.contentTypeName === 'Video'">
-                        <a (click)="openDialogVideoImageThumbnail(comment.commentId, comment.thumbnail1, comment.contentTypeName)"  mat-mini-fab color="accent" matTooltip="video">
+                        <a (click)="openDialogVideoImageThumbnail(comment.commentId, comment.thumbnail1, comment.contentTypeName,comment.title)"  mat-mini-fab color="accent" matTooltip="view Video">
                             <i class="fa fa-video-camera" aria-hidden="true"></i>
                         </a>
                     </div>    
 
                     <div class="text-center" fxFlex.gt-sm="25">
-                        <a (click)="openDialogView(comment.commentId)" mat-mini-fab color="accent" matTooltip="view">
+                        <a (click)="openDialogView(comment.commentId)" mat-mini-fab color="accent" matTooltip="view Comments">
                             <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
                     </div>
