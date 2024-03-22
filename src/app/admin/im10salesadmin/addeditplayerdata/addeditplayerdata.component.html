@@ -30,7 +30,9 @@
                                 (change)="handleFileSelectSplash($event)" #fileInput1 required />
                             <mat-error style="font-size: 11px;"
                                 *ngIf="!selectedFileSplash&& !isFileUploadedSplash&& !playerDataId">Splash Screen is
-                                required.</mat-error>                      
+                                required.</mat-error>     
+                                <mat-error style="font-size: 12px;" *ngIf="invalidspashfileType">Invalid Splash Screen File Type.</mat-error>
+                 
                             </div>
                         </div>
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
@@ -41,6 +43,8 @@
                             <mat-error style="font-size: 11px;"
                                 *ngIf="!selectedFileLogo&& !isFileUploadedLogo&& !playerDataId">Logo
                                 is required</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="invalidlogofileType">Invalid Logo File Type.</mat-error>
+
                             </div>
                         </div>
 
@@ -52,6 +56,7 @@
                             <mat-error style="font-size: 11px;"
                                 *ngIf="!selectedFileSlide&& !isFileUploadedSlide&& !playerDataId">Slider Image
                                 is required</mat-error>
+
                             </div>
                         </div>
                     </div>

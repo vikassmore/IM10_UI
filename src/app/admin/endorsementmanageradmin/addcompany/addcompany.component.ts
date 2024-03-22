@@ -41,6 +41,12 @@ export class AddcompanyComponent implements OnInit {
   isGlobal: boolean = false;
   isFileUploaded: boolean = false;
   subcategory: any = [];
+  public PlayerDetailsList: any = [];
+  public SportCategoryList=[];
+  selectedPlayerSportId: any;
+  public showtitleerror : boolean=false;
+  invalidfileType=false;
+
 
   uploadForm = new FormGroup({
     listingId: new FormControl('', []),
@@ -69,6 +75,7 @@ export class AddcompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.Getplayerdetailsbyplayerid();
     this.getCategoryMaster();
     this.getNationMaster();
     if (this.data.listingId == undefined || this.data.listingId) {
@@ -87,6 +94,56 @@ export class AddcompanyComponent implements OnInit {
       return false;
     }
   }
+
+///check validation for blank space
+titlekeyDown(event: KeyboardEvent) {
+  const inputValue = (event.target as HTMLInputElement).value;
+  // Check if the input consists only of spaces
+  const isOnlySpaces = /^\s*$/.test(inputValue);
+  if (event.key === ' ' && isOnlySpaces) 
+    {
+    this.showtitleerror = true; 
+    event.preventDefault(); 
+  } else {
+    this.showtitleerror = false; 
+  }
+}
+
+//Getplayerdetailsbyplayerid
+Getplayerdetailsbyplayerid() {
+  debugger;
+  var playerId = window.sessionStorage.getItem("playerId")
+  this.appService.getContentByPlayerId("api/PlayerDetail/GetPlayerDetailById/", playerId).subscribe(data => {
+    this.PlayerDetailsList = data;
+    if (this.PlayerDetailsList ) {
+      this.selectedPlayerSportId = this.PlayerDetailsList.sportId;
+      this.GetAllCategoryBySportId(this.selectedPlayerSportId);
+    }
+  },
+   error =>
+    {
+    console.error('Error fetching player details:', error);
+  });
+}
+
+
+
+///GetAllCategoryBySportId
+GetAllCategoryBySportId(sportId) {
+  debugger;
+  if (sportId) {
+    this.appService.getAllCategory("api/MasterAPIs/GetAllCategoryBySportId/" + sportId).subscribe(
+      data => {
+        this.SportCategoryList = data;
+        console.log('Sport category list:', this.SportCategoryList);
+      }, error => {
+        console.error('Error fetching categories by sport ID:', error);
+      });
+  } else {
+    this.SportCategoryList = null;
+  }
+}
+
 
   /// on Change Cat
   public onChangeCat(event) {
@@ -114,10 +171,22 @@ export class AddcompanyComponent implements OnInit {
     }
   }
 
+
+  getFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///Select file
   handleFileSelect(event: any) {
-    this.file = event.target.files[0];
+  this.file = event.target.files[0];
+  const allowedExtensions = ['jpg', 'jpeg', 'png'];
+  const fileExtension = this.getFileExtension(this.file.name);
 
+  if (!allowedExtensions.includes(fileExtension)) {
+    // Invalid file type
+    this.invalidfileType=true;
+    this.isFileUploaded=true;
+    return;
+  }
     if (this.file) {
       this.selectedFile = this.file;
       this.isFileUploaded = true;

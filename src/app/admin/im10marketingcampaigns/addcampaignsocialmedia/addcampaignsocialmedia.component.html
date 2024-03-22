@@ -14,7 +14,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Social Media Views </mat-label>
-                                <input formControlName="socialMediaViews" matInput required>
+                                <input formControlName="socialMediaViews" matInput required (keydown)="titlekeyDown($event)">
                                 <mat-error *ngIf="uploadForm.controls.socialMediaViews.errors?.required">Please enter
                                     Social Media Views</mat-error>
                                 <mat-error *ngIf="uploadForm.controls.socialMediaViews.hasError('maxlength')">Social
@@ -32,6 +32,8 @@
                                 <mat-error style="font-size: 11px;"
                                     *ngIf="!selectedFileProfile&& !isFileUploadedProfile">Screenshot is
                                     required.</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
+
                             </div>
                         </div>
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill

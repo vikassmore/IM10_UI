@@ -11,7 +11,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Company Name</mat-label>
-                                <input formControlName="companyName" matInput required>
+                                <input formControlName="companyName" matInput required (keydown)="titlekeyDown($event)">
                                 <mat-error *ngIf="uploadForm.controls.companyName.errors?.required">Please enter
                                     Company Name</mat-error>
                                 <mat-error *ngIf="uploadForm.controls.companyName.hasError('minlength')">Please enter
@@ -90,6 +90,8 @@
                                 <mat-error style="font-size: 11px;"
                                     *ngIf="!selectedFile&& !isFileUploaded&& !listingId">Please upload Company
                                     Logo</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
+
                             </div>
                         </div>
                     </div>
@@ -100,7 +102,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Description </mat-label>
-                                <textarea formControlName="description" matInput required></textarea>
+                                <textarea formControlName="description" matInput required (keydown)="titlekeyDown($event)"></textarea>
                                 <mat-error *ngIf="uploadForm.controls.description.errors?.required">Please enter
                                     Description</mat-error>
                                 <mat-error *ngIf="uploadForm.controls.description.hasError('minlength')">Description at
@@ -279,7 +281,7 @@
                                 <mat-label>Category</mat-label>
                                 <mat-select formControlName="categoryId" required
                                     (selectionChange)="onChangeCat($event)">
-                                    <mat-option *ngFor="let category of CategoryList" [value]="category.categoryId">
+                                    <mat-option *ngFor="let category of SportCategoryList" [value]="category.categoryId">
                                         <span>{{category.name}}</span>
                                     </mat-option>
                                 </mat-select>

@@ -8,7 +8,7 @@
                 <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Title </mat-label>
-                        <input formControlName="title" matInput required>
+                        <input formControlName="title" matInput required (keydown)="titlekeyDown($event)">
                         <mat-error *ngIf="uploadForm.controls.title.errors?.required">Please Enter Title</mat-error>
                         <mat-error *ngIf="uploadForm.controls.title.hasError('minlength')">Title at
                             least 3 characters long</mat-error>
@@ -34,7 +34,7 @@
                 <div fxFlex.gt-sm="100%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Description</mat-label>
-                        <textarea formControlName="description" matInput required></textarea>
+                        <textarea formControlName="description" matInput required (keydown)="titlekeyDown($event)"></textarea>
                         <mat-error *ngIf="uploadForm.controls.description.errors?.required">Please enter
                             Description</mat-error>
                         <mat-error *ngIf="uploadForm.controls.description.hasError('minlength')">Description at

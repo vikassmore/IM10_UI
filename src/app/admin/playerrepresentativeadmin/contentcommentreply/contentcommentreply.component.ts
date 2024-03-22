@@ -18,6 +18,7 @@ export class ContentcommentreplyComponent implements OnInit {
 
   commentId: any;
   isPublic: boolean = false;
+  public showtitleerror : boolean=false;
 
   uploadForm = new FormGroup({
     commentId: new FormControl(),
@@ -29,6 +30,22 @@ export class ContentcommentreplyComponent implements OnInit {
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public appService: AppService, public router: Router, private route: ActivatedRoute,) { }
+
+
+///check validation for blank space
+titlekeyDown(event: KeyboardEvent) {
+  const inputValue = (event.target as HTMLInputElement).value;
+  // Check if the input consists only of spaces
+  const isOnlySpaces = /^\s*$/.test(inputValue);
+  if (event.key === ' ' && isOnlySpaces) 
+    {
+    this.showtitleerror = true; 
+    event.preventDefault(); 
+  } else {
+    this.showtitleerror = false; 
+  }
+}
+
 
   closeDialog() {
     this.dialog.closeAll(); // <- Close the mat dialog

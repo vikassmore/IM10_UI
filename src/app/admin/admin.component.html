@@ -18,6 +18,8 @@
             <img class="w-full h-full rounded-full ng-star-inserted curplypc"
                 [src]="PlayerDetailsList.profileImageFilePath"><span
                 class="curplynm">{{PlayerDetailsList.playerName}}</span>
+                <span class="curplynm"*ngIf="PlayerDetailsList.playerName"> ({{ PlayerDetailsList.sportName }})</span>
+
             <app-fullscreen></app-fullscreen>
             <app-messages fxShow="false" fxShow.gt-xs></app-messages>
             <app-user-menu></app-user-menu>

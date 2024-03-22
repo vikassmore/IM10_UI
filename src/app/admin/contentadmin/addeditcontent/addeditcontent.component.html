@@ -15,7 +15,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Title </mat-label>
-                                <input formControlName="title" matInput required>
+                                <input formControlName="title" matInput required (keydown)="titlekeyDown($event)">
                                 <mat-error *ngIf="uploadForm.controls.title.errors?.required">Please enter
                                     Title</mat-error>
                                 <mat-error *ngIf="uploadForm.controls.title.hasError('minlength')">Title at
@@ -28,7 +28,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Description </mat-label>
-                                <textarea formControlName="description" matInput required></textarea>
+                                <textarea formControlName="description" matInput required (keydown)="titlekeyDown($event)"></textarea>
                                 <mat-error *ngIf="uploadForm.controls.description.errors?.required">Please enter
                                     Description</mat-error>
                                 <mat-error *ngIf="uploadForm.controls.description.hasError('minlength')">Description at
@@ -49,15 +49,16 @@
                                 <input type="file" class="input1_height" accept="video/*,image/*"
                                     (change)="handleFileSelect($event)" #fileInput required />
                                 <mat-error style="font-size: 11px;"
-                                    *ngIf="!selectedFile&& !isFileUploaded&& !ContentId">Content Part 1 is
+                                    *ngIf="!selectedFile && !isFileUploaded&& !ContentId">Content Part 1 is
                                     required.</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="fileSizeError">File size must be less than
                                     50 MB.</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
                             </div>
                         </div>
 
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
-                            class="grid-item">
+                            class="grid-item"> 
                             <div appearance="outline" class="w-100 sgln">
                                 <mat-label>Content Part 2(.mp4/.jpg/.jpeg/.png)<span
                                         class="mat-placeholder-required">*</span></mat-label><br />
@@ -68,6 +69,8 @@
                                     required.</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="fileSizeError2">File size must be less than
                                     50 MB.</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidfileType2">Invalid File Type.</mat-error>
+
                             </div>
                         </div>
 
@@ -95,7 +98,7 @@
                                 <mat-label>Category</mat-label>
                                 <mat-select formControlName="categoryId" required
                                     (selectionChange)="onChangeCountry($event)">
-                                    <mat-option *ngFor="let category of CategoryList" [value]="category.categoryId">
+                                    <mat-option *ngFor="let category of SportCategoryList" [value]="category.categoryId">
                                         <span>{{category.name}}</span>
                                     </mat-option>
                                 </mat-select>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener, Input, NgZone, ChangeDetectorRef } from '@angular/core';
 import { AppSettings, Settings } from '../app.settings';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { MenuService } from './components/menu/menu.service';
 import { AppService } from '../app.service';
 import { TokenStorageService } from '../services/token-storage.service';
@@ -27,13 +27,24 @@ export class AdminComponent implements OnInit {
   public menuItems: Array<any>;
   public toggleSearchBar: boolean = false;
   constructor(public appSettings: AppSettings, public sessionStorage: TokenStorageService,
-    public router: Router,
+    public router: Router,private route: ActivatedRoute,
     private menuService: MenuService, private appService: AppService, private tokenStorage: TokenStorageService, private ngZone: NgZone, private cdr: ChangeDetectorRef) {
     this.settings = this.appSettings.settings;
     this.isStartingPage = this.router.url.endsWith('/startingpage');
   }
 
   ngOnInit() {
+
+
+    this.route.queryParams.subscribe(params => {
+      const playerId = params['playerId'];
+      if (playerId) {
+        window.sessionStorage.setItem("playerId", playerId);
+        this.Getplayerdetailsbyplayerid();
+      }
+    });
+
+
     if (window.innerWidth <= 960) {
       this.settings.adminSidenavIsOpened = false;
       this.settings.adminSidenavIsPinned = false;

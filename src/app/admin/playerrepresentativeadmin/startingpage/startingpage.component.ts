@@ -45,9 +45,10 @@ export class StartingpageComponent implements OnInit {
     });
   }
 
+  
+///methodforgetplayeridfordashboard
   logPlayerId(playerId: string) {
-    this.playerId = playerId;
-    var id = window.sessionStorage.setItem("playerId", this.playerId);
+    sessionStorage.setItem("playerId", playerId); // Store playerId in sessionStorage
+    this.router.navigate(['/admin/playerrepresentativeadmin/dashboard'], { queryParams: { playerId: playerId } });
   }
-
 }

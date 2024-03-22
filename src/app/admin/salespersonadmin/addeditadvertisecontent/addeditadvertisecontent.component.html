@@ -15,7 +15,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Title</mat-label>
-                                <input formControlName="title" matInput required>
+                                <input formControlName="title" matInput required (keydown)="titlekeyDown($event)">
                                 <mat-error *ngIf="uploadForm.controls.title.errors?.required">Please enter
                                     title</mat-error>
                                 <mat-error *ngIf="uploadForm.controls.title.hasError('minlength')">Title at
@@ -69,6 +69,8 @@
                                     required.</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="fileSizeError">File size must be less than
                                     50 MB.</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
+
                             </div>
                         </div>
 

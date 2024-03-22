@@ -19,6 +19,7 @@ export class AddeditcampaignComponent implements OnInit {
   public ContenttypeList = [];
   marketingCampaignId: any;
   public formdata = {};
+  public showtitleerror : boolean=false;
 
   uploadForm = new FormGroup({
     marketingCampaignId: new FormControl(),
@@ -40,6 +41,22 @@ export class AddeditcampaignComponent implements OnInit {
     this.getContentDetailsListByPlayerId();
     this.getContenttypenameMaster();
   }
+
+
+///check validation for blank space
+titlekeyDown(event: KeyboardEvent) {
+  const inputValue = (event.target as HTMLInputElement).value;
+  // Check if the input consists only of spaces
+  const isOnlySpaces = /^\s*$/.test(inputValue);
+  if (event.key === ' ' && isOnlySpaces) 
+    {
+    this.showtitleerror = true; 
+    event.preventDefault(); 
+  } else {
+    this.showtitleerror = false; 
+  }
+}
+
 
   ///getContentDetailsListByPlayetId
   public getContentDetailsListByPlayerId() {

@@ -18,6 +18,7 @@ import { OkDialogComponent } from 'src/app/shared/ok-dialog/ok-dialog.component'
 export class AddcontentupdateComponent implements OnInit {
   public ContentTitleList: any = [];
   public ContentList: any = [];
+  public showtitleerror : boolean=false;
 
   uploadForm = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
@@ -48,6 +49,23 @@ export class AddcontentupdateComponent implements OnInit {
     }
     else {
       this.snackBar.open('All fields required', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    }
+  }
+
+
+///check validation for blank space
+  titlekeyDown(event: KeyboardEvent) {
+    const inputValue = (event.target as HTMLInputElement).value;
+  
+    // Check if the input consists only of spaces
+    const isOnlySpaces = /^\s*$/.test(inputValue);
+  
+    if (event.key === ' ' && isOnlySpaces) 
+      {
+      this.showtitleerror = true; // Set the flag to show the error message
+      event.preventDefault(); // Prevent the space character from being inserted
+    } else {
+      this.showtitleerror = false; // Hide the error message for other keys
     }
   }
 

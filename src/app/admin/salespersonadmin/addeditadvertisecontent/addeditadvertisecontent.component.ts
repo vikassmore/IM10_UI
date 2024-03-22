@@ -28,6 +28,7 @@ export class AddeditadvertisecontentComponent implements OnInit {
   isGlobal: boolean = false;
   public formdata = {};
   approved: any;
+  invalidfileType=false;
   isDeleted: any;
   advertiseFilePath?: FileList;
   fileError: boolean = false;
@@ -37,6 +38,7 @@ export class AddeditadvertisecontentComponent implements OnInit {
   endDateFormatted: any;
   isFileUploaded: boolean = false;
   file: any;
+  public showtitleerror : boolean=false;
 
   uploadForm = new FormGroup({
     advertiseContentId: new FormControl('', []),
@@ -63,12 +65,24 @@ export class AddeditadvertisecontentComponent implements OnInit {
     this.getcontentbyId(this.advertiseContentId)
   }
 
+  getFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///Select file
   handleFileSelect(event: any) {
     this.file = event.target.files[0];
     const maxFileSize = 50000000;
     if (this.file.size > maxFileSize) {
       this.fileSizeError = true;
+      return;
+    }
+    const allowedExtensions = ['mp4', 'jpg', 'jpeg', 'png'];
+    const fileExtension = this.getFileExtension(this.file.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidfileType=true;
+      this.isFileUploaded=true;
       return;
     }
     if (this.file) {
@@ -103,6 +117,23 @@ export class AddeditadvertisecontentComponent implements OnInit {
       }
     }
   }
+
+
+///check validation for blank space
+titlekeyDown(event: KeyboardEvent) {
+  const inputValue = (event.target as HTMLInputElement).value;
+
+  // Check if the input consists only of spaces
+  const isOnlySpaces = /^\s*$/.test(inputValue);
+
+  if (event.key === ' ' && isOnlySpaces) 
+    {
+    this.showtitleerror = true; // Set the flag to show the error message
+    event.preventDefault(); // Prevent the space character from being inserted
+  } else {
+    this.showtitleerror = false; // Hide the error message for other keys
+  }
+}
 
   ///Add createAdvContent
   public createAdvContent(userObject) {

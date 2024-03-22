@@ -24,6 +24,8 @@ export class AddcampaignsocialmediaComponent implements OnInit {
   selectedFileProfile: File = null;
   profileImageFilePath?: FileList;
   isFileUploadedProfile: boolean = false;
+  public showtitleerror : boolean=false;
+  invalidfileType=false;
 
   uploadForm = new FormGroup({
     marketingcampaignId: new FormControl('', [Validators.required]),
@@ -44,10 +46,39 @@ export class AddcampaignsocialmediaComponent implements OnInit {
     });
   }
 
+
+
+  ///check validation for blank space
+titlekeyDown(event: KeyboardEvent) {
+  const inputValue = (event.target as HTMLInputElement).value;
+  // Check if the input consists only of spaces
+  const isOnlySpaces = /^\s*$/.test(inputValue);
+  if (event.key === ' ' && isOnlySpaces) 
+    {
+    this.showtitleerror = true; 
+    event.preventDefault(); 
+  } else {
+    this.showtitleerror = false; 
+  }
+}
+
+
+
+getFileExtension(filename: string): string {
+  return filename.split('.').pop()?.toLowerCase() || '';
+}
   ///Select Media file
   handleFileSelectProfile(event: any) {
-    this.fileprofile = event.target.files[0];
-
+  this.fileprofile = event.target.files[0];
+  const allowedExtensions = ['jpg', 'jpeg', 'png'];
+  const fileExtension = this.getFileExtension(this.fileprofile.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidfileType=true;
+      this.isFileUploadedProfile=true;
+      return;
+    }
     if (this.fileprofile) {
       this.selectedFileProfile = this.fileprofile;
       this.isFileUploadedProfile = true;

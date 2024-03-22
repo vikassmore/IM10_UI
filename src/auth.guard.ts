@@ -11,7 +11,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const userRole =this.tokenStorage.getUser().roleId;
-debugger
     if (userRole) {
       if (route.data.allowedRoles.includes(userRole)) {
         return true;

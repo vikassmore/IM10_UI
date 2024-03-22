@@ -28,6 +28,9 @@ export class AddeditlistingComponent implements OnInit {
   companyLogoFilePath?: FileList;
   selectedFile: File = null;
   file: any;
+  public PlayerDetailsList: any = [];
+  public SportCategoryList=[];
+  selectedPlayerSportId: any;
   public country = [];
   public StateList = [];
   public CityList = [];
@@ -40,6 +43,9 @@ export class AddeditlistingComponent implements OnInit {
   isGlobal: boolean = false;
   isFileUploaded: boolean = false;
   subcategory: any = [];
+  invalidfileType=false;
+  public showtitleerror : boolean=false;
+
 
   uploadForm = new FormGroup({
     listingId: new FormControl('', []),
@@ -73,6 +79,7 @@ export class AddeditlistingComponent implements OnInit {
     this.getNationMaster();
     this.listingId = this.route.snapshot.params['id'];
     this.getlistdetailsbyid(this.listingId);
+    this.Getplayerdetailsbyplayerid();
   }
 
   ///Validation for only enter number
@@ -85,6 +92,62 @@ export class AddeditlistingComponent implements OnInit {
       return false;
     }
   }
+
+
+
+  ///check validation for blank space
+  titlekeyDown(event: KeyboardEvent) {
+    const inputValue = (event.target as HTMLInputElement).value;
+  
+    // Check if the input consists only of spaces
+    const isOnlySpaces = /^\s*$/.test(inputValue);
+  
+    if (event.key === ' ' && isOnlySpaces) 
+      {
+      this.showtitleerror = true; // Set the flag to show the error message
+      event.preventDefault(); // Prevent the space character from being inserted
+    } else {
+      this.showtitleerror = false; // Hide the error message for other keys
+    }
+  }
+  
+
+//Getplayerdetailsbyplayerid
+Getplayerdetailsbyplayerid() {
+  debugger;
+  var playerId = window.sessionStorage.getItem("playerId")
+  this.appService.getContentByPlayerId("api/PlayerDetail/GetPlayerDetailById/", playerId).subscribe(data => {
+    this.PlayerDetailsList = data;
+    if (this.PlayerDetailsList ) {
+      this.selectedPlayerSportId = this.PlayerDetailsList.sportId;
+      this.GetAllCategoryBySportId(this.selectedPlayerSportId);
+    }
+  },
+   error =>
+    {
+    console.error('Error fetching player details:', error);
+  });
+}
+
+///GetAllCategoryBySportId
+GetAllCategoryBySportId(sportId) {
+  debugger;
+  if (sportId) {
+    this.appService.getAllCategory("api/MasterAPIs/GetAllCategoryBySportId/" + sportId).subscribe(
+      data => {
+        this.SportCategoryList = data;
+        console.log('Sport category list:', this.SportCategoryList);
+      }, error => {
+        console.error('Error fetching categories by sport ID:', error);
+      });
+  } else {
+    this.SportCategoryList = null;
+  }
+}
+
+
+
+
   /// on Change Cat
   public onChangeCat(event) {
     if (event.value) {
@@ -111,10 +174,21 @@ export class AddeditlistingComponent implements OnInit {
     }
   }
 
+  getFileExtension1(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///Select file
   handleFileSelect(event: any) {
     this.file = event.target.files[0];
-
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+    const fileExtension = this.getFileExtension1(this.file.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidfileType=true;
+      this.isFileUploaded=true;
+      return;
+    }
     if (this.file) {
       this.selectedFile = this.file;
       this.isFileUploaded = true;

@@ -6,8 +6,8 @@ export const environment = {
    production: false,
 
    url: '',
-   // urlAddress: 'https://localhost:5001'
-  urlAddress: 'https://im10api.meshbagroup.com'
+    urlAddress: 'https://localhost:5001'
+  //urlAddress: 'https://im10api.meshbagroup.com'
 };
 
 /*

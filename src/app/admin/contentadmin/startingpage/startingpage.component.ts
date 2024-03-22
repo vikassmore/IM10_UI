@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-startingpage',
@@ -28,7 +29,7 @@ export class StartingpageComponent implements OnInit {
   public PlayerList = [];
 
   constructor(public authservise: AuthenticationService, public sessionStorage: TokenStorageService, public appService: AppService,
-    public snackBar: MatSnackBar, public formBuilder: FormBuilder) { }
+    public snackBar: MatSnackBar, public formBuilder: FormBuilder,private router: Router) { }
 
   ngOnInit(): void {
     this.sessionuserId = this.sessionStorage.getUser().userId;
@@ -37,17 +38,15 @@ export class StartingpageComponent implements OnInit {
 
   ///getPlayerbyUserId
   public getPlayerbyUserId(sessionuserId) {
-    if (sessionuserId > 0) {
       this.appService.getPlayerById("api/UserPlayer/GetPlayerByUserId/", sessionuserId).subscribe(data => {
         this.PlayerList = data;
         this.playerId = this.PlayerList
       });
-
-    }
   }
-
+  
+///methodforgetplayeridfordashboard
   logPlayerId(playerId: string) {
-    this.playerId = playerId;
-    var id = window.sessionStorage.setItem("playerId", this.playerId);
+    sessionStorage.setItem("playerId", playerId); // Store playerId in sessionStorage
+    this.router.navigate(['/admin/contentadmin/dashboard'], { queryParams: { playerId: playerId } });
   }
 }

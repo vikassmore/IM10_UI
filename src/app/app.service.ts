@@ -93,6 +93,10 @@ export class AppService {
     return this.http.get<any>(this.createCompleteRoute(route, this._envUrl.urlAddress));
   }
 
+  public getAllSports = (route: string) => {
+    return this.http.get<any>(this.createCompleteRoute(route, this._envUrl.urlAddress));
+  }
+
   public getsubAllCategory = (route: string) => {
     return this.http.get<any>(this.createCompleteRoute(route, this._envUrl.urlAddress));
   }

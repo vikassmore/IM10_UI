@@ -40,7 +40,7 @@
                 <div fxFlex.gt-sm="60%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>New Comment </mat-label>
-                        <textarea formControlName="comment2" matInput required></textarea>
+                        <textarea formControlName="comment2" matInput required (keydown)="titlekeyDown($event)"></textarea>
                         <mat-error *ngIf="uploadForm.controls.comment2.errors?.required">New Comment Is
                             required</mat-error>
                     </mat-form-field>

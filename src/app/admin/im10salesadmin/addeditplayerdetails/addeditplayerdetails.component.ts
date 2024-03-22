@@ -40,7 +40,14 @@ export class AddeditplayerdetailsComponent implements OnInit {
   filedriving: any;
   filepan: any;
   filevoting: any;
+  public showtitleerror : boolean=false;
+  invalidProfilefileType=false;
+  invalidaadharfileType=false;
+  invalidPanfileType=false;
+  invalidvotingfileType=false;
+  invaliddrivingfileType=false;
 
+  public SportList = [];
   currentPage: number;
 
   uploadForm = new FormGroup({
@@ -55,6 +62,7 @@ export class AddeditplayerdetailsComponent implements OnInit {
     votingCardFilePath: new FormControl(),
     drivingLicenceFilePath: new FormControl(),
     profileImageFilePath: new FormControl(),
+    sportId:new FormControl()
   });
 
   constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, public formBuilder: FormBuilder, private location: Location) { }
@@ -62,11 +70,40 @@ export class AddeditplayerdetailsComponent implements OnInit {
   ngOnInit(): void {
     this.playerId = this.route.snapshot.params['id'];
     this.getPlayerbyId(this.playerId)
+    this.getSportMaster()
   }
 
+
+  ///check validation for blank space
+titlekeyDown(event: KeyboardEvent) {
+  const inputValue = (event.target as HTMLInputElement).value;
+  // Check if the input consists only of spaces
+  const isOnlySpaces = /^\s*$/.test(inputValue);
+  if (event.key === ' ' && isOnlySpaces) 
+    {
+    this.showtitleerror = true; 
+    event.preventDefault(); 
+  } else {
+    this.showtitleerror = false; 
+  }
+}
+
+  getprofileFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///handleFileSelectProfile
   handleFileSelectProfile(event: any) {
     this.fileprofile = event.target.files[0];
+
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+  const fileExtension = this.getprofileFileExtension(this.fileprofile.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidProfilefileType=true;
+      this.isFileUploadedProfile=true;
+      return;
+    }
     if (this.fileprofile) {
       this.selectedFileProfile = this.fileprofile;
       this.isFileUploadedProfile = true;
@@ -76,10 +113,23 @@ export class AddeditplayerdetailsComponent implements OnInit {
     }
   }
 
+
+  getaadharFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///handleFileSelectAadhar
   handleFileSelectAadhar(event: any) {
     this.fileaadhar = event.target.files[0];
 
+    const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
+  const fileExtension = this.getaadharFileExtension(this.fileaadhar.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidaadharfileType=true;
+      this.isFileUploadedadhar=true;
+      return;
+    }
     if (this.fileaadhar) {
       this.selectedFileAadhar = this.fileaadhar;
       this.isFileUploadedadhar = true;
@@ -89,10 +139,22 @@ export class AddeditplayerdetailsComponent implements OnInit {
     }
   }
 
+
+  getdrivingFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///handleFileSelectDriving
   handleFileSelectDriving(event: any) {
     this.filedriving = event.target.files[0];
-
+    const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
+    const fileExtension = this.getdrivingFileExtension(this.filedriving.name);
+    
+      if (!allowedExtensions.includes(fileExtension)) {
+        // Invalid file type
+        this.invaliddrivingfileType=true;
+        this.isFileUploadeddrive=true;
+        return;
+      }
     if (this.filedriving) {
       this.selectedFileDriving = this.filedriving;
       this.isFileUploadeddrive = true;
@@ -102,10 +164,21 @@ export class AddeditplayerdetailsComponent implements OnInit {
     }
   }
 
+  getpanFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///handleFileSelectPan
   handleFileSelectPan(event: any) {
     this.filepan = event.target.files[0];
-
+    const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
+    const fileExtension = this.getpanFileExtension(this.filepan.name);
+    
+      if (!allowedExtensions.includes(fileExtension)) {
+        // Invalid file type
+        this.invalidPanfileType=true;
+        this.isFileUploadedpan=true;
+        return;
+      }
     if (this.filepan) {
       this.selectedFilePan = this.filepan;
       this.isFileUploadedpan = true;
@@ -115,10 +188,22 @@ export class AddeditplayerdetailsComponent implements OnInit {
     }
   }
 
+
+  getvotingFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
   ///handleFileSelectVoting
   handleFileSelectVoting(event: any) {
     this.filevoting = event.target.files[0];
-
+    const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
+    const fileExtension = this.getvotingFileExtension(this.filevoting.name);
+    
+      if (!allowedExtensions.includes(fileExtension)) {
+        // Invalid file type
+        this.invalidvotingfileType=true;
+        this.isFileUploadedvot=true;
+        return;
+      }
     if (this.filevoting) {
       this.selectedFileVoting = this.filevoting;
       this.isFileUploadedvot = true;
@@ -169,6 +254,15 @@ export class AddeditplayerdetailsComponent implements OnInit {
     }
   }
 
+
+///getallsportsfordropdown
+public getSportMaster() {
+  this.appService.getAllSports("api/MasterAPIs/GetAllSports").subscribe(data => {
+    this.SportList = data;
+  });
+}
+
+
   ///Addplayer
   public Addplayer(userObject) {
     var formData = new FormData();
@@ -182,6 +276,7 @@ export class AddeditplayerdetailsComponent implements OnInit {
     formData.append('votingCardFilePath', this.filevoting);
     formData.append('drivingLicenceFilePath', this.filedriving);
     formData.append('profileImageFilePath', this.fileprofile);
+    formData.append("sportId",this.uploadForm.value.sportId)
 
     this.appService.AddContent('api/PlayerDetail/AddPlayerDetail', formData).subscribe(() => {
       const dialogRef = this.dialog.open(OkDialogComponent, {
@@ -214,6 +309,7 @@ export class AddeditplayerdetailsComponent implements OnInit {
     formData.append('votingCardFilePath', this.filevoting);
     formData.append('drivingLicenceFilePath', this.filedriving);
     formData.append('profileImageFilePath', this.fileprofile);
+    formData.append("sportId",this.uploadForm.value.sportId)
 
     this.appService.editcontent('api/PlayerDetail/EditPlayerDetail', formData).subscribe(() => {
       const dialogRef = this.dialog.open(OkDialogComponent, {
@@ -233,14 +329,16 @@ export class AddeditplayerdetailsComponent implements OnInit {
   ///getPlayerbyId
   public getPlayerbyId(playerId) {
     if (playerId > 0) {
-      this.appService.getPlatyerbyid("api/PlayerDetail/GetPlayerDetailById/", playerId).subscribe(data => {
+      this.appService.getPlatyerbyid("api/PlayerDetail/GetPlayerDetailByPlayerId/", playerId).subscribe(data => {
         this.uploadForm.controls['playerId'].setValue(data.playerId);
         this.uploadForm.controls['firstName'].setValue(data.firstName);
         this.uploadForm.controls['lastName'].setValue(data.lastName);
         this.uploadForm.controls['address'].setValue(data.address);
         this.uploadForm.controls['bankAcountNo'].setValue(data.bankAcountNo);
         this.uploadForm.controls['pancardNo'].setValue(data.pancardNo);
+        this.uploadForm.controls['sportId'].setValue(data.sportId)
       });
+
     }
   }
 }

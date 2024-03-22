@@ -28,6 +28,10 @@ export class AddeditplayerdataComponent implements OnInit {
   filesplash: any;
   filelogo: any;
   fileslide: any = [];
+  invalidspashfileType=false;
+  invalisliderfileType=false;
+  invalidlogofileType=false;
+
   uploadForm = new FormGroup({
     playerDataId: new FormControl('', []),
     playerId: new FormControl('', [Validators.required]),
@@ -40,9 +44,24 @@ export class AddeditplayerdataComponent implements OnInit {
   ngOnInit(): void {
     this.getPlayerList();
   }
+
+
+  getsplashFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
  ///handleFileSelectSplash
  handleFileSelectSplash(event: any) {
   this.filesplash = event.target.files[0];
+
+  const allowedExtensions = ['mp4'];
+  const fileExtension = this.getsplashFileExtension(this.filesplash.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidspashfileType=true;
+      this.isFileUploadedSplash=true;
+      return;
+    }
   if (this.filesplash) {
     this.selectedFileSplash = this.filesplash;
     this.isFileUploadedSplash = true;
@@ -52,9 +71,22 @@ export class AddeditplayerdataComponent implements OnInit {
   }
 }
 
+
+getlogoFileExtension(filename: string): string {
+  return filename.split('.').pop()?.toLowerCase() || '';
+}
 ///handleFileSelectLogo
 handleFileSelectLogo(event: any) {
   this.filelogo = event.target.files[0];
+  const allowedExtensions = ['jpg', 'jpeg', 'png'];
+  const fileExtension = this.getlogoFileExtension(this.filelogo.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidlogofileType=true;
+      this.isFileUploadedLogo=true;
+      return;
+    }
   if (this.filelogo) {
     this.selectedFileLogo = this.filelogo;
     this.isFileUploadedLogo = true;
@@ -63,6 +95,8 @@ handleFileSelectLogo(event: any) {
     },);
   }
 }
+
+
 
 ///handleFileSelectSlide
 handleFileSelectSlide(event: any) {

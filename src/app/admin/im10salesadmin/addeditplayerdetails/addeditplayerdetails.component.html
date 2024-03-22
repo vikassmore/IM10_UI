@@ -33,6 +33,17 @@
                                     3 Characters Long</mat-error>
                             </mat-form-field>
                         </div>
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Sports</mat-label>
+                              <mat-select formControlName="sportId" required>
+                                <mat-option *ngFor="let sport of SportList" [value]="sport.sportId">
+                                    <span>{{sport.sportName}}</span>
+                                </mat-option>                              
+                            </mat-select>
+                            </mat-form-field>
+                          </div>
+                          
                     </div>
 
                     <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
@@ -47,6 +58,8 @@
                                 <mat-error style="font-size: 11px;"
                                     *ngIf="!selectedFileProfile&& !isFileUploadedProfile&& !playerId">Profile
                                     Photo is required</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidProfilefileType">Invalid Profile File Type.</mat-error>
+
                             </div>
                         </div>
 
@@ -54,7 +67,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Address</mat-label>
-                                <textarea formControlName="address" matInput required minlength="3"></textarea>
+                                <textarea formControlName="address" matInput required minlength="3" (keydown)="titlekeyDown($event)"></textarea>
                                 <mat-error *ngIf="uploadForm.controls.address.errors?.required">Please enter
                                     Address</mat-error>
                                 <mat-error *ngIf="uploadForm.controls.address.hasError('minlength')">Address at
@@ -75,6 +88,8 @@
                                 <mat-error style="font-size: 11px;"
                                     *ngIf="!selectedFileAadhar&& !isFileUploadedadhar&& !playerId">Aadhar
                                     Card is required</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidaadharfileType">Invalid Aadhar File Type.</mat-error>
+
                             </div>
                         </div>
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
@@ -87,6 +102,8 @@
                                 <mat-error style="font-size: 11px;"
                                     *ngIf="!selectedFilePan&& !isFileUploadedpan&& !playerId">Pan Card
                                     is required</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidPanfileType">Invalid Pan File Type.</mat-error>
+
                             </div>
                         </div>
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
@@ -99,6 +116,8 @@
                                 <mat-error style="font-size: 11px;"
                                     *ngIf="!selectedFileVoting&& !isFileUploadedvot&& !playerId">Voting
                                     Card is required</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invalidvotingfileType">Invalid Voting File Type.</mat-error>
+
                             </div>
                         </div>
                     </div>
@@ -114,6 +133,8 @@
                                 <mat-error style="font-size: 11px;"
                                     *ngIf="!selectedFileDriving&& !isFileUploadeddrive&& !playerId">Driving
                                     Licence is required</mat-error>
+                                    <mat-error style="font-size: 12px;" *ngIf="invaliddrivingfileType">Invalid Driving Licence File Type.</mat-error>
+
                             </div>
                         </div>
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
