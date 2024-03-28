@@ -1,6 +1,10 @@
-.disabled {
-     opacity: 0.5;
-     background-color: gray;
-     cursor: not-allowed;
-   }
-   
+/* .disabled {
+  opacity: 0.5;
+  background-color: gray;
+  cursor: not-allowed;
+} */
+   .disabled {
+    opacity: 0.5; /* Lower opacity to visually indicate it's disabled */
+    cursor: not-allowed; /* Show 'not-allowed' cursor when hovering */
+    pointer-events: none; /* Prevent click events */
+}

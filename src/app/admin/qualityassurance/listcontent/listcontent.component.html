@@ -34,10 +34,13 @@
                 </div>
              <div class="mat-cell " matTooltip="{{content.description}}">{{content.description.slice(0, content.title.length)}}
              </div>
-                <div class="mat-cell text-center"><a href="{{content.thumbnail1}}" class="mat-cell" target="_blank"
+                <div class="mat-cell text-center"><a href="{{content.contentThumbnail1}}" class="mat-cell" target="_blank"
                         style="color: #a08820;">View</a></div>
-                        <div class="mat-cell text-center"><a href="{{content.thumbnail_2}}" class="mat-cell " target="_blank"
-                            style="color: #a08820;">View</a></div>
+                        <div class="mat-cell text-center">
+                            <a [href]="content.contentThumbnail_2" class="mat-cell" target="_blank" style="color: #a08820;"
+                                [ngClass]="{'disabled': content.contentTypeName === 'Article'}" *ngIf="content.contentTypeName !== 'Article'">View</a>
+                            <a class="mat-cell disabled" *ngIf="content.contentTypeName === 'Article'">View</a>
+                        </div>
                 <div class="mat-cell" fxFlex.gt-sm="18">{{content.categoryName}}/{{content.subCategoryName}}</div>
                 <div class="mat-cell text-center">{{content.contentTypeName}}</div>
                 <div class="mat-cell text-center" fxFlex.gt-sm="12" fxLayout="row">

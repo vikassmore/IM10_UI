@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 
 export class AddeditcontentComponent implements OnInit {
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   public progress: number;
   public message: string;
   public form: FormGroup;
@@ -30,6 +31,7 @@ export class AddeditcontentComponent implements OnInit {
   public SubCategoryList = [];
   public ContentTypeList = [];
   public languageList = [];
+  public showtitleerror : boolean=false;
   contentFilePath?: FileList;
   selectedFile: File = null;
   selectedFile2: File = null;
@@ -41,11 +43,16 @@ export class AddeditcontentComponent implements OnInit {
   isFileUploaded: boolean = false;
   isFileUploaded2: boolean = false;
   subcategory: any = [];
+
+  selectedFilethumbnail: File = null;
+  isFileUploadedthumbnail: boolean = false;
+  filethumbnail: any;
+  invalidthumbnailfileType=false;
+
   file: any;
   file2: any;
-public showtitleerror : boolean=false;
 
-
+  
 
   uploadForm = new FormGroup({
     ContentId: new FormControl('', []),
@@ -56,6 +63,7 @@ public showtitleerror : boolean=false;
     contentTypeId: new FormControl('', [Validators.required]),
     languageId: new FormControl('', [Validators.required]),
     contentFilePath: new FormControl(),
+    thumbnail1:new FormControl()
   });
 
   constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, public formBuilder: FormBuilder, private location: Location) { }
@@ -68,6 +76,7 @@ public showtitleerror : boolean=false;
     this.getcontentbyId(this.ContentId)
     this.Getplayerdetailsbyplayerid();
   }
+
   
 ///check validation for blank space
   titlekeyDown(event: KeyboardEvent) {
@@ -82,7 +91,6 @@ public showtitleerror : boolean=false;
       this.showtitleerror = false; 
     }
   }
-  
 
 
   ///Submit details
@@ -168,6 +176,31 @@ public showtitleerror : boolean=false;
     }
   }
 
+
+
+
+
+  getthumbnailFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
+  ///Select Media file
+  handleThumbnailFileSelect(event: any) {
+    this.filethumbnail = event.target.files[0];
+    const fileExtension = this.filethumbnail.name.split('.').pop()?.toLowerCase();
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+  
+    // Check if the file extension is valid
+    if (!allowedExtensions.includes(fileExtension)) {
+      // Invalid file type
+      this.invalidthumbnailfileType = true;
+      this.isFileUploadedthumbnail = true;
+      return;
+    }
+    this.selectedFilethumbnail = this.filethumbnail;
+    this.isFileUploadedthumbnail = true;
+    this.invalidthumbnailfileType = false;
+  }
+  
   
   ///Add Content
   public createContent(userObject) {
@@ -180,6 +213,7 @@ public showtitleerror : boolean=false;
     formData.append('languageId', this.uploadForm.value.languageId);
     formData.append('contentFilePath', this.file);
     formData.append('contentFilePath_1', this.file2);
+    formData.append('thumbnail1',this.filethumbnail);
     formData.append('PlayerId', window.sessionStorage.getItem("playerId"));
     if (window.sessionStorage.getItem("playerId") != null || window.sessionStorage.getItem("playerId") != undefined) {
       if (this.fileSizeError && this.fileSizeError2) {
@@ -214,6 +248,7 @@ public showtitleerror : boolean=false;
     formData.append('languageId', this.uploadForm.value.languageId);
     formData.append('contentFilePath', this.file);
     formData.append('contentFilePath_1', this.file2);
+    formData.append('thumbnail1',this.filethumbnail)
     formData.append('PlayerId', window.sessionStorage.getItem("playerId"));
 
     if (this.fileSizeError) {
@@ -244,7 +279,6 @@ public showtitleerror : boolean=false;
   
 ///Getplayerdetailsbyplayerid
   Getplayerdetailsbyplayerid() {
-    debugger;
     var playerId = window.sessionStorage.getItem("playerId")
     this.appService.getContentByPlayerId("api/PlayerDetail/GetPlayerDetailById/", playerId).subscribe(data => {
       this.PlayerDetailsList = data;
@@ -261,7 +295,6 @@ public showtitleerror : boolean=false;
 
 ///GetAllCategoryBySportId
   GetAllCategoryBySportId(sportId) {
-    debugger;
     if (sportId) {
       this.appService.getAllCategory("api/MasterAPIs/GetAllCategoryBySportId/" + sportId).subscribe(
         data => {
@@ -327,7 +360,26 @@ public showtitleerror : boolean=false;
         this.uploadForm.controls['subCategoryId'].setValue(data.subCategoryId);
         this.uploadForm.controls['contentTypeId'].setValue(data.contentTypeId);
         this.uploadForm.controls['languageId'].setValue(data.languageId);
+        this.uploadForm.controls['thumbnail1'].setValue(data.thumbnail1);
       });
     }
   }
+
+
+
+
+  
+
+  isSubmitDisabled(): boolean {
+    if (this.ContentId) {
+        return false; 
+    }
+    const contentType = this.uploadForm.get('contentTypeId').value;
+    if (contentType === 2) {
+        return !this.uploadForm.valid || !this.selectedFile  || !this.selectedFilethumbnail;
+    } else {
+        return !this.uploadForm.valid || !this.selectedFile || !this.selectedFile2 || !this.selectedFilethumbnail;
+    }
+}
+
 }

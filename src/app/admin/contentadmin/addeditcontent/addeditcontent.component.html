@@ -24,7 +24,7 @@
                                     most 100 char long</mat-error>
                             </mat-form-field>
                         </div>
-                        <div fxFlex.gt-sm="68.1%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Description </mat-label>
@@ -37,44 +37,7 @@
                                     most 200 char long</mat-error>
                             </mat-form-field>
                         </div>
-                    </div>
-
-                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
-                        class="block-2 mttop20">
-                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
-                            class="grid-item">
-                            <div appearance="outline" class="w-100 sgln">
-                                <mat-label>Content Part 1 (.mp4/.jpg/.jpeg/.png)<span
-                                        class="mat-placeholder-required">*</span></mat-label><br />
-                                <input type="file" class="input1_height" accept="video/*,image/*"
-                                    (change)="handleFileSelect($event)" #fileInput required />
-                                <mat-error style="font-size: 11px;"
-                                    *ngIf="!selectedFile && !isFileUploaded&& !ContentId">Content Part 1 is
-                                    required.</mat-error>
-                                <mat-error style="font-size: 12px;" *ngIf="fileSizeError">File size must be less than
-                                    50 MB.</mat-error>
-                                    <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
-                            </div>
-                        </div>
-
-                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
-                            class="grid-item"> 
-                            <div appearance="outline" class="w-100 sgln">
-                                <mat-label>Content Part 2(.mp4/.jpg/.jpeg/.png)<span
-                                        class="mat-placeholder-required">*</span></mat-label><br />
-                                <input type="file" class="input1_height" accept="video/*,image/*"
-                                    (change)="handleFileSelect2($event)" #fileInput required />
-                                <mat-error style="font-size: 11px;"
-                                    *ngIf="!selectedFile2&& !isFileUploaded2&& !ContentId">Content Part 2 is
-                                    required.</mat-error>
-                                <mat-error style="font-size: 12px;" *ngIf="fileSizeError2">File size must be less than
-                                    50 MB.</mat-error>
-                                    <mat-error style="font-size: 12px;" *ngIf="invalidfileType2">Invalid File Type.</mat-error>
-
-                            </div>
-                        </div>
-
-                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Content Type </mat-label>
@@ -90,8 +53,40 @@
                         </div>
                     </div>
 
+                    <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item" >
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Content Part 1 (.mp4/.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="video/*,image/*" (change)="handleFileSelect($event)" #fileInput required />
+                                <mat-error style="font-size: 11px;" *ngIf="!selectedFile && !isFileUploaded && !ContentId">Content Part 1 is required.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="fileSizeError">File size must be less than 50 MB.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
+                            </div>
+                        </div>
+                    
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item" *ngIf="uploadForm.get('contentTypeId').value !== 2">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Content Part 2 (.mp4/.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="video/*,image/*" (change)="handleFileSelect2($event)" #fileInput required />
+                                <mat-error style="font-size: 11px;" *ngIf="!selectedFile2 && !isFileUploaded2 && !ContentId">Content Part 2 is required.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="fileSizeError2">File size must be less than 50 MB.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="invalidfileType2">Invalid File Type.</mat-error>
+                            </div>
+                        </div>
+                        
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Thumbnail (.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" class="input1_height" accept="image/*" (change)="handleThumbnailFileSelect($event)" #fileInput required />
+                                <mat-error style="font-size: 11px;" *ngIf="!selectedFilethumbnail && !isFileUploadedthumbnail && !ContentId">Thumbnail is required.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="invalidthumbnailfileType">Invalid File Type.</mat-error>
+                            </div>
+                        </div>                                               
+                    </div>
+                    
+                    
                     <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
-                        class="block-2 mttop20">
+                        class="block-2 ">
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
@@ -149,9 +144,10 @@
                         <button [routerLink]="['/admin/contentadmin/listcontent']" mat-raised-button color="accent"
                             type="button" class="crbtn"> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
                             BACK</button>
-                        <button [disabled]="ContentId ? false : (!uploadForm.valid || !selectedFile|| !selectedFile2)"
-                            mat-raised-button color="primary" type="submit" class="crbtn"><i class="fa fa-floppy-o"
-                                aria-hidden="true"></i> {{ ContentId ? 'UPDATE' : 'SUBMIT' }}</button>
+                            <button [disabled]="isSubmitDisabled()" mat-raised-button color="primary" type="submit" class="crbtn">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> {{ ContentId ? 'UPDATE' : 'SUBMIT' }}
+                            </button>
+                                                                                                                                        
                     </div>
                     <div fxFlex="50%" class="text-right">
                         <h4 class="crdtip">Tip : (*) fields are mandatory.</h4>

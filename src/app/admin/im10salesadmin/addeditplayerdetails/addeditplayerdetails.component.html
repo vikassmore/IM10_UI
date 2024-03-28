@@ -47,23 +47,20 @@
                     </div>
 
                     <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
-                        class="block-2 mttop20">
+                        class="block-2 mttop20">                   
                         <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                             class="grid-item">
-                            <div appearance="outline" class="w-100 sgln0">
-                                <mat-label>Profile Photo Upload (.jpg/.jpeg/.png)<span
-                                        class="mat-placeholder-required">*</span></mat-label><br />
-                                <input type="file" class="input1_height" accept="image/*"
-                                    (change)="handleFileSelectProfile($event)" #fileInput1 required />
-                                <mat-error style="font-size: 11px;"
-                                    *ngIf="!selectedFileProfile&& !isFileUploadedProfile&& !playerId">Profile
-                                    Photo is required</mat-error>
-                                    <mat-error style="font-size: 12px;" *ngIf="invalidProfilefileType">Invalid Profile File Type.</mat-error>
-
-                            </div>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Date of Birth</mat-label>
+                                <input [matDatepicker]="picker" matInput formControlName="dob" required max="{{today}}">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker></mat-datepicker>
+                                <mat-error *ngIf="uploadForm.controls.dob.errors?.required">Date Of Birth Is
+                                    Required</mat-error>         
+                            </mat-form-field>
                         </div>
 
-                        <div fxFlex.gt-sm="68.1%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Address</mat-label>
@@ -74,6 +71,20 @@
                                     least 3 characters long</mat-error>
                             </mat-form-field>
                         </div>
+                        <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                        class="grid-item">
+                        <div appearance="outline" class="w-100 sgln0">
+                            <mat-label>Profile Photo Upload (.jpg/.jpeg/.png)<span
+                                    class="mat-placeholder-required">*</span></mat-label><br />
+                            <input type="file" class="input1_height" accept="image/*"
+                                (change)="handleFileSelectProfile($event)" #fileInput1 required />
+                            <mat-error style="font-size: 11px;"
+                                *ngIf="!selectedFileProfile&& !isFileUploadedProfile&& !playerId">Profile
+                                Photo is required</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="invalidProfilefileType">Invalid Profile File Type.</mat-error>
+
+                        </div>
+                    </div>
                     </div>
 
                     <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"

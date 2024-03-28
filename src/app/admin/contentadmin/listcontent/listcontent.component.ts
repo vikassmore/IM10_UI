@@ -118,10 +118,15 @@ export class ListcontentComponent implements OnInit {
 
   ///GetContentDetailsbyPlayerID
   public getContentDetailsListByPlayetId() {
+    debugger
     var playerId = window.sessionStorage.getItem("playerId")
     this.appService.getContentByPlayerId("api/ContentDetail/GetContentdetailByPlayerId/", playerId).subscribe(data => {
       this.ContentList = data;
       this.NewContentList = data;
     });
   }
+
+
+  
+
 }

@@ -46,9 +46,9 @@ export class AddeditplayerdetailsComponent implements OnInit {
   invalidPanfileType=false;
   invalidvotingfileType=false;
   invaliddrivingfileType=false;
-
   public SportList = [];
   currentPage: number;
+  today = new Date().toISOString().split('T')[0];
 
   uploadForm = new FormGroup({
     playerId: new FormControl('', []),
@@ -62,7 +62,8 @@ export class AddeditplayerdetailsComponent implements OnInit {
     votingCardFilePath: new FormControl(),
     drivingLicenceFilePath: new FormControl(),
     profileImageFilePath: new FormControl(),
-    sportId:new FormControl()
+    sportId:new FormControl(),
+    dob:new FormControl('', [Validators.required])
   });
 
   constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, public formBuilder: FormBuilder, private location: Location) { }
@@ -276,7 +277,24 @@ public getSportMaster() {
     formData.append('votingCardFilePath', this.filevoting);
     formData.append('drivingLicenceFilePath', this.filedriving);
     formData.append('profileImageFilePath', this.fileprofile);
-    formData.append("sportId",this.uploadForm.value.sportId)
+    formData.append('sportId',this.uploadForm.value.sportId)
+
+    // Extract year, month, and day from the date
+   // Assuming dob is a string in the format "yyyy-MM-dd"
+const dobString = this.uploadForm.value.dob; // Assuming dob is a string
+const dobDate = new Date(dobString); // Parse dobString into a Date object
+
+if (!isNaN(dobDate.getTime())) { // Check if dobDate is a valid Date object
+  const year = dobDate.getFullYear();
+  const month = String(dobDate.getMonth() + 1).padStart(2, '0'); 
+  const day = String(dobDate.getDate()).padStart(2, '0');
+  const dobFormatted = `${year}-${month}-${day}T00:00:00`; // Format dob as "yyyy-MM-ddT00:00:00"
+  
+  formData.append('dob', dobFormatted);
+} else {
+  console.error('Invalid date string:', dobString);
+}
+
 
     this.appService.AddContent('api/PlayerDetail/AddPlayerDetail', formData).subscribe(() => {
       const dialogRef = this.dialog.open(OkDialogComponent, {
@@ -311,6 +329,23 @@ public getSportMaster() {
     formData.append('profileImageFilePath', this.fileprofile);
     formData.append("sportId",this.uploadForm.value.sportId)
 
+    // Extract year, month, and day from the date
+    // Assuming dob is a string in the format "yyyy-MM-dd"
+const dobString = this.uploadForm.value.dob; // Assuming dob is a string
+const dobDate = new Date(dobString); // Parse dobString into a Date object
+
+if (!isNaN(dobDate.getTime())) { // Check if dobDate is a valid Date object
+  const year = dobDate.getFullYear();
+  const month = String(dobDate.getMonth() + 1).padStart(2, '0'); 
+  const day = String(dobDate.getDate()).padStart(2, '0');
+  const dobFormatted = `${year}-${month}-${day}T00:00:00`; // Format dob as "yyyy-MM-ddT00:00:00"
+  
+  formData.append('dob', dobFormatted);
+} else {
+  console.error('Invalid date string:', dobString);
+}
+
+
     this.appService.editcontent('api/PlayerDetail/EditPlayerDetail', formData).subscribe(() => {
       const dialogRef = this.dialog.open(OkDialogComponent, {
         maxWidth: "500px",
@@ -337,6 +372,8 @@ public getSportMaster() {
         this.uploadForm.controls['bankAcountNo'].setValue(data.bankAcountNo);
         this.uploadForm.controls['pancardNo'].setValue(data.pancardNo);
         this.uploadForm.controls['sportId'].setValue(data.sportId)
+        this.uploadForm.controls['dob'].setValue(data.dob)
+
       });
 
     }
