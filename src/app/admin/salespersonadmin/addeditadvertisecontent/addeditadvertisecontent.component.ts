@@ -89,6 +89,8 @@ export class AddeditadvertisecontentComponent implements OnInit {
       this.selectedFile = this.file;
       this.isFileUploaded = true;
       this.fileSizeError = false;
+      this.invalidfileType=false;
+
       setTimeout(() => {
         this.isFileUploaded = false;
       },);

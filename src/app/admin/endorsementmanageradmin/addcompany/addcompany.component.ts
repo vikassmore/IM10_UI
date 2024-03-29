@@ -190,6 +190,7 @@ GetAllCategoryBySportId(sportId) {
     if (this.file) {
       this.selectedFile = this.file;
       this.isFileUploaded = true;
+      this.invalidfileType=false;
       setTimeout(() => {
         this.isFileUploaded = false; // Reset isFileUploaded to false after a short delay
       },);

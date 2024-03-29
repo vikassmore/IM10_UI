@@ -82,6 +82,7 @@ getFileExtension(filename: string): string {
     if (this.fileprofile) {
       this.selectedFileProfile = this.fileprofile;
       this.isFileUploadedProfile = true;
+      this.invalidfileType=false;
       setTimeout(() => {
         this.isFileUploadedProfile = false; // Reset isFileUploaded to false after delay
       },);

@@ -65,6 +65,7 @@ export class AddeditplayerdataComponent implements OnInit {
   if (this.filesplash) {
     this.selectedFileSplash = this.filesplash;
     this.isFileUploadedSplash = true;
+    this.invalidspashfileType=false;
     setTimeout(() => {
       this.isFileUploadedSplash = false;
     },);
@@ -90,6 +91,7 @@ handleFileSelectLogo(event: any) {
   if (this.filelogo) {
     this.selectedFileLogo = this.filelogo;
     this.isFileUploadedLogo = true;
+    this.invalidlogofileType=false;
     setTimeout(() => {
       this.isFileUploadedLogo = false;
     },);

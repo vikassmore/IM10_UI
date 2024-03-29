@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -74,6 +74,24 @@ export class AddeditplayerdetailsComponent implements OnInit {
     this.getSportMaster()
   }
 
+  
+///PAN card validation
+  PANInvalidPatternError: boolean = false;
+  keyPressPan2(event: any) {
+    var inp = String.fromCharCode(event.keyCode);
+    var firmPan = event.target.value + inp;
+    firmPan = firmPan.toUpperCase();
+    if (/^[A-Z]{0,5}$/.test(firmPan)) {
+      return true;
+    } else if (/^[A-Z]{5}[0-9]{0,4}$/i.test(firmPan)) {
+      return true;
+    } else if (/^[A-Z]{5}[0-9]{4}[A-Z]{0,1}$/i.test(firmPan)) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+  }
 
   ///check validation for blank space
 titlekeyDown(event: KeyboardEvent) {
@@ -108,6 +126,8 @@ titlekeyDown(event: KeyboardEvent) {
     if (this.fileprofile) {
       this.selectedFileProfile = this.fileprofile;
       this.isFileUploadedProfile = true;
+      this.invalidProfilefileType = false;
+
       setTimeout(() => {
         this.isFileUploadedProfile = false;
       },);
@@ -134,6 +154,7 @@ titlekeyDown(event: KeyboardEvent) {
     if (this.fileaadhar) {
       this.selectedFileAadhar = this.fileaadhar;
       this.isFileUploadedadhar = true;
+      this.invalidaadharfileType = false; 
       setTimeout(() => {
         this.isFileUploadedadhar = false;
       },);
@@ -159,6 +180,7 @@ titlekeyDown(event: KeyboardEvent) {
     if (this.filedriving) {
       this.selectedFileDriving = this.filedriving;
       this.isFileUploadeddrive = true;
+      this.invaliddrivingfileType = false; 
       setTimeout(() => {
         this.isFileUploadeddrive = false;
       },);
@@ -183,6 +205,7 @@ titlekeyDown(event: KeyboardEvent) {
     if (this.filepan) {
       this.selectedFilePan = this.filepan;
       this.isFileUploadedpan = true;
+      this.invalidPanfileType = false;
       setTimeout(() => {
         this.isFileUploadedpan = false;
       },);
@@ -208,6 +231,7 @@ titlekeyDown(event: KeyboardEvent) {
     if (this.filevoting) {
       this.selectedFileVoting = this.filevoting;
       this.isFileUploadedvot = true;
+      this.invalidvotingfileType = false; 
       setTimeout(() => {
         this.isFileUploadedvot = false;
       },);
