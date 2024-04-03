@@ -27,6 +27,7 @@ export class ListplayerdataComponent implements OnInit {
 ///getPlayerList
 public getPlayerDataList() {
   this.appService.getUserList('api/PlayerDetail/GetAllPlayerData').subscribe(data => {
+    debugger;
     this.PlayerDataList = data;
     this.NewPlayerDataList = data;
   });

@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { ListplayerdataComponent } from './listplayerdata/listplayerdata.component';
 import { AddeditplayerdataComponent } from './addeditplayerdata/addeditplayerdata.component';
 import { AuthGuard } from 'src/auth.guard';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperDialogComponentComponent } from './image-cropper-dialog-component/image-cropper-dialog-component.component';
 
 export const routes = [ 
   { path: '', redirectTo: 'im10salesadmin', pathMatch: 'full'},
@@ -33,6 +35,7 @@ export const routes = [
     DashboardComponent,
     ListplayerdataComponent,
     AddeditplayerdataComponent,
+    ImageCropperDialogComponentComponent,
   ],
 
   imports: [
@@ -42,6 +45,7 @@ export const routes = [
     SharedModule,
     NgxPaginationModule,
     FormsModule,
+    ImageCropperModule,
     MatFormFieldModule,
     MatInputModule
   ]

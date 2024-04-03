@@ -118,30 +118,62 @@ export class AddeditcontentComponent implements OnInit {
   ///Select Media file
   handleFileSelect(event: any) {
     this.file = event.target.files[0];
-    const maxFileSize = 50000000;
-    
-    if (this.file.size > maxFileSize) {
-      this.fileSizeError = true;
+    if (!this.file) {
+      // Reset selectedFile2 if no file is selected
+      this.selectedFile = null;
       return;
     }
-    const allowedExtensions = ['mp4', 'jpg', 'jpeg', 'png'];
-  const fileExtension = this.getFileExtension1(this.file.name);
-
-  if (!allowedExtensions.includes(fileExtension)) {
-    // Invalid file type
-    this.invalidfileType=true;
-    this.isFileUploaded=true;
-    return;
-  }
-    if (this.file) {
-      this.selectedFile = this.file;
-      this.isFileUploaded = true;
-      this.fileSizeError = false;
-      this.invalidfileType=false;
-      setTimeout(() => {
-        this.isFileUploaded = false;
-      },);
+    const maxFileSize = 50000000; // 50 MB
+    
+    // Check file size
+    if (this.file.size > maxFileSize) {
+      this.fileSizeError = true;
+      this.invalidfileType = false;
+      this.isFileUploaded = false;
+      return;
     }
+  
+    // Check allowed content types and corresponding file extensions
+    if (this.uploadForm.value.contentTypeId === 1) {
+      // Content type ID is 1 (video), only allow .mp4 files
+      const allowedExtensions = ['mp4'];
+      const fileExtension = this.getFileExtension1(this.file.name);
+  
+      if (!allowedExtensions.includes(fileExtension)) {
+        this.invalidfileType = true;
+        this.fileSizeError = false;
+        this.isFileUploaded = true;
+        return;
+      }
+    } else if (this.uploadForm.value.contentTypeId === 2) {
+      
+      // Content type ID is 2 (image), only allow .jpg, .jpeg, .png files
+      const allowedExtensions = ['jpg', 'jpeg', 'png'];
+      const fileExtension = this.getFileExtension1(this.file.name);
+      if (!allowedExtensions.includes(fileExtension)) {
+        this.invalidfileType = true;
+        this.fileSizeError = false;
+        this.isFileUploaded = true;
+        return;
+      }
+    } else {
+      // Invalid content type ID
+      this.invalidfileType = true;
+      this.fileSizeError = false;
+      this.isFileUploaded = false;
+      return;
+    }
+  
+    // File is valid
+    this.selectedFile = this.file;
+    this.isFileUploaded = true;
+    this.fileSizeError = false;
+    this.invalidfileType = false;
+    setTimeout(() => {
+      this.isFileUploaded = false;
+    }, 5000); // Reset isFileUploaded flag after 5 seconds (adjust as needed)
+    this.updateSubmitButtonState();
+
   }
   
 
@@ -151,31 +183,64 @@ export class AddeditcontentComponent implements OnInit {
   ///Select Media file 2
   handleFileSelect2(event: any) {
     this.file2 = event.target.files[0];
-    const maxFileSize = 50000000;
-    if (this.file.size > maxFileSize) {
-      this.fileSizeError2 = true;
+    if (!this.file2) {
+      // Reset selectedFile2 if no file is selected
+      this.selectedFile2 = null;
       return;
     }
-    const allowedExtensions = ['mp4', 'jpg', 'jpeg', 'png'];
-  const fileExtension = this.getFileExtension(this.file.name);
-
-  if (!allowedExtensions.includes(fileExtension)) {
-    // Invalid file type
-    this.invalidfileType2=true;
-    this.isFileUploaded2=true;
-    return;
-  }
-    if (this.file2) {
-      this.selectedFile2 = this.file2;
-      this.isFileUploaded2 = true;
-      this.fileSizeError2 = false;
-      this.invalidfileType2=false;
-      setTimeout(() => {
-        this.isFileUploaded2 = false;
-      },);
+    const maxFileSize = 50000000; // 50 MB
+    
+    // Check file size
+    if (this.file2.size > maxFileSize) {
+      this.fileSizeError2 = true;
+      this.invalidfileType2 = false;
+      this.isFileUploaded2 = false;
+      return;
     }
-  }
+  
+    // Check allowed content types and corresponding file extensions
+    if (this.uploadForm.value.contentTypeId === 1) {
+      // Content type ID is 1, only allow .mp4 files
+      const allowedExtensions = ['mp4'];
+      const fileExtension = this.getFileExtension(this.file2.name);
+  
+      if (!allowedExtensions.includes(fileExtension)) {
+        this.invalidfileType2 = true;
+        this.fileSizeError2 = false;
+        this.isFileUploaded2 = true;
+        return;
+      }
+    } else if (!this.uploadForm.value.contentTypeId) {
+      // If content type ID is not set, allow all specified file extensions
+      const allowedExtensions = ['mp4', 'jpg', 'jpeg', 'png'];
+      const fileExtension = this.getFileExtension(this.file2.name);
+  
+      if (!allowedExtensions.includes(fileExtension)) {
+        this.invalidfileType2 = true;
+        this.fileSizeError2 = false;
+        this.isFileUploaded2 = true;
+        return;
+      }
+    } else {
+      // Invalid content type ID
+      this.invalidfileType2 = true;
+      this.fileSizeError2 = false;
+      this.isFileUploaded2 = false;
+      return;
+    }
+  
+    // File is valid
+    this.selectedFile2 = this.file2;
+    this.isFileUploaded2 = true;
+    this.fileSizeError2 = false;
+    this.invalidfileType2 = false;
+    setTimeout(() => {
+      this.isFileUploaded2 = false;
+    }, 5000); // Reset isFileUploaded2 flag after 5 seconds (adjust as needed)
+    this.updateSubmitButtonState();
 
+  }
+  
 
 
 
@@ -186,6 +251,14 @@ export class AddeditcontentComponent implements OnInit {
   ///Select Media file
   handleThumbnailFileSelect(event: any) {
     this.filethumbnail = event.target.files[0];
+    if (!this.filethumbnail) {
+      // Reset selected thumbnail file if no file is selected
+      this.selectedFilethumbnail = null;
+      this.isFileUploadedthumbnail = false;
+      this.invalidthumbnailfileType = false;
+      this.updateSubmitButtonState();
+      return;
+    }
     const fileExtension = this.filethumbnail.name.split('.').pop()?.toLowerCase();
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
   
@@ -199,6 +272,8 @@ export class AddeditcontentComponent implements OnInit {
     this.selectedFilethumbnail = this.filethumbnail;
     this.isFileUploadedthumbnail = true;
     this.invalidthumbnailfileType = false;
+    this.updateSubmitButtonState();
+
   }
   
   
@@ -363,12 +438,7 @@ export class AddeditcontentComponent implements OnInit {
         this.uploadForm.controls['thumbnail1'].setValue(data.thumbnail1);
       });
     }
-  }
-
-
-
-
-  
+  } 
 
   isSubmitDisabled(): boolean {
     if (this.ContentId) {
@@ -382,4 +452,39 @@ export class AddeditcontentComponent implements OnInit {
     }
 }
 
+submitDisabled: boolean = true;
+updateSubmitButtonState() {
+  this.submitDisabled = this.isSubmitDisabled();
+}
+
+
+  selectedContentType: string = ''; 
+    videoTooltipMessage: string = 'Thumbnail size: 1920 x 1080 pixels';
+    articleTooltipMessage: string = 'Thumbnail size: 1080 x 1080 pixels'; 
+
+    // Function to handle dropdown selection change
+    onContentTypeChange(selectedValue: string): void 
+    {
+        this.selectedContentType = selectedValue;
+    }
+
+    handleDDSelect() {
+      this.selectedFilethumbnail == null;
+      this.selectedFilethumbnail = null;
+      this.isFileUploadedthumbnail = false;
+      this.filethumbnail=false;
+      this.selectedFile == null;
+      this.selectedFile = null;
+      this.isFileUploaded = false;
+      this.file=false;
+    const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) {
+        fileInput.value = null;
+    }
+    const contentFileInput: HTMLInputElement = document.getElementById('contentFileInput') as HTMLInputElement;
+    if (contentFileInput) {
+        contentFileInput.value = null;
+    }
+    }
+    
 }

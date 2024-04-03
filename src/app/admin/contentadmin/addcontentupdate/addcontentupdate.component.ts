@@ -72,7 +72,7 @@ export class AddcontentupdateComponent implements OnInit {
   ///Get Content Details by PlayerId
   public getContentDetailsListByPlayetId() {
     var playerId = window.sessionStorage.getItem("playerId")
-    this.appService.getContentByPlayerId("api/ContentDetail/GetContentdetailByPlayerId/", playerId).subscribe(data => {
+    this.appService.getContentByPlayerId("api/ContentDetail/GetContentTitlesByPlayerId/", playerId).subscribe(data => {
       this.ContentList = data;
     });
   }

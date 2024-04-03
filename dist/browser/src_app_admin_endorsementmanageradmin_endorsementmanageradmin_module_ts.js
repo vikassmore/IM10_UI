@@ -286,6 +286,7 @@ class AddcompanyComponent {
             cityId: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]),
             companyLogoFilePath: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl(),
         });
+        this.submitDisabled = true;
     }
     ///Close the mat dialog
     closeDialog() {
@@ -382,6 +383,10 @@ class AddcompanyComponent {
     ///Select file
     handleFileSelect(event) {
         this.file = event.target.files[0];
+        if (!this.file) {
+            this.selectedFile = null;
+            return;
+        }
         const allowedExtensions = ['jpg', 'jpeg', 'png'];
         const fileExtension = this.getFileExtension(this.file.name);
         if (!allowedExtensions.includes(fileExtension)) {
@@ -393,10 +398,12 @@ class AddcompanyComponent {
         if (this.file) {
             this.selectedFile = this.file;
             this.isFileUploaded = true;
+            this.invalidfileType = false;
             setTimeout(() => {
                 this.isFileUploaded = false; // Reset isFileUploaded to false after a short delay
             });
         }
+        this.updateSubmitButtonState();
     }
     ///Create List
     createList(userObject) {
@@ -599,6 +606,12 @@ class AddcompanyComponent {
     }
     onBackdropClick(event) {
         event.stopPropagation();
+    }
+    isSubmitDisabled() {
+        return !this.uploadForm.valid || !this.selectedFile;
+    }
+    updateSubmitButtonState() {
+        this.submitDisabled = this.isSubmitDisabled();
     }
 }
 AddcompanyComponent.ɵfac = function AddcompanyComponent_Factory(t) { return new (t || AddcompanyComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_4__.MatDialog), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_4__.MAT_DIALOG_DATA), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](src_app_app_service__WEBPACK_IMPORTED_MODULE_1__.AppService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_5__.MatSnackBar), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormBuilder)); };

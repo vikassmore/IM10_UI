@@ -102,6 +102,7 @@ class AddcampaignsocialmediaComponent {
             marketingcampaignId: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]),
             socialMediaViews: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.minLength(1), _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.maxLength(100)]),
         });
+        this.submitDisabled = true;
     }
     ngOnInit() {
         this.getContentDetailsListByPlayetId();
@@ -133,6 +134,10 @@ class AddcampaignsocialmediaComponent {
     ///Select Media file
     handleFileSelectProfile(event) {
         this.fileprofile = event.target.files[0];
+        if (!this.fileprofile) {
+            this.selectedFileProfile = null;
+            return;
+        }
         const allowedExtensions = ['jpg', 'jpeg', 'png'];
         const fileExtension = this.getFileExtension(this.fileprofile.name);
         if (!allowedExtensions.includes(fileExtension)) {
@@ -144,10 +149,12 @@ class AddcampaignsocialmediaComponent {
         if (this.fileprofile) {
             this.selectedFileProfile = this.fileprofile;
             this.isFileUploadedProfile = true;
+            this.invalidfileType = false;
             setTimeout(() => {
                 this.isFileUploadedProfile = false; // Reset isFileUploaded to false after delay
             });
         }
+        this.updateSubmitButtonState();
     }
     ///Addplayer
     AddCampaignSocialMedia(userObject) {
@@ -168,6 +175,12 @@ class AddcampaignsocialmediaComponent {
                 window.location.reload();
             });
         });
+    }
+    isSubmitDisabled() {
+        return !this.uploadForm.valid || !this.selectedFile;
+    }
+    updateSubmitButtonState() {
+        this.submitDisabled = this.isSubmitDisabled();
     }
 }
 AddcampaignsocialmediaComponent.ɵfac = function AddcampaignsocialmediaComponent_Factory(t) { return new (t || AddcampaignsocialmediaComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_4__.MatDialog), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](src_app_app_service__WEBPACK_IMPORTED_MODULE_1__.AppService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_5__.MatSnackBar), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormBuilder), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_common__WEBPACK_IMPORTED_MODULE_7__.Location)); };

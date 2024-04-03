@@ -71,6 +71,10 @@ export class AddeditadvertisecontentComponent implements OnInit {
   ///Select file
   handleFileSelect(event: any) {
     this.file = event.target.files[0];
+    if (!this.file) {
+      this.selectedFile = null;
+      return;
+    }
     const maxFileSize = 50000000;
     if (this.file.size > maxFileSize) {
       this.fileSizeError = true;
@@ -95,6 +99,7 @@ export class AddeditadvertisecontentComponent implements OnInit {
         this.isFileUploaded = false;
       },);
     }
+    this.updateSubmitButtonState();
   }
 
   ///Validation for only enter number
@@ -119,6 +124,19 @@ export class AddeditadvertisecontentComponent implements OnInit {
       }
     }
   }
+
+
+  isSubmitDisabled(): boolean {
+    debugger
+    return !this.uploadForm.valid ||  !this.selectedFile ;
+}
+
+
+submitDisabled: boolean = true;
+updateSubmitButtonState() {
+  debugger
+  this.submitDisabled = this.isSubmitDisabled();
+}
 
 
 ///check validation for blank space

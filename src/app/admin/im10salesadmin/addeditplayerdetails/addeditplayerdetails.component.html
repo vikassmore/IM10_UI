@@ -88,10 +88,9 @@
                                     *ngIf="!selectedFileProfile&& !isFileUploadedProfile&& !playerId">Profile
                                     Photo is required</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="invalidProfilefileType">Invalid Profile File
-                                    Type.</mat-error>
-                                    
-                            </div>
-                        </div>
+                                    Type.</mat-error>                                   
+                            </div>                                                   
+                        </div>                       
                     </div>
 
                     <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
@@ -108,7 +107,6 @@
                                     Card is required</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="invalidaadharfileType">Invalid Aadhar File
                                     Type.</mat-error>
-
                             </div>
                         </div>
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
@@ -186,7 +184,7 @@
                                 <mat-error *ngIf="uploadForm.controls.pancardNo.hasError('minlength')">Enter Valid Pan
                                     Card No.</mat-error>
                             </mat-form-field>
-                        </div>
+                        </div>                       
                     </div>
 
                     <!-- hiddenfield -->

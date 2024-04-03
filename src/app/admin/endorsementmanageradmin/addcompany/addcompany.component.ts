@@ -178,6 +178,10 @@ GetAllCategoryBySportId(sportId) {
   ///Select file
   handleFileSelect(event: any) {
   this.file = event.target.files[0];
+  if (!this.file) {
+    this.selectedFile = null;
+    return;
+  }
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
   const fileExtension = this.getFileExtension(this.file.name);
 
@@ -195,6 +199,7 @@ GetAllCategoryBySportId(sportId) {
         this.isFileUploaded = false; // Reset isFileUploaded to false after a short delay
       },);
     }
+    this.updateSubmitButtonState();
   }
 
   ///Create List
@@ -418,4 +423,15 @@ GetAllCategoryBySportId(sportId) {
   onBackdropClick(event: MouseEvent) {
     event.stopPropagation();
   }
+
+  isSubmitDisabled(): boolean
+  {
+   return !this.uploadForm.valid || !this.selectedFile;
+  }
+
+ submitDisabled: boolean = true;
+ updateSubmitButtonState() 
+ {
+   this.submitDisabled = this.isSubmitDisabled();
+ }
 }

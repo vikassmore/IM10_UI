@@ -196,7 +196,7 @@ AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵ�
                 }
             }),
             _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__.SharedModule,
-            _app_routing__WEBPACK_IMPORTED_MODULE_4__.AppRoutingModule
+            _app_routing__WEBPACK_IMPORTED_MODULE_4__.AppRoutingModule,
         ]] });
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_5__.AppComponent,
         _pages_pages_component__WEBPACK_IMPORTED_MODULE_6__.PagesComponent,

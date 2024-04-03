@@ -126,7 +126,7 @@ export class ListcontentComponent implements OnInit {
     });
   }
 
-
+  
   
 
 }

@@ -7,17 +7,6 @@
             <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 ">
                 <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Title </mat-label>
-                        <input formControlName="title" matInput required (keydown)="titlekeyDown($event)">
-                        <mat-error *ngIf="uploadForm.controls.title.errors?.required">Please Enter Title</mat-error>
-                        <mat-error *ngIf="uploadForm.controls.title.hasError('minlength')">Title at
-                            least 3 characters long</mat-error>
-                        <mat-error *ngIf="uploadForm.controls.title.hasError('maxlength')">Title at
-                            most 100 char long</mat-error>
-                    </mat-form-field>
-                </div>
-                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
-                    <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Content Title</mat-label>
                         <mat-select formControlName="contentId" required>
                             <mat-option *ngFor="let content of ContentList" [value]="content.contentId">
@@ -28,6 +17,17 @@
                             Content Title</mat-error>
                     </mat-form-field>
                 </div>
+                <div fxFlex.gt-sm="50%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Title </mat-label>
+                        <input formControlName="title" matInput required (keydown)="titlekeyDown($event)">
+                        <mat-error *ngIf="uploadForm.controls.title.errors?.required">Please Enter Title</mat-error>
+                        <mat-error *ngIf="uploadForm.controls.title.hasError('minlength')">Title at
+                            least 3 characters long</mat-error>
+                        <mat-error *ngIf="uploadForm.controls.title.hasError('maxlength')">Title at
+                            most 100 char long</mat-error>
+                    </mat-form-field>
+                </div>             
             </div>
 
             <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">

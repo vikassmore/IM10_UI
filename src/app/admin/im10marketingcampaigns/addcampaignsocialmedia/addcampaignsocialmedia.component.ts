@@ -70,6 +70,10 @@ getFileExtension(filename: string): string {
   ///Select Media file
   handleFileSelectProfile(event: any) {
   this.fileprofile = event.target.files[0];
+  if (!this.fileprofile) {
+    this.selectedFileProfile = null;
+    return;
+  }
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
   const fileExtension = this.getFileExtension(this.fileprofile.name);
   
@@ -87,6 +91,7 @@ getFileExtension(filename: string): string {
         this.isFileUploadedProfile = false; // Reset isFileUploaded to false after delay
       },);
     }
+    this.updateSubmitButtonState();
   }
 
   ///Addplayer
@@ -111,4 +116,16 @@ getFileExtension(filename: string): string {
       });
     },);
   }
+
+  isSubmitDisabled(): boolean
+  {
+   return !this.uploadForm.valid || !this.selectedFile;
+  }
+
+ submitDisabled: boolean = true;
+ updateSubmitButtonState() 
+ {
+   this.submitDisabled = this.isSubmitDisabled();
+ }
+
 }

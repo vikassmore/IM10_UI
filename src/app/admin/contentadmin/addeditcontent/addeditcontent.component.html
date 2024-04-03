@@ -41,7 +41,7 @@
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Content Type </mat-label>
-                                <mat-select formControlName="contentTypeId" required>
+                                <mat-select formControlName="contentTypeId" required (selectionChange)="handleDDSelect()">
                                     <mat-option *ngFor="let contenttype of ContentTypeList"
                                         [value]="contenttype.contentTypeId">
                                         <span>{{contenttype.contentName}}</span>
@@ -54,10 +54,25 @@
                     </div>
 
                     <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
+                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                            <div appearance="outline" class="w-100 sgln">
+                                <mat-label>Thumbnail (.jpg/.jpeg/.png)<span class="mat-placeholder-required">* <i *ngIf="this.uploadForm.value.contentTypeId == 1" class="fa fa-info-circle cmtinfo small-icon" aria-hidden="true" matTooltip="Please upload Thumbnail with 1920 x 1080 pixel"></i><i *ngIf="this.uploadForm.value.contentTypeId == 2" class="fa fa-info-circle cmtinfo small-icon" aria-hidden="true" matTooltip="Please upload Thumbnail with 1080 x 1080 pixel"></i></span></mat-label><br />
+                                <input type="file" id="fileInput" class="input1_height" accept="image/*" (change)="handleThumbnailFileSelect($event)" #fileInput required />
+                                <mat-error style="font-size: 11px;" *ngIf="!selectedFilethumbnail && !isFileUploadedthumbnail && !ContentId">Thumbnail is required.</mat-error>
+                                <mat-error style="font-size: 12px;" *ngIf="invalidthumbnailfileType">Invalid File Type.</mat-error>
+                                
+                            </div>
+                        </div>   
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item" >
                             <div appearance="outline" class="w-100 sgln">
-                                <mat-label>Content Part 1 (.mp4/.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
-                                <input type="file" class="input1_height" accept="video/*,image/*" (change)="handleFileSelect($event)" #fileInput required />
+                                <mat-label *ngIf="this.uploadForm.value.contentTypeId == 1">
+                                    Content Part 1(.mp4)<span class="mat-placeholder-required">*</span>
+                                </mat-label>
+                                <mat-label *ngIf="this.uploadForm.value.contentTypeId == 2">
+                                    Content Part 1(.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span>
+                                </mat-label>
+                                 <mat-label *ngIf="this.uploadForm.value.contentTypeId == ''">Content Part 1 (.mp4/.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
+                                <input type="file" id="contentFileInput" class="input1_height" accept="video/*,image/*"  (change)="handleFileSelect($event)" #fileInput required />
                                 <mat-error style="font-size: 11px;" *ngIf="!selectedFile && !isFileUploaded && !ContentId">Content Part 1 is required.</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="fileSizeError">File size must be less than 50 MB.</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
@@ -66,24 +81,17 @@
                     
                         <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item" *ngIf="uploadForm.get('contentTypeId').value !== 2">
                             <div appearance="outline" class="w-100 sgln">
-                                <mat-label>Content Part 2 (.mp4/.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
+                                <mat-label *ngIf="this.uploadForm.value.contentTypeId == 1">
+                                    Content Part 2(.mp4)<span class="mat-placeholder-required">*</span>
+                                </mat-label>
+                                <mat-label *ngIf="this.uploadForm.value.contentTypeId == ''">Content Part 2 (.mp4/.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
                                 <input type="file" class="input1_height" accept="video/*,image/*" (change)="handleFileSelect2($event)" #fileInput required />
                                 <mat-error style="font-size: 11px;" *ngIf="!selectedFile2 && !isFileUploaded2 && !ContentId">Content Part 2 is required.</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="fileSizeError2">File size must be less than 50 MB.</mat-error>
                                 <mat-error style="font-size: 12px;" *ngIf="invalidfileType2">Invalid File Type.</mat-error>
                             </div>
-                        </div>
-                        
-                        <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
-                            <div appearance="outline" class="w-100 sgln">
-                                <mat-label>Thumbnail (.jpg/.jpeg/.png)<span class="mat-placeholder-required">*</span></mat-label><br />
-                                <input type="file" class="input1_height" accept="image/*" (change)="handleThumbnailFileSelect($event)" #fileInput required />
-                                <mat-error style="font-size: 11px;" *ngIf="!selectedFilethumbnail && !isFileUploadedthumbnail && !ContentId">Thumbnail is required.</mat-error>
-                                <mat-error style="font-size: 12px;" *ngIf="invalidthumbnailfileType">Invalid File Type.</mat-error>
-                            </div>
-                        </div>                                               
-                    </div>
-                    
+                        </div>                                                                                          
+                    </div>                   
                     
                     <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%"
                         class="block-2 ">

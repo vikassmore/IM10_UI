@@ -600,6 +600,7 @@ class AddeditadvertisecontentComponent {
             isGlobal: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl(),
             advertiseFilePath: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl(),
         });
+        this.submitDisabled = true;
     }
     ngOnInit() {
         this.advertiseContentId = this.route.snapshot.params['id'];
@@ -614,6 +615,10 @@ class AddeditadvertisecontentComponent {
     ///Select file
     handleFileSelect(event) {
         this.file = event.target.files[0];
+        if (!this.file) {
+            this.selectedFile = null;
+            return;
+        }
         const maxFileSize = 50000000;
         if (this.file.size > maxFileSize) {
             this.fileSizeError = true;
@@ -631,10 +636,12 @@ class AddeditadvertisecontentComponent {
             this.selectedFile = this.file;
             this.isFileUploaded = true;
             this.fileSizeError = false;
+            this.invalidfileType = false;
             setTimeout(() => {
                 this.isFileUploaded = false;
             });
         }
+        this.updateSubmitButtonState();
     }
     ///Validation for only enter number
     keyPressOnlynum(event) {
@@ -657,6 +664,14 @@ class AddeditadvertisecontentComponent {
                 this.updateAdvContent(userObject);
             }
         }
+    }
+    isSubmitDisabled() {
+        debugger;
+        return !this.uploadForm.valid || !this.selectedFile;
+    }
+    updateSubmitButtonState() {
+        debugger;
+        this.submitDisabled = this.isSubmitDisabled();
     }
     ///check validation for blank space
     titlekeyDown(event) {
@@ -1460,6 +1475,7 @@ class AddeditlistingComponent {
             position: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]),
             companyLogoFilePath: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl(),
         });
+        this.submitDisabled = true;
     }
     ngOnInit() {
         this.getCategoryMaster();
@@ -1551,6 +1567,10 @@ class AddeditlistingComponent {
     ///Select file
     handleFileSelect(event) {
         this.file = event.target.files[0];
+        if (!this.file) {
+            this.selectedFile = null;
+            return;
+        }
         const allowedExtensions = ['jpg', 'jpeg', 'png'];
         const fileExtension = this.getFileExtension1(this.file.name);
         if (!allowedExtensions.includes(fileExtension)) {
@@ -1562,10 +1582,12 @@ class AddeditlistingComponent {
         if (this.file) {
             this.selectedFile = this.file;
             this.isFileUploaded = true;
+            this.invalidfileType = false;
             setTimeout(() => {
                 this.isFileUploaded = false; // Reset isFileUploaded to false after a short delay
             });
         }
+        this.updateSubmitButtonState();
     }
     ///Create List
     createList(userObject) {
@@ -1841,6 +1863,12 @@ class AddeditlistingComponent {
                 this.uploadForm.controls['PlayerId'].setValue(data.PlayerId);
             });
         }
+    }
+    isSubmitDisabled() {
+        return !this.uploadForm.valid || !this.selectedFile;
+    }
+    updateSubmitButtonState() {
+        this.submitDisabled = this.isSubmitDisabled();
     }
 }
 AddeditlistingComponent.ɵfac = function AddeditlistingComponent_Factory(t) { return new (t || AddeditlistingComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_4__.MatDialog), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](src_app_app_service__WEBPACK_IMPORTED_MODULE_1__.AppService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_5__.MatSnackBar), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormBuilder)); };

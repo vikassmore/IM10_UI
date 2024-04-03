@@ -1,0 +1,29 @@
+<div class="row" style="margin-top: 15px;">
+    <div class="text-center col-md-8">
+        <h5>Crop Image</h5>
+        <image-cropper 
+            [imageChangedEvent]="data.imageChangedEvent" 
+            [maintainAspectRatio]="true" 
+            [aspectRatio]="4 / 4"
+            [resizeToWidth]="256" 
+            format="png" 
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="data.imageLoaded()"
+            (cropperReady)="data.cropperReady()" 
+            (loadImageFailed)="data.loadImageFailed()"
+            >
+        </image-cropper>
+    </div>
+    <mat-dialog-actions class="actions">
+        <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn">
+          <i class="fa fa-ban" aria-hidden="true"></i> CANCEL
+        </button>
+        <button (click)="onSaveClick()" mat-raised-button color="accent" type="button" class="crbtn">
+            <i class="fa fa-ban" aria-hidden="true"></i> SAVE
+          </button>
+      </mat-dialog-actions>
+      <!-- <div class="text-center col-md-4">
+        <h5>Preview</h5>
+        <img [src]="croppedImage" />
+    </div> -->
+</div>

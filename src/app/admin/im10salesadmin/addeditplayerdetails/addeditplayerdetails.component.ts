@@ -6,6 +6,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 import { OkDialogComponent } from 'src/app/shared/ok-dialog/ok-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import Cropper from 'cropperjs';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCropperDialogComponentComponent } from '../image-cropper-dialog-component/image-cropper-dialog-component.component';
 
 @Component({
   selector: 'app-addeditplayerdetails',
@@ -49,7 +52,7 @@ export class AddeditplayerdetailsComponent implements OnInit {
   public SportList = [];
   currentPage: number;
   today = new Date().toISOString().split('T')[0];
-
+  
   uploadForm = new FormGroup({
     playerId: new FormControl('', []),
     firstName: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -66,7 +69,7 @@ export class AddeditplayerdetailsComponent implements OnInit {
     dob:new FormControl('', [Validators.required])
   });
 
-  constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, public formBuilder: FormBuilder, private location: Location) { }
+  constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, public formBuilder: FormBuilder, private location: Location,) { }
 
   ngOnInit(): void {
     this.playerId = this.route.snapshot.params['id'];
@@ -74,7 +77,7 @@ export class AddeditplayerdetailsComponent implements OnInit {
     this.getSportMaster()
   }
 
-  
+
 ///PAN card validation
   PANInvalidPatternError: boolean = false;
   keyPressPan2(event: any) {
@@ -93,6 +96,99 @@ export class AddeditplayerdetailsComponent implements OnInit {
     }
   }
 
+  getprofileFileExtension(filename: string): string {
+    return filename.split('.').pop()?.toLowerCase() || '';
+  }
+
+  handleFileSelectProfile(event: any) {
+    this.fileprofile = event.target.files[0];
+    if (!this.fileprofile) {
+      this.selectedFileProfile = null;
+      return;
+    }
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+    const fileExtension = this.getprofileFileExtension(this.fileprofile.name);
+  
+    if (!allowedExtensions.includes(fileExtension)) {
+        // Invalid file type
+        this.invalidProfilefileType = true;
+        this.isFileUploadedProfile = true;
+        return;
+    }
+
+    // Read the file and perform cropping
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+        // Assign the base64 cropped image
+        const croppedImage = e.target.result;
+        this.openImageCropperDialog(event, croppedImage);
+    };
+    
+    reader.readAsDataURL(this.fileprofile);
+    // Set other flags and variables as needed
+    if (this.fileprofile) {
+        this.selectedFileProfile = this.fileprofile;
+        this.isFileUploadedProfile = true;
+        this.invalidProfilefileType = false;
+
+        // Hide file uploaded message after a timeout
+        setTimeout(() => {
+            this.isFileUploadedProfile = false;
+        });
+        this.updateSubmitButtonState();
+
+    } 
+    else 
+    {
+        // Handle if file is not selected
+    }
+  }
+
+  openImageCropperDialog(event: any, croppedImage: string) {
+    debugger
+    const dialogRef = this.dialog.open(ImageCropperDialogComponentComponent, {
+      width: '400px', // Adjust the size as needed
+      height: '400px',
+      data: {
+        imageChangedEvent: event,
+        croppedImage: croppedImage,
+      }     
+    });
+
+    dialogRef.componentInstance.croppedImageSaved.subscribe((croppedImage: string) => {
+      // Convert base64 to a File object if needed
+      const file = this.base64ToFile(croppedImage, this.selectedFileProfile);
+      this.fileprofile = file;
+    });
+  }
+  
+  ///convert blob into file
+  private  base64ToFile(base64, uploadedFile) {
+    const fileExtension = uploadedFile.name.split('.').pop()?.toLowerCase() || 'png';
+    const base64Data = base64.split(';base64,').pop();
+    const blob = this.b64toBlob(base64Data, uploadedFile.type);
+    return new File([blob], `cropped_image.${fileExtension}`, { type: uploadedFile.type });
+}
+
+/// convert base64 into blob
+private b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+}
+
+  
+  
   ///check validation for blank space
 titlekeyDown(event: KeyboardEvent) {
   const inputValue = (event.target as HTMLInputElement).value;
@@ -107,33 +203,7 @@ titlekeyDown(event: KeyboardEvent) {
   }
 }
 
-  getprofileFileExtension(filename: string): string {
-    return filename.split('.').pop()?.toLowerCase() || '';
-  }
-  ///handleFileSelectProfile
-  handleFileSelectProfile(event: any) {
-    this.fileprofile = event.target.files[0];
-
-    const allowedExtensions = ['jpg', 'jpeg', 'png'];
-  const fileExtension = this.getprofileFileExtension(this.fileprofile.name);
   
-    if (!allowedExtensions.includes(fileExtension)) {
-      // Invalid file type
-      this.invalidProfilefileType=true;
-      this.isFileUploadedProfile=true;
-      return;
-    }
-    if (this.fileprofile) {
-      this.selectedFileProfile = this.fileprofile;
-      this.isFileUploadedProfile = true;
-      this.invalidProfilefileType = false;
-
-      setTimeout(() => {
-        this.isFileUploadedProfile = false;
-      },);
-    }
-  }
-
 
   getaadharFileExtension(filename: string): string {
     return filename.split('.').pop()?.toLowerCase() || '';
@@ -141,6 +211,10 @@ titlekeyDown(event: KeyboardEvent) {
   ///handleFileSelectAadhar
   handleFileSelectAadhar(event: any) {
     this.fileaadhar = event.target.files[0];
+    if (!this.fileaadhar) {
+      this.selectedFileAadhar = null;
+      return;
+    }
 
     const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
   const fileExtension = this.getaadharFileExtension(this.fileaadhar.name);
@@ -159,8 +233,10 @@ titlekeyDown(event: KeyboardEvent) {
         this.isFileUploadedadhar = false;
       },);
     }
-  }
+    this.updateSubmitButtonState();
 
+  }
+  
 
   getdrivingFileExtension(filename: string): string {
     return filename.split('.').pop()?.toLowerCase() || '';
@@ -168,6 +244,10 @@ titlekeyDown(event: KeyboardEvent) {
   ///handleFileSelectDriving
   handleFileSelectDriving(event: any) {
     this.filedriving = event.target.files[0];
+    if (!this.filedriving) {
+      this.selectedFileDriving = null;
+      return;
+    }
     const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
     const fileExtension = this.getdrivingFileExtension(this.filedriving.name);
     
@@ -185,6 +265,8 @@ titlekeyDown(event: KeyboardEvent) {
         this.isFileUploadeddrive = false;
       },);
     }
+    this.updateSubmitButtonState();
+
   }
 
   getpanFileExtension(filename: string): string {
@@ -193,6 +275,10 @@ titlekeyDown(event: KeyboardEvent) {
   ///handleFileSelectPan
   handleFileSelectPan(event: any) {
     this.filepan = event.target.files[0];
+    if (!this.filepan) {
+      this.selectedFilePan = null;
+      return;
+    }
     const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
     const fileExtension = this.getpanFileExtension(this.filepan.name);
     
@@ -210,6 +296,8 @@ titlekeyDown(event: KeyboardEvent) {
         this.isFileUploadedpan = false;
       },);
     }
+    this.updateSubmitButtonState();
+
   }
 
 
@@ -219,6 +307,10 @@ titlekeyDown(event: KeyboardEvent) {
   ///handleFileSelectVoting
   handleFileSelectVoting(event: any) {
     this.filevoting = event.target.files[0];
+    if (!this.filevoting) {
+      this.selectedFileVoting = null;
+      return;
+    }
     const allowedExtensions = ['jpg', 'jpeg', 'png','pdf'];
     const fileExtension = this.getvotingFileExtension(this.filevoting.name);
     
@@ -236,6 +328,8 @@ titlekeyDown(event: KeyboardEvent) {
         this.isFileUploadedvot = false;
       },);
     }
+    this.updateSubmitButtonState();
+
   }
 
   ///Validation for only enter char
@@ -266,6 +360,19 @@ titlekeyDown(event: KeyboardEvent) {
     inputElement.value = value;
   }
 
+
+
+  isSubmitDisabled(): boolean {
+    return !this.uploadForm.valid || !this.selectedFileAadhar || !this.selectedFileDriving || !this.selectedFilePan || !this.selectedFileProfile || !this.selectedFileVoting;
+}
+
+
+submitDisabled: boolean = true;
+updateSubmitButtonState() {
+  this.submitDisabled = this.isSubmitDisabled();
+}
+
+
   ///submit details
   public Submit(userObject) {
     if (this.playerId == "" || this.playerId == undefined) {
@@ -288,8 +395,13 @@ public getSportMaster() {
 }
 
 
+
+
+
+
   ///Addplayer
   public Addplayer(userObject) {
+    debugger
     var formData = new FormData();
     formData.append('firstName', this.uploadForm.value.firstName);
     formData.append('lastName', this.uploadForm.value.lastName);
@@ -386,7 +498,8 @@ if (!isNaN(dobDate.getTime())) { // Check if dobDate is a valid Date object
   }
 
   ///getPlayerbyId
-  public getPlayerbyId(playerId) {
+  public getPlayerbyId(playerId) 
+  {
     if (playerId > 0) {
       this.appService.getPlatyerbyid("api/PlayerDetail/GetPlayerDetailByPlayerId/", playerId).subscribe(data => {
         this.uploadForm.controls['playerId'].setValue(data.playerId);
@@ -397,9 +510,7 @@ if (!isNaN(dobDate.getTime())) { // Check if dobDate is a valid Date object
         this.uploadForm.controls['pancardNo'].setValue(data.pancardNo);
         this.uploadForm.controls['sportId'].setValue(data.sportId)
         this.uploadForm.controls['dob'].setValue(data.dob)
-
       });
-
-    }
-  }
+    }    
+  }   
 }
