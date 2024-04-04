@@ -41,6 +41,8 @@
                 <div class="mat-cell " matTooltip="{{content.description}}">{{content.description.slice(0,
                     content.title.length)}}
                 </div>
+                <div class="mat-cell text-center">{{content.contentTypeName}}</div>
+
                 <div class="mat-cell text-center"><a href="{{content.contentThumbnail1}}" class="mat-cell " target="_blank"
                         style="color: #a08820;">View</a></div>
 
@@ -53,7 +55,6 @@
                         
 
                 <div class="mat-cell" fxFlex.gt-sm="18">{{content.categoryName}} / {{content.subCategoryName}}</div>
-                <div class="mat-cell text-center">{{content.contentTypeName}}</div>
                 <div class="mat-cell text-center" fxFlex.gt-sm="12" fxLayout="row">
                     {{ content.approved === true ? 'Approved' : content.approved === false ? 'Not Approved' : 'Pending'
                     }} &nbsp;<i *ngIf="content.approved !== null && !content.approved" class="fa fa-info-circle cmtinfo"

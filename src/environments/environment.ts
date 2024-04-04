@@ -7,7 +7,7 @@ export const environment = {
 
    url: '',
   // urlAddress: 'https://localhost:5001'
- urlAddress: 'https://im10api.meshbagroup.com'
+  urlAddress: 'https://im10api.meshbagroup.com'
 };
 
 /*

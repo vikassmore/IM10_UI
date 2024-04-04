@@ -63,7 +63,9 @@ export class AddeditcontentComponent implements OnInit {
     contentTypeId: new FormControl('', [Validators.required]),
     languageId: new FormControl('', [Validators.required]),
     contentFilePath: new FormControl(),
-    thumbnail1:new FormControl()
+    thumbnail1:new FormControl(),
+    contentFileName:new FormControl()
+
   });
 
   constructor(public dialog: MatDialog, public appService: AppService, public snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, public formBuilder: FormBuilder, private location: Location) { }
@@ -240,9 +242,6 @@ export class AddeditcontentComponent implements OnInit {
     this.updateSubmitButtonState();
 
   }
-  
-
-
 
 
   getthumbnailFileExtension(filename: string): string {
@@ -310,6 +309,7 @@ export class AddeditcontentComponent implements OnInit {
     }
   }
 
+  contentFileName:any;
   ///updateContent
   public updateContent(userObject) {
 
@@ -436,6 +436,7 @@ export class AddeditcontentComponent implements OnInit {
         this.uploadForm.controls['contentTypeId'].setValue(data.contentTypeId);
         this.uploadForm.controls['languageId'].setValue(data.languageId);
         this.uploadForm.controls['thumbnail1'].setValue(data.thumbnail1);
+        this.uploadForm.controls['contentFileName'].setValue(data.contentFileName);
       });
     }
   } 

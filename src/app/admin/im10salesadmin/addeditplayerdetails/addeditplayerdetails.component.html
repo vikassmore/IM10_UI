@@ -36,14 +36,14 @@
                         <div fxFlex.gt-sm="32.9%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                             class="grid-item">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Sports</mat-label>
+                                <mat-label>Sport</mat-label>
                                 <mat-select formControlName="sportId" required>
                                     <mat-option *ngFor="let sport of SportList" [value]="sport.sportId">
                                         <span>{{sport.sportName}}</span>
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="uploadForm.controls.sportId.errors?.required">Please select
-                                    Sports</mat-error>
+                                    Sport</mat-error>
                             </mat-form-field>
                         </div>
 
