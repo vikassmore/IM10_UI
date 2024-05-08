@@ -91,6 +91,7 @@ export class AddedituserComponent implements OnInit {
     }
 
     this.appService.AddUser('api/user/AddUser', AdduserModel).subscribe(data => {
+
       if (data == "Username already exists") {
         this.snackBar.open('Username already exists', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
       }
@@ -112,8 +113,15 @@ export class AddedituserComponent implements OnInit {
         });
         this.router.navigate(['../listuser'], { relativeTo: this.route });
       }
-    }, error => {
-      this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    }, 
+    error => {
+      if (error.status === 409 && error.error === "Email already exists") {
+          // Handle the case where the email already exists
+          this.snackBar.open('Email already exists', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      } else {
+          // Handle other errors
+          this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      }
     });
   }
 
@@ -153,8 +161,14 @@ export class AddedituserComponent implements OnInit {
         });
         this.router.navigate(['/admin/superadmin/listuser'], { relativeTo: this.route });
       }
-    }, error => {
-      this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    },error => {
+      if (error.status === 409 && error.error === "Email Id Already Exists") {
+          // Handle the case where the email already exists
+          this.snackBar.open('Email already exists', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      } else {
+          // Handle other errors
+          this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      }
     });
   }
 
