@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { addadvcontent } from './addeditadvertiseaddson.Model';
 import { editadvcontent } from './addeditadvertiseaddson.Model';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-addeditadvertiseaddson',
@@ -34,7 +35,7 @@ export class AddeditadvertiseaddsonComponent implements OnInit {
     position: new FormControl('', [Validators.required]),
   });
 
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, public appService: AppService, public router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar ,public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, public appService: AppService, public router: Router, private route: ActivatedRoute,) { }
 
   closeDialog() {
     this.dialog.closeAll(); // <- Close the mat dialog
@@ -116,6 +117,7 @@ export class AddeditadvertiseaddsonComponent implements OnInit {
     }
 
     this.appService.AddContentUpdate('api/AdvContentMapping/AddAdvContentMapping', addadvcontentModel).subscribe(() => {
+      
       this.closeDialog();
       const dialogRef = this.dialog.open(OkDialogComponent, {
         maxWidth: "500px",
@@ -133,6 +135,10 @@ export class AddeditadvertiseaddsonComponent implements OnInit {
       });
       this.router.navigate(['/admin/salespersonadmin/listadvertiseaddson'], { relativeTo: this.route });
     }, error => {
+      if (error.status === 409) {
+        // Handle the case where the email already exists
+        this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    }
     });
   }
 
@@ -165,6 +171,10 @@ export class AddeditadvertiseaddsonComponent implements OnInit {
       });
       this.router.navigate(['/admin/salespersonadmin/listadvertiseaddson'], { relativeTo: this.route });
     }, error => {
+      if (error.status === 409) {
+        // Handle the case where the email already exists
+        this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    }
     });
   }
 

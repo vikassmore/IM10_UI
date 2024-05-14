@@ -120,6 +120,7 @@ export class AddedituserComponent implements OnInit {
           this.snackBar.open('Email already exists', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
       } else {
           // Handle other errors
+          
           this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
       }
     });
