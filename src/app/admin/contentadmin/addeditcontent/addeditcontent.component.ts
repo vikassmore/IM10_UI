@@ -305,7 +305,12 @@ export class AddeditcontentComponent implements OnInit {
 
         });
         this.router.navigate(['/admin/contentadmin/listcontent'], { relativeTo: this.route });
-      },);
+      },error => {
+        if (error.status === 404)
+        {
+          this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+        }
+      });
     }
   }
 
@@ -342,6 +347,10 @@ export class AddeditcontentComponent implements OnInit {
       this.router.navigate(['/admin/contentadmin/listcontent'], { relativeTo: this.route });
     }, error => {
       this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      if (error.status === 404)
+      {
+        this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      }
     });
   }
 

@@ -52,7 +52,11 @@ export class AddeditplayerdataComponent implements OnInit {
  ///handleFileSelectSplash
  handleFileSelectSplash(event: any) {
   this.filesplash = event.target.files[0];
-
+  if (!this.filesplash) {
+    // Reset selectedFile2 if no file is selected
+    this.selectedFileSplash = null;
+    return;
+  }
   const allowedExtensions = ['mp4'];
   const fileExtension = this.getsplashFileExtension(this.filesplash.name);
   
@@ -79,6 +83,11 @@ getlogoFileExtension(filename: string): string {
 ///handleFileSelectLogo
 handleFileSelectLogo(event: any) {
   this.filelogo = event.target.files[0];
+  if (!this.filelogo) {
+    // Reset selectedFile2 if no file is selected
+    this.selectedFileLogo = null;
+    return;
+  }
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
   const fileExtension = this.getlogoFileExtension(this.filelogo.name);
   
@@ -99,9 +108,20 @@ handleFileSelectLogo(event: any) {
 }
 
 
-
+errorMessage: string = ''; 
 ///handleFileSelectSlide
 handleFileSelectSlide(event: any) {
+  const selectedFiles = event.target.files;
+  if (selectedFiles.length === 0) {
+    // Reset selectedFile2 if no file is selected
+    this.errorMessage = '';
+    this.selectedFileSlide = null;
+    return;
+  }
+  if (selectedFiles.length + this.fileslide.length > 5) {
+    this.errorMessage = "You can only upload up to 5 slide images.";
+  }
+  else{
   for (var i = 0; i < event.target.files.length; i++) {  
     this.fileslide.push(event.target.files[i]);  
   } 
@@ -113,6 +133,9 @@ handleFileSelectSlide(event: any) {
     },);
   }
 }
+}
+
+
  ///getPlayerList
  public getPlayerList() {
   this.appService.getUserList('api/PlayerDetail/GetAllPlayerDetail').subscribe(data => {

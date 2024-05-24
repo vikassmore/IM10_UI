@@ -22,8 +22,8 @@ export class AddcompanyComponent implements OnInit {
   isAddMode!: boolean;
   submitted = false;
   public formdata = {};
-  public CategoryList = [];
-  public SubCategoryList = [];
+  // public CategoryList = [];
+  // public SubCategoryList = [];
   public ContentTypeList = [];
   public languageList = [];
   companyLogoFilePath?: FileList;
@@ -40,7 +40,7 @@ export class AddcompanyComponent implements OnInit {
   CitiesId: string | any;
   isGlobal: boolean = false;
   isFileUploaded: boolean = false;
-  subcategory: any = [];
+  // subcategory: any = [];
   public PlayerDetailsList: any = [];
   public SportCategoryList=[];
   selectedPlayerSportId: any;
@@ -53,8 +53,8 @@ export class AddcompanyComponent implements OnInit {
     companyName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     description: new FormControl('', [Validators.required, Validators.minLength(3)]),
     contactPersonName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-    categoryId: new FormControl('', [Validators.required]),
-    subCategoryId: new FormControl('', [Validators.required]),
+    // categoryId: new FormControl('', [Validators.required]),
+    // subCategoryId: new FormControl('', [Validators.required]),
     contactPersonEmailId: new FormControl('', [Validators.required]),
     contactPersonMobile: new FormControl('', [Validators.required]),
     companyEmailId: new FormControl('', [Validators.required, Validators.pattern("^[a-zA0-Z9._%+-]+@[a-zA0-Z9.-]+\\.[aA-zZ]{2,4}$")]),
@@ -65,6 +65,8 @@ export class AddcompanyComponent implements OnInit {
     stateId: new FormControl('', [Validators.required]),
     cityId: new FormControl('', [Validators.required]),
     companyLogoFilePath: new FormControl(),
+    finalPrice: new FormControl('', [Validators.required]),
+
   });
 
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, public appService: AppService, public snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, public formBuilder: FormBuilder) {
@@ -76,7 +78,7 @@ export class AddcompanyComponent implements OnInit {
 
   ngOnInit(): void {
     this.Getplayerdetailsbyplayerid();
-    this.getCategoryMaster();
+  //  this.getCategoryMaster();
     this.getNationMaster();
     if (this.data.listingId == undefined || this.data.listingId) {
       this.getlistdetailsbyid(this.data.listingId)
@@ -95,6 +97,8 @@ export class AddcompanyComponent implements OnInit {
     }
   }
 
+
+  
 ///check validation for blank space
 titlekeyDown(event: KeyboardEvent) {
   const inputValue = (event.target as HTMLInputElement).value;
@@ -146,18 +150,18 @@ GetAllCategoryBySportId(sportId) {
 
 
   /// on Change Cat
-  public onChangeCat(event) {
-    if (event.value) {
-      let categoryId = event.value;
-      this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe(
-        data => {
-          this.SubCategoryList = data;
-        }
-      );
-    } else {
-      this.subcategory = null;
-    }
-  }
+  // public onChangeCat(event) {
+  //   if (event.value) {
+  //     let categoryId = event.value;
+  //     this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe(
+  //       data => {
+  //         this.SubCategoryList = data;
+  //       }
+  //     );
+  //   } else {
+  //     this.subcategory = null;
+  //   }
+  // }
 
   ///Submit
   public Submit(userObject) {
@@ -208,8 +212,8 @@ GetAllCategoryBySportId(sportId) {
     formData.append('companyName', this.uploadForm.value.companyName);
     formData.append('description', this.uploadForm.value.description);
     formData.append('contactPersonName', this.uploadForm.value.contactPersonName);
-    formData.append('categoryId', this.uploadForm.value.categoryId);
-    formData.append('subCategoryId', this.uploadForm.value.subCategoryId);
+    // formData.append('categoryId', this.uploadForm.value.categoryId);
+    // formData.append('subCategoryId', this.uploadForm.value.subCategoryId);
     formData.append('contactpersonEmail', this.uploadForm.value.contactPersonEmailId);
     formData.append('contactPersonMobile', this.uploadForm.value.contactPersonMobile);
     formData.append('companyEmailId', this.uploadForm.value.companyEmailId);
@@ -220,6 +224,7 @@ GetAllCategoryBySportId(sportId) {
     formData.append('nationId', this.uploadForm.value.nationId);
     formData.append('stateId', this.uploadForm.value.stateId);
     formData.append('cityId', this.uploadForm.value.cityId);
+    formData.append('finalPrice', this.uploadForm.value.finalPrice);
     formData.append('PlayerId', window.sessionStorage.getItem("playerId"));
 
     if (window.sessionStorage.getItem("playerId") != null || window.sessionStorage.getItem("playerId") != undefined) {
@@ -249,8 +254,8 @@ GetAllCategoryBySportId(sportId) {
     formData.append('companyName', this.uploadForm.value.companyName);
     formData.append('description', this.uploadForm.value.description);
     formData.append('contactPersonName', this.uploadForm.value.contactPersonName);
-    formData.append('categoryId', this.uploadForm.value.categoryId);
-    formData.append('subCategoryId', this.uploadForm.value.subCategoryId);
+    // formData.append('categoryId', this.uploadForm.value.categoryId);
+    // formData.append('subCategoryId', this.uploadForm.value.subCategoryId);
     formData.append('contactpersonEmail', this.uploadForm.value.contactPersonEmailId);
     formData.append('contactPersonMobile', this.uploadForm.value.contactPersonMobile);
     formData.append('companyEmailId', this.uploadForm.value.companyEmailId);
@@ -261,6 +266,7 @@ GetAllCategoryBySportId(sportId) {
     formData.append('stateId', this.uploadForm.value.stateId);
     formData.append('cityId', this.uploadForm.value.cityId);
     formData.append('companyLogoFilePath', this.file);
+    formData.append('finalPrice', this.uploadForm.value.finalPrice);
     formData.append('PlayerId', window.sessionStorage.getItem("playerId"));
 
     this.appService.Addlisting('api/ListingDetail/AddListingDetail', formData).subscribe(() => {
@@ -281,18 +287,18 @@ GetAllCategoryBySportId(sportId) {
   }
 
   ///getCategoryMaster
-  public getCategoryMaster() {
-    this.appService.getAllCategory("api/MasterAPIs/GetAllCategory").subscribe(data => {
-      this.CategoryList = data;
-    });
-  }
+  // public getCategoryMaster() {
+  //   this.appService.getAllCategory("api/MasterAPIs/GetAllCategory").subscribe(data => {
+  //     this.CategoryList = data;
+  //   });
+  // }
 
   ///getsubCategoryMaster
-  public getsubCategoryMaster() {
-    this.appService.getsubAllCategory("api/MasterAPIs/GetAllSubCategory").subscribe(data => {
-      this.SubCategoryList = data;
-    });
-  }
+  // public getsubCategoryMaster() {
+  //   this.appService.getsubAllCategory("api/MasterAPIs/GetAllSubCategory").subscribe(data => {
+  //     this.SubCategoryList = data;
+  //   });
+  // }
 
   ///getNationMaster
   public getNationMaster() {
@@ -383,14 +389,14 @@ GetAllCategoryBySportId(sportId) {
   }
 
   ///getsubCategoryMaster
-  public GetSubcat(categoryId) {
-    if (categoryId == undefined) {
-      categoryId == 1;
-    }
-    this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe((data: any) => {
-      this.SubCategoryList = data;
-    })
-  }
+  // public GetSubcat(categoryId) {
+  //   if (categoryId == undefined) {
+  //     categoryId == 1;
+  //   }
+  //   this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe((data: any) => {
+  //     this.SubCategoryList = data;
+  //   })
+  // }
 
   ///getlistdetailbyid
   public getlistdetailsbyid(listingId) {
@@ -405,9 +411,9 @@ GetAllCategoryBySportId(sportId) {
         this.uploadForm.controls['companyEmailId'].setValue(data.companyEmailId);
         this.uploadForm.controls['contactPersonMobile'].setValue(data.contactPersonMobile);
         this.uploadForm.controls['contactPersonName'].setValue(data.contactPersonName);
-        this.uploadForm.controls['categoryId'].setValue(data.categoryId);
-        this.GetSubcat(data.categoryId);
-        this.uploadForm.controls['subCategoryId'].setValue(data.subCategoryId);
+        // this.uploadForm.controls['categoryId'].setValue(data.categoryId);
+        // this.GetSubcat(data.categoryId);
+        // this.uploadForm.controls['subCategoryId'].setValue(data.subCategoryId);
         this.uploadForm.controls['contactPersonEmailId'].setValue(data.contactPersonEmailId);
         this.uploadForm.controls['companyMobile'].setValue(data.companyMobile);
         this.uploadForm.controls['companyPhone'].setValue(data.companyPhone);
@@ -415,7 +421,9 @@ GetAllCategoryBySportId(sportId) {
         this.uploadForm.controls['nationId'].setValue(data.nationId);
         this.uploadForm.controls['stateId'].setValue(data.stateId);
         this.uploadForm.controls['cityId'].setValue(data.cityId);
+        this.uploadForm.controls['finalPrice'].setValue(data.finalPrice);
         this.uploadForm.controls['PlayerId'].setValue(data.PlayerId);
+
       });
     }
   }

@@ -97,7 +97,14 @@ export class ListadvertisecontentComponent implements OnInit {
             }
           });
           this.appService.deleteuser(`api/AdvtContentDetail/DeleteAdvContentDetail?AdvertiseContentId=${content.advertiseContentId}`, {}).subscribe(data => {
-          });
+          },
+          error => {
+            if (error.status === 400)
+            {
+              this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+            }
+          }
+          );
         }
       }
     });

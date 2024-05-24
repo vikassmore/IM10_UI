@@ -8,38 +8,38 @@
                 <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Company Name</mat-label>
+                        <mat-label>Brand Name</mat-label>
                         <input formControlName="companyName" matInput required (keydown)="titlekeyDown($event)">
                         <mat-error *ngIf="uploadForm.controls.companyName.errors?.required">Please enter
-                            Company Name</mat-error>
+                            Brand Name</mat-error>
                         <mat-error *ngIf="uploadForm.controls.companyName.hasError('minlength')">Please enter
-                            valid Company Name</mat-error>
+                            valid Brand Name</mat-error>
                         <mat-error *ngIf="uploadForm.controls.companyName.hasError('maxlength')">Please enter
-                            valid Company Name</mat-error>
+                            valid Brand Name</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Company Email</mat-label>
+                        <mat-label> Email</mat-label>
                         <input (keypress)="blockSpaces($event)" formControlName="companyEmailId" required minlength="3"
                             matInput required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
                         <mat-error *ngIf=" uploadForm.controls.companyEmailId.errors?.required">Please enter
-                            Company Email</mat-error>
+                             Email</mat-error>
                         <mat-error *ngIf="uploadForm.controls.companyEmailId.hasError('pattern')">Please enter
-                            valid Company Email</mat-error>
+                            valid  Email</mat-error>
                     </mat-form-field>
                 </div>
 
                 <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Company Mobile</mat-label>
+                        <mat-label> Mobile</mat-label>
                         <input (keypress)="keyPressOnlynum($event)" formControlName="companyMobile" required
                             minlength="3" pattern="[0-9 ]+" minlength="10" maxlength="10" matInput required>
                         <mat-error *ngIf=" uploadForm.controls.companyMobile.errors?.required">Please enter
-                            Company Mobile</mat-error>
-                        <mat-error *ngIf="uploadForm.controls.companyMobile.hasError('minlength')"> Company
+                             Mobile</mat-error>
+                        <mat-error *ngIf="uploadForm.controls.companyMobile.hasError('minlength')"> 
                             Mobile must
                             be 10 digit</mat-error>
                     </mat-form-field>
@@ -51,41 +51,41 @@
                 <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Company Landline</mat-label>
+                        <mat-label> Landline</mat-label>
                         <input (keypress)="keyPressOnlynum($event)" formControlName="companyPhone" required
                             minlength="3" pattern="[0-9 ]+" minlength="10" maxlength="11" matInput required>
                         <mat-error *ngIf=" uploadForm.controls.companyPhone.errors?.required">Please enter
-                            Company Landline</mat-error>
+                             Landline</mat-error>
                         <mat-error *ngIf="uploadForm.controls.companyPhone.hasError('minlength')">Please enter
-                            valid Company Landline</mat-error>
+                            valid  Landline</mat-error>
                     </mat-form-field>
                 </div>
 
                 <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Company Website</mat-label>
+                        <mat-label> Website</mat-label>
                         <input (keypress)="blockSpaces($event)" matInput minlength="5" formControlName="companyWebSite"
                             required>
                         <mat-error *ngIf=" uploadForm.controls.companyWebSite.errors?.required">Please enter
-                            Company Website</mat-error>
+                             Website</mat-error>
                         <mat-error *ngIf="uploadForm.controls.companyWebSite.hasError('minlength')">Please enter
-                            valid Company Website</mat-error>
+                            valid  Website</mat-error>
                         <mat-error *ngIf="uploadForm.controls.companyWebSite.hasError('maxlength')">Please enter
-                            valid Company Website</mat-error>
+                            valid  Website</mat-error>
                     </mat-form-field>
                 </div>
 
                 <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <div appearance="outline" class="w-100 sgln">
-                        <mat-label>Company Logo (.jpg/.jpeg/.png)<span
+                        <mat-label>Brand Logo (.jpg/.jpeg/.png)<span
                                 class="mat-placeholder-required">*</span></mat-label><br />
                         <input type="file" class="input1_height" accept="image/*" (change)="handleFileSelect($event)"
                             #fileInput required />
                         <mat-error style="font-size: 11px;"
                             *ngIf="(!selectedFile && !isFileUploaded)&& !uploadForm.value.listingId">Please
-                            upload Company
+                            upload Brand
                             Logo</mat-error>
                             <mat-error style="font-size: 12px;" *ngIf="invalidfileType">Invalid File Type.</mat-error>
                     </div>
@@ -95,7 +95,7 @@
 
             <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
 
-                <div fxFlex.gt-sm="68.1%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
+                <div fxFlex.gt-sm="66.1%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Description </mat-label>
                         <textarea formControlName="description" matInput required (keydown)="titlekeyDown($event)"></textarea>
@@ -103,9 +103,22 @@
                             Description</mat-error>
                         <mat-error *ngIf="uploadForm.controls.description.hasError('minlength')">Description at
                             least 3 characters long</mat-error>
-                    </mat-form-field>
-                </div>
+                    </mat-form-field>                                      
+                </div>               
+                <div fxFlex.gt-sm="33.99%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                class="grid-item">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Final Price <span
+                            style="font-family: Arial, sans-serif;">(₹)</span></mat-label>
+                            <input (keypress)="keyPressOnlynum($event)" maxlength="8" formControlName="finalPrice"
+                            matInput required>
+
+                        <mat-error  *ngIf="uploadForm.controls.finalPrice.errors?.required">Please enter
+                            Final Price</mat-error>
+                </mat-form-field>
             </div>
+            </div>
+            
 
             <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
 
@@ -248,7 +261,7 @@
         -->
 
 
-            <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
+            <!-- <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20"> -->
 
                 <!-- <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
@@ -262,7 +275,7 @@
                     </mat-form-field>
                 </div> -->
 
-                <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                <!-- <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Category</mat-label>
@@ -288,9 +301,9 @@
                         <mat-error *ngIf="uploadForm.controls.subCategoryId.errors?.required">Please select
                             Sub-Category</mat-error>
                     </mat-form-field>
-                </div>
+                </div> -->
 
-            </div>
+            <!-- </div> -->
 
             <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">
 
@@ -323,7 +336,7 @@
     <div fxFlex="50%" class="text-left">
         <button (click)="closeDialog()" mat-raised-button color="accent" type="button" class="crbtn"> <i
                 class="fa fa-ban" aria-hidden="true"></i> CANCEL</button>
-        <button [disabled]="!uploadForm.valid" (click)="Submit(uploadForm.value)" mat-raised-button color="primary"
+        <button [disabled]="uploadForm.value.listingId ? false : (!uploadForm.valid || !selectedFile)" (click)="Submit(uploadForm.value)" mat-raised-button color="primary"
             type="submit" class="crbtn"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ uploadForm.value.listingId
             ? 'UPDATE' : 'SUBMIT' }}</button>
     </div>

@@ -1,0 +1,41 @@
+/* General table styles */
+.mat-table {
+    width: 100%;
+}
+
+.mat-header-row,
+.mat-row {
+    display: flex;
+    align-items: center;
+}
+
+.mat-header-cell,
+.mat-cell {
+    flex: 1;
+    text-align: center;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+/* Specific adjustments for text alignment */
+.mat-header-cell:first-child,
+.mat-cell:first-child {
+    text-align: left;
+}
+
+.mat-header-cell:nth-child(2),
+.mat-cell:nth-child(2) {
+    text-align: left;
+}
+
+/* Tooltip styles (if needed) */
+.mat-cell[matTooltip] {
+    cursor: pointer;
+}
+
+/* Button styles */
+button.mat-mini-fab {
+    margin: 0 4px;
+}
+
+/* Add additional styles as needed */

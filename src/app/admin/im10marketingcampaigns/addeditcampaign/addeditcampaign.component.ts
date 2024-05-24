@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { addcampaign } from './addeditcampaign.Model';
 import { editcampaign } from './addeditcampaign.Model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-addeditcampaign',
@@ -29,7 +30,7 @@ export class AddeditcampaignComponent implements OnInit {
     description: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(200)]),
   });
 
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, public appService: AppService, public router: Router, private route: ActivatedRoute) { }
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, public appService: AppService, public snackBar: MatSnackBar,public router: Router, private route: ActivatedRoute) { }
 
   ///Close the mat dialog
   closeDialog() {
@@ -116,7 +117,11 @@ titlekeyDown(event: KeyboardEvent) {
       });
       this.router.navigate(['/admin/im10marketingcampaigns/listcampaing'], { relativeTo: this.route });
     }, error => {
-    });
+        if (error.status === 404)
+        {
+          this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+        }
+      });
   }
 
   ///GetAdvContentMappingByadvContentMapId
@@ -160,6 +165,10 @@ titlekeyDown(event: KeyboardEvent) {
       });
       this.router.navigate(['/admin/im10marketingcampaigns/listcampaing'], { relativeTo: this.route });
     }, error => {
+      if (error.status === 404)
+        {
+          this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+        }
     });
   }
 }

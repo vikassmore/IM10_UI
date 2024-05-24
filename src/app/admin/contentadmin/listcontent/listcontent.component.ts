@@ -110,6 +110,12 @@ export class ListcontentComponent implements OnInit {
 
           });
           this.appService.deleteuser(`api/ContentDetail/DeleteContentDetail?contentId=${content.contentId}`, {}).subscribe(data => {
+          },
+          error => {
+            if (error.status === 400)
+            {
+              this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+            }
           });
         }
       }

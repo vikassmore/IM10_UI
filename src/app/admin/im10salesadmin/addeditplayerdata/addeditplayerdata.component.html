@@ -54,8 +54,9 @@
                                 <input (change)="handleFileSelectSlide($event)" multiple type="file" class="input1_height"
                                 accept="image/*" #fileInput1 required />
                             <mat-error style="font-size: 11px;"
-                                *ngIf="!selectedFileSlide&& !isFileUploadedSlide&& !playerDataId">Slider Image
+                                *ngIf="!selectedFileSlide && !isFileUploadedSlide && !playerDataId && !errorMessage" >Slider Image
                                 is required</mat-error>
+                                <mat-error style="font-size: 11px;" *ngIf="errorMessage">{{ errorMessage }}</mat-error>
 
                             </div>
                         </div>

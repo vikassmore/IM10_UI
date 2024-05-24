@@ -133,7 +133,12 @@ export class AddeditplayerendorsementComponent implements OnInit {
       this.router.navigate(['/admin/endorsementmanageradmin/listplayerendorsement'], { relativeTo: this.route });
     }, error => {
       this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 2000 });
-    });
+    
+    if (error.status === 404)
+    {
+      this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    }
+});
   }
 
   ///updatePlayerEndorsement
@@ -169,6 +174,11 @@ export class AddeditplayerendorsementComponent implements OnInit {
       this.router.navigate(['/admin/endorsementmanageradmin/listplayerendorsement'], { relativeTo: this.route });
     }, error => {
       this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    
+      if (error.status === 404)
+    {
+      this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+    }
     });
   }
 

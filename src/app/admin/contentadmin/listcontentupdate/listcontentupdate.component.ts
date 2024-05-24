@@ -111,7 +111,14 @@ export class ListcontentupdateComponent implements OnInit {
 
           });
           this.appService.deleteuser(`api/ContentUpdate/DeleteContentUpdate?contentLogId=${content.contentLogId}`, {}).subscribe(data => {
-          });
+          },
+          error => {
+            if (error.status === 400)
+            {
+              this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+            }
+          }
+          );
         }
       }
     });

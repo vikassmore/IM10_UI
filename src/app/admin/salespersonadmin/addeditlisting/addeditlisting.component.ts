@@ -21,8 +21,6 @@ export class AddeditlistingComponent implements OnInit {
   isAddMode!: boolean;
   submitted = false;
   public formdata = {};
-  public CategoryList = [];
-  public SubCategoryList = [];
   public ContentTypeList = [];
   public languageList = [];
   companyLogoFilePath?: FileList;
@@ -42,7 +40,6 @@ export class AddeditlistingComponent implements OnInit {
   CitiesId: string | any;
   isGlobal: boolean = false;
   isFileUploaded: boolean = false;
-  subcategory: any = [];
   invalidfileType=false;
   public showtitleerror : boolean=false;
 
@@ -52,8 +49,6 @@ export class AddeditlistingComponent implements OnInit {
     companyName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     description: new FormControl('', [Validators.required, Validators.minLength(3)]),
     contactPersonName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-    categoryId: new FormControl('', [Validators.required]),
-    subCategoryId: new FormControl('', [Validators.required]),
     contactPersonEmailId: new FormControl('', [Validators.required]),
     contactPersonMobile: new FormControl('', [Validators.required]),
     companyEmailId: new FormControl('', [Validators.required, Validators.pattern("^[a-zA0-Z9._%+-]+@[a-zA0-Z9.-]+\\.[aA-zZ]{2,4}$")]),
@@ -75,7 +70,7 @@ export class AddeditlistingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCategoryMaster();
+   // this.getCategoryMaster();
     this.getNationMaster();
     this.listingId = this.route.snapshot.params['id'];
     this.getlistdetailsbyid(this.listingId);
@@ -149,18 +144,18 @@ GetAllCategoryBySportId(sportId) {
 
 
   /// on Change Cat
-  public onChangeCat(event) {
-    if (event.value) {
-      let categoryId = event.value;
-      this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe(
-        data => {
-          this.SubCategoryList = data;
-        }
-      );
-    } else {
-      this.subcategory = null;
-    }
-  }
+  // public onChangeCat(event) {
+  //   if (event.value) {
+  //     let categoryId = event.value;
+  //     this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe(
+  //       data => {
+  //         this.SubCategoryList = data;
+  //       }
+  //     );
+  //   } else {
+  //     this.subcategory = null;
+  //   }
+  // }
 
   ///Submit
   public Submit(userObject) {
@@ -217,8 +212,6 @@ GetAllCategoryBySportId(sportId) {
     formData.append('companyName', this.uploadForm.value.companyName);
     formData.append('description', this.uploadForm.value.description);
     formData.append('contactPersonName', this.uploadForm.value.contactPersonName);
-    formData.append('categoryId', this.uploadForm.value.categoryId);
-    formData.append('subCategoryId', this.uploadForm.value.subCategoryId);
     formData.append('contactpersonEmail', this.uploadForm.value.contactPersonEmailId);
     formData.append('contactPersonMobile', this.uploadForm.value.contactPersonMobile);
     formData.append('companyEmailId', this.uploadForm.value.companyEmailId);
@@ -281,6 +274,11 @@ GetAllCategoryBySportId(sportId) {
           }
         });
         this.router.navigate(['/admin/salespersonadmin/listlisting'], { relativeTo: this.route });
+      },error => {
+        if (error.status === 404)
+        {
+          this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+        }
       });
     }
   }
@@ -297,8 +295,6 @@ GetAllCategoryBySportId(sportId) {
     formData.append('companyName', this.uploadForm.value.companyName);
     formData.append('description', this.uploadForm.value.description);
     formData.append('contactPersonName', this.uploadForm.value.contactPersonName);
-    formData.append('categoryId', this.uploadForm.value.categoryId);
-    formData.append('subCategoryId', this.uploadForm.value.subCategoryId);
     formData.append('contactpersonEmail', this.uploadForm.value.contactPersonEmailId);
     formData.append('contactPersonMobile', this.uploadForm.value.contactPersonMobile);
     formData.append('companyEmailId', this.uploadForm.value.companyEmailId);
@@ -367,25 +363,30 @@ GetAllCategoryBySportId(sportId) {
         }
       });
       this.router.navigate(['/admin/salespersonadmin/listlisting'], { relativeTo: this.route });
+    },error => {
+      if (error.status === 404)
+      {
+        this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      }
     });
   }
 
   ///getCategoryMaster
-  public getCategoryMaster() {
-    this.appService.getAllCategory("api/MasterAPIs/GetAllCategory").subscribe(data => {
-      this.CategoryList = data;
-    });
-  }
+  // public getCategoryMaster() {
+  //   this.appService.getAllCategory("api/MasterAPIs/GetAllCategory").subscribe(data => {
+  //     this.CategoryList = data;
+  //   });
+  // }
 
-  ///getsubCategoryMaster
-  public GetSubcat(categoryId) {
-    if (categoryId == undefined) {
-      categoryId == 1;
-    }
-    this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe((data: any) => {
-      this.SubCategoryList = data;
-    })
-  }
+  // ///getsubCategoryMaster
+  // public GetSubcat(categoryId) {
+  //   if (categoryId == undefined) {
+  //     categoryId == 1;
+  //   }
+  //   this.appService.getStateById("api/MasterAPIs/GetSubcategoryByCategoryId/" + categoryId).subscribe((data: any) => {
+  //     this.SubCategoryList = data;
+  //   })
+  // }
 
   ///getNationMaster
   public getNationMaster() {
@@ -502,9 +503,6 @@ GetAllCategoryBySportId(sportId) {
         this.uploadForm.controls['startDate'].setValue(data.startDate);
         this.uploadForm.controls['endDate'].setValue(data.endDate);
         this.uploadForm.controls['finalPrice'].setValue(data.finalPrice);
-        this.uploadForm.controls['categoryId'].setValue(data.categoryId);
-        this.GetSubcat(data.categoryId);
-        this.uploadForm.controls['subCategoryId'].setValue(data.subCategoryId);
         this.uploadForm.controls['position'].setValue(data.position);
         this.uploadForm.controls['PlayerId'].setValue(data.PlayerId);
       });
