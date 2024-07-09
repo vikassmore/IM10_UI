@@ -7,6 +7,7 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { filter } from 'rxjs/operators';
+import { OkDialogComponent } from 'src/app/shared/ok-dialog/ok-dialog.component';
 
 @Component({
   selector: 'app-listuser',
@@ -77,6 +78,7 @@ export class ListuserComponent implements OnInit {
 
   ///Delete User
   public deleteservice(user: any) {
+    debugger;
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
       disableClose: true,
@@ -93,8 +95,25 @@ export class ListuserComponent implements OnInit {
         const index: number = this.UserList.indexOf(user);
         if (index !== -1) {
           this.UserList.splice(index, 1);
-          this.appService.deleteuser(`api/user/DeleteUser?userId=${user.userId}`, {}).subscribe(data => {
+          const dialogRef = this.dialog.open(OkDialogComponent, {
+            maxWidth: "500px",
+            disableClose: true,
+
+            data: {
+              title: "Delete Action",
+              message: "User Deleted Successfully!"
+            }
+
           });
+          this.appService.deleteuser(`api/user/DeleteUser?userId=${user.userId}`, {}).subscribe(data => {
+          },
+          error => {
+            if (error.status === 400)
+            {
+              this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+            }
+          });
+          ;
         }
       }
     });

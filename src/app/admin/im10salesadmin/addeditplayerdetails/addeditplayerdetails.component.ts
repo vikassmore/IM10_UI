@@ -430,13 +430,10 @@ if (!isNaN(dobDate.getTime())) { // Check if dobDate is a valid Date object
 } else {
   console.error('Invalid date string:', dobString);
 }
-
-
     this.appService.AddContent('api/PlayerDetail/AddPlayerDetail', formData).subscribe(() => {
       const dialogRef = this.dialog.open(OkDialogComponent, {
         maxWidth: "500px",
         disableClose: true,
-
         data: {
           title: "Save Action",
           message: "Player Added Successfully!"
@@ -444,7 +441,12 @@ if (!isNaN(dobDate.getTime())) { // Check if dobDate is a valid Date object
 
       });
       this.router.navigate(['/admin/im10salesadmin/listplayerdetails'], { relativeTo: this.route });
-    },);
+    },error => {
+      if (error.status === 404)
+      {
+        this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      }
+  });
   }
 
   ///updatePlayer
@@ -493,8 +495,12 @@ if (!isNaN(dobDate.getTime())) { // Check if dobDate is a valid Date object
       });
       this.router.navigate(['/admin/im10salesadmin/listplayerdetails'], { relativeTo: this.route });
     }, error => {
-      this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
-    });
+      this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });    
+      if (error.status === 404)
+      {
+        this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      } 
+  });
   }
 
   ///getPlayerbyId

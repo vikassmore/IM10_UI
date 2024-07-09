@@ -570,6 +570,7 @@ class AddeditcontentComponent {
             languageId: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl('', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]),
             contentFilePath: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl(),
             thumbnail1: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl(),
+            contentFileName: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControl()
         });
         this.submitDisabled = true;
         this.selectedContentType = '';
@@ -790,6 +791,10 @@ class AddeditcontentComponent {
                     }
                 });
                 this.router.navigate(['/admin/contentadmin/listcontent'], { relativeTo: this.route });
+            }, error => {
+                if (error.status === 404) {
+                    this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+                }
             });
         }
     }
@@ -822,6 +827,9 @@ class AddeditcontentComponent {
             this.router.navigate(['/admin/contentadmin/listcontent'], { relativeTo: this.route });
         }, error => {
             this.snackBar.open('Something went wrong!', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+            if (error.status === 404) {
+                this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+            }
         });
     }
     ///getallcategoryfordropdown
@@ -903,6 +911,7 @@ class AddeditcontentComponent {
                 this.uploadForm.controls['contentTypeId'].setValue(data.contentTypeId);
                 this.uploadForm.controls['languageId'].setValue(data.languageId);
                 this.uploadForm.controls['thumbnail1'].setValue(data.thumbnail1);
+                this.uploadForm.controls['contentFileName'].setValue(data.contentFileName);
             });
         }
     }
@@ -1571,6 +1580,10 @@ class ListcontentComponent {
                         }
                     });
                     this.appService.deleteuser(`api/ContentDetail/DeleteContentDetail?contentId=${content.contentId}`, {}).subscribe(data => {
+                    }, error => {
+                        if (error.status === 400) {
+                            this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+                        }
                     });
                 }
             }
@@ -1854,6 +1867,10 @@ class ListcontentupdateComponent {
                         }
                     });
                     this.appService.deleteuser(`api/ContentUpdate/DeleteContentUpdate?contentLogId=${content.contentLogId}`, {}).subscribe(data => {
+                    }, error => {
+                        if (error.status === 400) {
+                            this.snackBar.open(error.error, '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+                        }
                     });
                 }
             }
