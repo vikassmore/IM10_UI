@@ -128,6 +128,8 @@ titlekeyDown(event: KeyboardEvent) {
         this.uploadForm.controls['contentTypeId'].setValue(data.contentTypeId);
         this.uploadForm.controls['description'].setValue(data.description);
         this.uploadForm.controls['marketingCampaignId'].setValue(marketingCampaignId);
+        
+        this.onChangeContentType({ value: data.contentTypeId });
       });
     }
   }
