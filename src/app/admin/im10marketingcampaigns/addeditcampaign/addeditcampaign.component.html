@@ -22,6 +22,19 @@
                 <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
                     class="grid-item">
                     <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Content Type</mat-label>
+                        <mat-select formControlName="contentTypeId" required (selectionChange)="onChangeContentType($event)">
+                            <mat-option *ngFor="let content of ContenttypeList" [value]="content.contentTypeId">
+                                <span>{{content.contentName}}</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="uploadForm.controls.contentTypeId.errors?.required">Please select
+                            Content Type</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
+                    class="grid-item">
+                    <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Content Title</mat-label>
                         <mat-select formControlName="contentId" required>
                             <mat-option *ngFor="let content of ContentList" [value]="content.contentId">
@@ -32,19 +45,7 @@
                             Content Title</mat-error>
                     </mat-form-field>
                 </div>
-                <div fxFlex.gt-sm="33.33%" fxFlex.lt-md="50%" fxLayoutAlign="center center" fxFlexFill
-                    class="grid-item">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Content Type</mat-label>
-                        <mat-select formControlName="contentTypeId" required>
-                            <mat-option *ngFor="let content of ContenttypeList" [value]="content.contentTypeId">
-                                <span>{{content.contentName}}</span>
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="uploadForm.controls.contentTypeId.errors?.required">Please select
-                            Content Type</mat-error>
-                    </mat-form-field>
-                </div>
+                
             </div>
 
             <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="10px" fxFlex="33%" class="block-2 mttop20">

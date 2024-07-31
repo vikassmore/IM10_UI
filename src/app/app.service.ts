@@ -188,6 +188,11 @@ export class AppService {
   public getStateById = (route: string) => {
     return this.http.get<any>(this.createCompleteRoute(route, this._envUrl.urlAddress));
   }
+
+  public getContentbyTypeId = (route: string, playerId: string, contentTypeId: string) => {
+    return this.http.get<any>(`${this.createCompleteRoute(route, this._envUrl.urlAddress)}/${playerId}/${contentTypeId}`);
+  }
+  
   public getCityById = (route: string) => {
     return this.http.get<any>(this.createCompleteRoute(route, this._envUrl.urlAddress));
   }

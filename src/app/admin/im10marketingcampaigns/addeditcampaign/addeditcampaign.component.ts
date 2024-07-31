@@ -39,7 +39,7 @@ export class AddeditcampaignComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCampaignlistbyid(this.data.marketingCampaignId);
-    this.getContentDetailsListByPlayerId();
+    //this.getContentDetailsListByPlayerId();
     this.getContenttypenameMaster();
   }
 
@@ -59,13 +59,7 @@ titlekeyDown(event: KeyboardEvent) {
 }
 
 
-  ///getContentDetailsListByPlayetId
-  public getContentDetailsListByPlayerId() {
-    var playerId = window.sessionStorage.getItem("playerId")
-    this.appService.getContentByPlayerId("api/ContentDetail/GetApprovedContentdetailByPlayerId/", playerId).subscribe(data => {
-      this.ContentList = data;
-    });
-  }
+
 
   ///getContenttypenameMaster
   public getContenttypenameMaster() {
@@ -137,6 +131,29 @@ titlekeyDown(event: KeyboardEvent) {
       });
     }
   }
+
+  ///getContenttitlelistusingcontettypeidandPlayetId
+  public onChangeContentType(event) {
+    if (event.value) {
+      let contenttypeid = event.value;
+      var playerId = window.sessionStorage.getItem("playerId")
+      this.appService.getContentbyTypeId("api/ContentDetail/GetApprovedContentTitles", playerId,contenttypeid).subscribe(
+        data => {
+          this.ContentList = data;
+        }
+      );
+    } else {
+      this.ContentList = null;
+    }
+  }
+
+    ///getContentDetailsListByPlayetId
+    // public getContentDetailsListByPlayerId() {  
+    //   var playerId = window.sessionStorage.getItem("playerId")
+    //   this.appService.getContentByPlayerId("api/ContentDetail/GetApprovedContentdetailByPlayerId/", playerId).subscribe(data => {
+    //     this.ContentList = data;
+    //   });
+    // }
 
   ///UpdateCampaign
   public UpdateCampaign(formData) {
